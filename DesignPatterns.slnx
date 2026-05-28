@@ -1,0 +1,39 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/1-Creational/" />
+
+  <Folder Name="/src/1-Creational/1.1-Singleton/">
+    <Project Path="src/1-Creational/1.1-Singleton/SingletonPattern/SingletonPattern.csproj" />
+    <Project Path="src/1-Creational/1.1-Singleton/SingletonPattern.Tests/SingletonPattern.Tests.csproj" />
+  </Folder>
+
+  <Folder Name="/src/1-Creational/1.2-FactoryMethod/">
+    <Project Path="src/1-Creational/1.2-FactoryMethod/FactoryMethodPattern/FactoryMethodPattern.csproj" />
+    <Project Path="src/1-Creational/1.2-FactoryMethod/FactoryMethodPattern.Tests/FactoryMethodPattern.Tests.csproj" />
+  </Folder>
+
+  <Folder Name="/src/1-Creational/1.3-AbstractFactory/">
+    <Project Path="src/1-Creational/1.3-AbstractFactory/AbstractFactoryPattern/AbstractFactoryPattern.csproj" />
+    <Project Path="src/1-Creational/1.3-AbstractFactory/AbstractFactoryPattern.Tests/AbstractFactoryPattern.Tests.csproj" />
+  </Folder>
+
+  <Folder Name="/src/1-Creational/1.4-Builder/">
+    <Project Path="src/1-Creational/1.4-Builder/BuilderPattern/BuilderPattern.csproj" />
+    <Project Path="src/1-Creational/1.4-Builder/BuilderPattern.Tests/BuilderPattern.Tests.csproj" />
+  </Folder>
+
+  <Folder Name="/src/1-Creational/1.5-Prototype/">
+    <Project Path="src/1-Creational/1.5-Prototype/PrototypePattern/PrototypePattern.csproj" />
+    <Project Path="src/1-Creational/1.5-Prototype/PrototypePattern.Tests/PrototypePattern.Tests.csproj" />
+  </Folder>
+
+  <Folder Name="/src/1-Creational/1.6-ObjectPool/">
+    <Project Path="src/1-Creational/1.6-ObjectPool/ObjectPoolPattern/ObjectPoolPattern.csproj" />
+    <Project Path="src/1-Creational/1.6-ObjectPool/ObjectPoolPattern.Tests/ObjectPoolPattern.Tests.csproj" />
+  </Folder>
+
+  <Folder Name="/src/4-Enterprise/" />
+  <Folder Name="/src/4-Enterprise/4.01-Repository/">
+    <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />
+  </Folder>
+</Solution>
