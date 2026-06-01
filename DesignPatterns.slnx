@@ -32,6 +32,12 @@
     <Project Path="src/1-Creational/1.6-ObjectPool/ObjectPoolPattern.Tests/ObjectPoolPattern.Tests.csproj" />
   </Folder>
 
+  <Folder Name="/src/2-Structural/" />
+  <Folder Name="/src/2-Structural/2.1-Adapter/">
+    <Project Path="src/2-Structural/2.1-Adapter/AdapterPattern/AdapterPattern.csproj" />
+    <Project Path="src/2-Structural/2.1-Adapter/AdapterPattern.Tests/AdapterPattern.Tests.csproj" />
+  </Folder>
+
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />

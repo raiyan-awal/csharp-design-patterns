@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 7 (12%)  
+**Implemented:** 8 (14%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 50 (88%)
+**Remaining:** 49 (86%)
 
 ---
 
@@ -37,7 +37,7 @@ Track the implementation status of all 45 design patterns in this repository.
 
 | # | Pattern | Status | Notes |
 |---|---------|--------|-------|
-| 2.1 | Adapter | 🔜 | |
+| 2.1 | Adapter | ✅ | Payment gateway adapters — Stripe, PayPal, Square behind IPaymentProcessor |
 | 2.2 | Bridge | 🔜 | |
 | 2.3 | Composite | 🔜 | |
 | 2.4 | Decorator | 🔜 | |
@@ -45,7 +45,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 2.6 | Flyweight | 🔜 | |
 | 2.7 | Proxy | 🔜 | |
 
-**Category Progress:** 0/7 (0%)
+**Category Progress:** 1/7 (14%)
 
 ---
 
