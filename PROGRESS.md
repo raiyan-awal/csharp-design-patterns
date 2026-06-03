@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 9 (16%)  
+**Implemented:** 10 (18%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 48 (84%)
+**Remaining:** 47 (82%)
 
 ---
 
@@ -39,13 +39,13 @@ Track the implementation status of all 45 design patterns in this repository.
 |---|---------|--------|-------|
 | 2.1 | Adapter | ✅ | Payment gateway adapters — Stripe, PayPal, Square behind IPaymentProcessor |
 | 2.2 | Bridge | ✅ | Report types × output formats — eliminates M×N class explosion |
-| 2.3 | Composite | 🔜 | |
+| 2.3 | Composite | ✅ | File system tree — File (leaf) and Directory (composite) behind IFileSystemEntry |
 | 2.4 | Decorator | 🔜 | |
 | 2.5 | Facade | 🔜 | |
 | 2.6 | Flyweight | 🔜 | |
 | 2.7 | Proxy | 🔜 | |
 
-**Category Progress:** 2/7 (29%)
+**Category Progress:** 3/7 (43%)
 
 ---
 

@@ -43,6 +43,11 @@
     <Project Path="src/2-Structural/2.2-Bridge/BridgePattern.Tests/BridgePattern.Tests.csproj" />
   </Folder>
 
+  <Folder Name="/src/2-Structural/2.3-Composite/">
+    <Project Path="src/2-Structural/2.3-Composite/CompositePattern/CompositePattern.csproj" />
+    <Project Path="src/2-Structural/2.3-Composite/CompositePattern.Tests/CompositePattern.Tests.csproj" />
+  </Folder>
+
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />
