@@ -48,6 +48,11 @@
     <Project Path="src/2-Structural/2.3-Composite/CompositePattern.Tests/CompositePattern.Tests.csproj" />
   </Folder>
 
+  <Folder Name="/src/2-Structural/2.4-Decorator/">
+    <Project Path="src/2-Structural/2.4-Decorator/DecoratorPattern/DecoratorPattern.csproj" />
+    <Project Path="src/2-Structural/2.4-Decorator/DecoratorPattern.Tests/DecoratorPattern.Tests.csproj" />
+  </Folder>
+
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />

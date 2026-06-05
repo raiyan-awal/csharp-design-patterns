@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 10 / 57 patterns implemented**
+**Current status: 11 / 57 patterns implemented**
 
 ---
 
@@ -201,7 +201,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 2.1 | **Adapter** | Convert the interface of a class into another interface clients expect | ✅ Implemented |
 | 2.2 | **Bridge** | Decouple abstraction from implementation so both can vary independently | ✅ Implemented |
 | 2.3 | **Composite** | Compose objects into tree structures to represent part-whole hierarchies | ✅ Implemented |
-| 2.4 | **Decorator** | Attach additional responsibilities to an object dynamically | 🔜 Coming Soon |
+| 2.4 | **Decorator** | Attach additional responsibilities to an object dynamically | ✅ Implemented |
 | 2.5 | **Facade** | Provide a unified interface to a set of interfaces in a subsystem | 🔜 Coming Soon |
 | 2.6 | **Flyweight** | Use sharing to support large numbers of fine-grained objects efficiently | 🔜 Coming Soon |
 | 2.7 | **Proxy** | Provide a surrogate or placeholder for another object to control access | 🔜 Coming Soon |
