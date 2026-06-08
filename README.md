@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 12 / 57 patterns implemented**
+**Current status: 13 / 57 patterns implemented**
 
 ---
 
@@ -203,7 +203,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 2.3 | **Composite** | Compose objects into tree structures to represent part-whole hierarchies | ✅ Implemented |
 | 2.4 | **Decorator** | Attach additional responsibilities to an object dynamically | ✅ Implemented |
 | 2.5 | **Facade** | Provide a unified interface to a set of interfaces in a subsystem | ✅ Implemented |
-| 2.6 | **Flyweight** | Use sharing to support large numbers of fine-grained objects efficiently | 🔜 Coming Soon |
+| 2.6 | **Flyweight** | Use sharing to support large numbers of fine-grained objects efficiently | ✅ Implemented |
 | 2.7 | **Proxy** | Provide a surrogate or placeholder for another object to control access | 🔜 Coming Soon |
 
 ### 3️⃣ Behavioral Patterns

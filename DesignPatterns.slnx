@@ -58,6 +58,11 @@
     <Project Path="src/2-Structural/2.5-Facade/FacadePattern.Tests/FacadePattern.Tests.csproj" />
   </Folder>
 
+  <Folder Name="/src/2-Structural/2.6-Flyweight/">
+    <Project Path="src/2-Structural/2.6-Flyweight/FlyweightPattern/FlyweightPattern.csproj" />
+    <Project Path="src/2-Structural/2.6-Flyweight/FlyweightPattern.Tests/FlyweightPattern.Tests.csproj" />
+  </Folder>
+
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />

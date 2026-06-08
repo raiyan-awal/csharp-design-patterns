@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 12 (21%)  
+**Implemented:** 13 (23%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 45 (79%)
+**Remaining:** 44 (77%)
 
 ---
 
@@ -42,10 +42,10 @@ Track the implementation status of all 45 design patterns in this repository.
 | 2.3 | Composite | ✅ | File system tree — File (leaf) and Directory (composite) behind IFileSystemEntry |
 | 2.4 | Decorator | ✅ | Notification chain — stacked decorators: logging, retry, SMS, subject prefix |
 | 2.5 | Facade | ✅ | Order processing — PlaceOrder/CancelOrder behind 5 subsystems |
-| 2.6 | Flyweight | 🔜 | |
+| 2.6 | Flyweight | ✅ | Forest simulation — TreeType flyweights shared across 100k trees |
 | 2.7 | Proxy | 🔜 | |
 
-**Category Progress:** 5/7 (71%)
+**Category Progress:** 6/7 (86%)
 
 ---
 
