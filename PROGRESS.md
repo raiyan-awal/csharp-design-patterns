@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 13 (23%)  
+**Implemented:** 14 (25%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 44 (77%)
+**Remaining:** 43 (75%)
 
 ---
 
@@ -43,9 +43,9 @@ Track the implementation status of all 45 design patterns in this repository.
 | 2.4 | Decorator | ✅ | Notification chain — stacked decorators: logging, retry, SMS, subject prefix |
 | 2.5 | Facade | ✅ | Order processing — PlaceOrder/CancelOrder behind 5 subsystems |
 | 2.6 | Flyweight | ✅ | Forest simulation — TreeType flyweights shared across 100k trees |
-| 2.7 | Proxy | 🔜 | |
+| 2.7 | Proxy | ✅ | Document service — lazy, caching, and authorization proxy variants |
 
-**Category Progress:** 6/7 (86%)
+**Category Progress:** 7/7 (100%) 🎉
 
 ---
 
@@ -133,4 +133,4 @@ The following patterns are recommended to implement next based on common usage a
 
 ---
 
-*Last Updated: 2026-05-24*
+*Last Updated: 2026-06-10*
