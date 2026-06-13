@@ -68,6 +68,12 @@
     <Project Path="src/2-Structural/2.7-Proxy/ProxyPattern.Tests/ProxyPattern.Tests.csproj" />
   </Folder>
 
+  <Folder Name="/src/3-Behavioral/" />
+  <Folder Name="/src/3-Behavioral/3.01-ChainOfResponsibility/">
+    <Project Path="src/3-Behavioral/3.01-ChainOfResponsibility/ChainOfResponsibilityPattern/ChainOfResponsibilityPattern.csproj" />
+    <Project Path="src/3-Behavioral/3.01-ChainOfResponsibility/ChainOfResponsibilityPattern.Tests/ChainOfResponsibilityPattern.Tests.csproj" />
+  </Folder>
+
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />
