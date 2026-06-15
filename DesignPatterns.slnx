@@ -79,6 +79,11 @@
     <Project Path="src/3-Behavioral/3.02-Command/CommandPattern.Tests/CommandPattern.Tests.csproj" />
   </Folder>
 
+  <Folder Name="/src/3-Behavioral/3.03-Interpreter/">
+    <Project Path="src/3-Behavioral/3.03-Interpreter/InterpreterPattern/InterpreterPattern.csproj" />
+    <Project Path="src/3-Behavioral/3.03-Interpreter/InterpreterPattern.Tests/InterpreterPattern.Tests.csproj" />
+  </Folder>
+
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />
