@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 17 / 57 patterns implemented**
+**Current status: 18 / 57 patterns implemented**
 
 ---
 
@@ -213,7 +213,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 3.01 | **Chain of Responsibility** | Pass requests along a chain of handlers until one handles it | ✅ Implemented |
 | 3.02 | **Command** | Encapsulate a request as an object, allowing parameterization and queuing | ✅ Implemented |
 | 3.03 | **Interpreter** | Define a grammatical representation for a language and an interpreter | ✅ Implemented |
-| 3.04 | **Iterator** | Provide a way to access elements of a collection sequentially | 🔜 Coming Soon |
+| 3.04 | **Iterator** | Provide a way to access elements of a collection sequentially | ✅ Implemented |
 | 3.05 | **Mediator** | Define an object that encapsulates how a set of objects interact | 🔜 Coming Soon |
 | 3.06 | **Memento** | Capture and restore an object's internal state without violating encapsulation | 🔜 Coming Soon |
 | 3.07 | **Observer** | Define a one-to-many dependency so when one object changes, dependents are notified | 🔜 Coming Soon |
