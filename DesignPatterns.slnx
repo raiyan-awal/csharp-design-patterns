@@ -89,6 +89,11 @@
     <Project Path="src/3-Behavioral/3.04-Iterator/IteratorPattern.Tests/IteratorPattern.Tests.csproj" />
   </Folder>
 
+  <Folder Name="/src/3-Behavioral/3.05-Mediator/">
+    <Project Path="src/3-Behavioral/3.05-Mediator/MediatorPattern/MediatorPattern.csproj" />
+    <Project Path="src/3-Behavioral/3.05-Mediator/MediatorPattern.Tests/MediatorPattern.Tests.csproj" />
+  </Folder>
+
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />

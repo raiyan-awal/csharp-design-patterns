@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 18 (32%)  
+**Implemented:** 19 (33%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 39 (68%)
+**Remaining:** 38 (67%)
 
 ---
 
@@ -57,7 +57,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 3.02 | Command | ✅ | Text document editor — insert/delete with undo/redo and macro commands |
 | 3.03 | Interpreter | ✅ | Boolean rule engine — AND/OR/NOT/Variable/Literal expression tree |
 | 3.04 | Iterator | ✅ | Music playlist — sequential, shuffle, and filter traversal strategies |
-| 3.05 | Mediator | 🔜 | |
+| 3.05 | Mediator | ✅ | Smart home hub — 6 devices coordinated through a central hub; no cross-device references |
 | 3.06 | Memento | 🔜 | |
 | 3.07 | Observer | 🔜 | |
 | 3.08 | State | 🔜 | |
@@ -67,7 +67,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 3.12 | Null Object | 🔜 | |
 | 3.13 | Pipeline | 🔜 | |
 
-**Category Progress:** 4/13 (31%)
+**Category Progress:** 5/13 (38%)
 
 ---
 
