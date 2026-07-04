@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 19 (33%)  
+**Implemented:** 20 (35%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 38 (67%)
+**Remaining:** 37 (65%)
 
 ---
 
@@ -58,7 +58,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 3.03 | Interpreter | ✅ | Boolean rule engine — AND/OR/NOT/Variable/Literal expression tree |
 | 3.04 | Iterator | ✅ | Music playlist — sequential, shuffle, and filter traversal strategies |
 | 3.05 | Mediator | ✅ | Smart home hub — 6 devices coordinated through a central hub; no cross-device references |
-| 3.06 | Memento | 🔜 | |
+| 3.06 | Memento | ✅ | Game checkpoint system — save/restore character state with deep copy |
 | 3.07 | Observer | 🔜 | |
 | 3.08 | State | 🔜 | |
 | 3.09 | Strategy | 🔜 | |
@@ -67,7 +67,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 3.12 | Null Object | 🔜 | |
 | 3.13 | Pipeline | 🔜 | |
 
-**Category Progress:** 5/13 (38%)
+**Category Progress:** 6/13 (46%)
 
 ---
 

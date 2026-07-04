@@ -94,6 +94,11 @@
     <Project Path="src/3-Behavioral/3.05-Mediator/MediatorPattern.Tests/MediatorPattern.Tests.csproj" />
   </Folder>
 
+  <Folder Name="/src/3-Behavioral/3.06-Memento/">
+    <Project Path="src/3-Behavioral/3.06-Memento/MementoPattern/MementoPattern.csproj" />
+    <Project Path="src/3-Behavioral/3.06-Memento/MementoPattern.Tests/MementoPattern.Tests.csproj" />
+  </Folder>
+
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />
