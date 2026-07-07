@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 20 / 57 patterns implemented**
+**Current status: 21 / 57 patterns implemented**
 
 ---
 
@@ -216,7 +216,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 3.04 | **Iterator** | Provide a way to access elements of a collection sequentially | ✅ Implemented |
 | 3.05 | **Mediator** | Define an object that encapsulates how a set of objects interact | ✅ Implemented |
 | 3.06 | **Memento** | Capture and restore an object's internal state without violating encapsulation | ✅ Implemented |
-| 3.07 | **Observer** | Define a one-to-many dependency so when one object changes, dependents are notified | 🔜 Coming Soon |
+| 3.07 | **Observer** | Define a one-to-many dependency so when one object changes, dependents are notified | ✅ Implemented |
 | 3.08 | **State** | Allow an object to alter its behavior when its internal state changes | 🔜 Coming Soon |
 | 3.09 | **Strategy** | Define a family of algorithms and make them interchangeable | 🔜 Coming Soon |
 | 3.10 | **Template Method** | Define the skeleton of an algorithm, deferring some steps to subclasses | 🔜 Coming Soon |
