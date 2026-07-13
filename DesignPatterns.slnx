@@ -111,6 +111,10 @@
     <Project Path="src/3-Behavioral/3.09-Strategy/StrategyPattern.Tests/StrategyPattern.Tests.csproj" />
     <Project Path="src/3-Behavioral/3.09-Strategy/StrategyPattern/StrategyPattern.csproj" />
   </Folder>
+  <Folder Name="/src/3-Behavioral/3.10-TemplateMethod/">
+    <Project Path="src/3-Behavioral/3.10-TemplateMethod/TemplateMethodPattern.Tests/TemplateMethodPattern.Tests.csproj" />
+    <Project Path="src/3-Behavioral/3.10-TemplateMethod/TemplateMethodPattern/TemplateMethodPattern.csproj" />
+  </Folder>
 
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
