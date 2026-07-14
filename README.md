@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 21 / 57 patterns implemented**
+**Current status: 25 / 57 patterns implemented**
 
 ---
 
@@ -217,10 +217,10 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 3.05 | **Mediator** | Define an object that encapsulates how a set of objects interact | ✅ Implemented |
 | 3.06 | **Memento** | Capture and restore an object's internal state without violating encapsulation | ✅ Implemented |
 | 3.07 | **Observer** | Define a one-to-many dependency so when one object changes, dependents are notified | ✅ Implemented |
-| 3.08 | **State** | Allow an object to alter its behavior when its internal state changes | 🔜 Coming Soon |
-| 3.09 | **Strategy** | Define a family of algorithms and make them interchangeable | 🔜 Coming Soon |
-| 3.10 | **Template Method** | Define the skeleton of an algorithm, deferring some steps to subclasses | 🔜 Coming Soon |
-| 3.11 | **Visitor** | Represent an operation to be performed on elements of an object structure | 🔜 Coming Soon |
+| 3.08 | **State** | Allow an object to alter its behavior when its internal state changes | ✅ Implemented |
+| 3.09 | **Strategy** | Define a family of algorithms and make them interchangeable | ✅ Implemented |
+| 3.10 | **Template Method** | Define the skeleton of an algorithm, deferring some steps to subclasses | ✅ Implemented |
+| 3.11 | **Visitor** | Represent an operation to be performed on elements of an object structure | ✅ Implemented |
 | 3.12 | **Null Object** | Provide a do-nothing default implementation to eliminate null checks | 🔜 Coming Soon |
 | 3.13 | **Pipeline** | Pass data through a sequence of processing steps, each transforming and forwarding it | 🔜 Coming Soon |
 
@@ -306,4 +306,4 @@ MIT License — feel free to use this for learning purposes.
 
 **Happy Learning! 🚀**
 
-*Last Updated: 2026-06-10*
+*Last Updated: 2026-07-13*
