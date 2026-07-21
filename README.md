@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 25 / 57 patterns implemented**
+**Current status: 26 / 57 patterns implemented**
 
 ---
 
@@ -221,7 +221,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 3.09 | **Strategy** | Define a family of algorithms and make them interchangeable | ✅ Implemented |
 | 3.10 | **Template Method** | Define the skeleton of an algorithm, deferring some steps to subclasses | ✅ Implemented |
 | 3.11 | **Visitor** | Represent an operation to be performed on elements of an object structure | ✅ Implemented |
-| 3.12 | **Null Object** | Provide a do-nothing default implementation to eliminate null checks | 🔜 Coming Soon |
+| 3.12 | **Null Object** | Provide a do-nothing default implementation to eliminate null checks | ✅ Implemented |
 | 3.13 | **Pipeline** | Pass data through a sequence of processing steps, each transforming and forwarding it | 🔜 Coming Soon |
 
 ### 4️⃣ Enterprise / Architectural Patterns

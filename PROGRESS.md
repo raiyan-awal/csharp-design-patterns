@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 25 (44%)  
+**Implemented:** 26 (46%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 32 (56%)
+**Remaining:** 31 (54%)
 
 ---
 
@@ -64,10 +64,10 @@ Track the implementation status of all 45 design patterns in this repository.
 | 3.09 | Strategy | ✅ | Toronto route planner — Driving, Walking, Cycling, PublicTransit; Haversine distance |
 | 3.10 | Template Method | ✅ | Sales report exporter — CSV, JSON, HTML; abstract steps + virtual hook |
 | 3.11 | Visitor | ✅ | Shopping cart checkout — Tax, Shipping, Receipt, LoyaltyPoints visitors across 4 item types |
-| 3.12 | Null Object | 🔜 | |
+| 3.12 | Null Object | ✅ | Order fulfillment — EmailNotifier, SmsNotifier, NullCustomerNotifier, NullAuditLogger; zero null checks in OrderService |
 | 3.13 | Pipeline | 🔜 | |
 
-**Category Progress:** 11/13 (85%)
+**Category Progress:** 12/13 (92%)
 
 ---
 
@@ -113,8 +113,7 @@ Track the implementation status of all 45 design patterns in this repository.
 
 ## Next Up
 
-1. **Null Object** (3.12 Behavioral) — eliminate null checks with a do-nothing default
-2. **Pipeline** (3.13 Behavioral) — data through a sequence of processing steps
+1. **Pipeline** (3.13 Behavioral) — data through a sequence of processing steps
 3. **Unit of Work** (4.02 Enterprise) — coordinate database transactions
 4. **CQRS** (4.03 Enterprise) — separate reads from writes
 5. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
@@ -125,10 +124,10 @@ Track the implementation status of all 45 design patterns in this repository.
 
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
-- [ ] **Milestone 3:** All Behavioral Patterns (85% — 11/13)
+- [ ] **Milestone 3:** All Behavioral Patterns (92% — 12/13)
 - [ ] **Milestone 4:** All Enterprise Patterns (3% — 1/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-07-13*
+*Last Updated: 2026-07-14*

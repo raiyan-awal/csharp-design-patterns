@@ -119,6 +119,10 @@
     <Project Path="src/3-Behavioral/3.11-Visitor/VisitorPattern.Tests/VisitorPattern.Tests.csproj" />
     <Project Path="src/3-Behavioral/3.11-Visitor/VisitorPattern/VisitorPattern.csproj" />
   </Folder>
+  <Folder Name="/src/3-Behavioral/3.12-NullObject/">
+    <Project Path="src/3-Behavioral/3.12-NullObject/NullObjectPattern.Tests/NullObjectPattern.Tests.csproj" />
+    <Project Path="src/3-Behavioral/3.12-NullObject/NullObjectPattern/NullObjectPattern.csproj" />
+  </Folder>
 
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
