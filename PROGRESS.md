@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 26 (46%)  
+**Implemented:** 27 (47%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 31 (54%)
+**Remaining:** 30 (53%)
 
 ---
 
@@ -65,9 +65,9 @@ Track the implementation status of all 45 design patterns in this repository.
 | 3.10 | Template Method | ✅ | Sales report exporter — CSV, JSON, HTML; abstract steps + virtual hook |
 | 3.11 | Visitor | ✅ | Shopping cart checkout — Tax, Shipping, Receipt, LoyaltyPoints visitors across 4 item types |
 | 3.12 | Null Object | ✅ | Order fulfillment — EmailNotifier, SmsNotifier, NullCustomerNotifier, NullAuditLogger; zero null checks in OrderService |
-| 3.13 | Pipeline | 🔜 | |
+| 3.13 | Pipeline | ✅ | Loan application processing — 6 steps: validation, credit, TDS ratio, AML, risk classification, decision |
 
-**Category Progress:** 12/13 (92%)
+**Category Progress:** 13/13 (100%) 🎉
 
 ---
 
@@ -113,10 +113,9 @@ Track the implementation status of all 45 design patterns in this repository.
 
 ## Next Up
 
-1. **Pipeline** (3.13 Behavioral) — data through a sequence of processing steps
-3. **Unit of Work** (4.02 Enterprise) — coordinate database transactions
-4. **CQRS** (4.03 Enterprise) — separate reads from writes
-5. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
+1. **Unit of Work** (4.02 Enterprise) — coordinate database transactions
+2. **CQRS** (4.03 Enterprise) — separate reads from writes
+3. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
 
 ---
 
@@ -124,10 +123,10 @@ Track the implementation status of all 45 design patterns in this repository.
 
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
-- [ ] **Milestone 3:** All Behavioral Patterns (92% — 12/13)
+- [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
 - [ ] **Milestone 4:** All Enterprise Patterns (3% — 1/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-07-14*
+*Last Updated: 2026-07-22*

@@ -123,6 +123,10 @@
     <Project Path="src/3-Behavioral/3.12-NullObject/NullObjectPattern.Tests/NullObjectPattern.Tests.csproj" />
     <Project Path="src/3-Behavioral/3.12-NullObject/NullObjectPattern/NullObjectPattern.csproj" />
   </Folder>
+  <Folder Name="/src/3-Behavioral/3.13-Pipeline/">
+    <Project Path="src/3-Behavioral/3.13-Pipeline/PipelinePattern.Tests/PipelinePattern.Tests.csproj" />
+    <Project Path="src/3-Behavioral/3.13-Pipeline/PipelinePattern/PipelinePattern.csproj" />
+  </Folder>
 
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
