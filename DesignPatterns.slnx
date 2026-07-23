@@ -130,6 +130,7 @@
 
   <Folder Name="/src/4-Enterprise/" />
   <Folder Name="/src/4-Enterprise/4.01-Repository/">
+    <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern.Tests/RepositoryPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />
   </Folder>
 </Solution>

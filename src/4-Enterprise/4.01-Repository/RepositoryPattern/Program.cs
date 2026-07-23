@@ -1,223 +1,214 @@
-﻿namespace RepositoryPattern;
+using Microsoft.Data.Sqlite;
+using RepositoryPattern;
 
-/// <summary>
-/// REPOSITORY PATTERN DEMONSTRATION
-///
-/// This program demonstrates the Repository pattern by showing:
-/// 1. How repositories abstract away data access details
-/// 2. How to perform CRUD operations through a repository
-/// 3. How to query data using the repository interface
-/// 4. The benefits of working against an abstraction
-/// </summary>
-class Program
+static void Pause()
 {
-    static async Task Main(string[] args)
-    {
-        Console.WriteLine("=== REPOSITORY PATTERN DEMO ===\n");
-
-        // Create a repository instance with seeded data
-        // Notice: We declare it as IRepository<Product>, not InMemoryProductRepository
-        // This is important - code should depend on the interface, not the implementation
-        IRepository<Product> repository = new InMemoryProductRepository(seedData: true);
-
-        Console.WriteLine();
-
-        // DEMONSTRATION 1: Retrieving Data
-        await DemoRetrieving(repository);
-
-        // DEMONSTRATION 2: Adding New Entities
-        await DemoAdding(repository);
-
-        // DEMONSTRATION 3: Updating Entities
-        await DemoUpdating(repository);
-
-        // DEMONSTRATION 4: Deleting Entities
-        await DemoDeleting(repository);
-
-        // DEMONSTRATION 5: Querying with Predicates
-        await DemoQuerying(repository);
-
-        // DEMONSTRATION 6: The Power of Abstraction
-        DemoAbstraction();
-
-        // SUMMARY
-        Console.WriteLine("\n=== KEY TAKEAWAYS ===");
-        Console.WriteLine("✓ Repository acts like an in-memory collection of domain objects");
-        Console.WriteLine("✓ Hides data access details from business logic");
-        Console.WriteLine("✓ Easy to swap implementations (in-memory, SQL, NoSQL, API, etc.)");
-        Console.WriteLine("✓ Greatly improves testability (can mock/fake for unit tests)");
-        Console.WriteLine("✓ Centralizes data access logic");
-        Console.WriteLine("✓ Follows Dependency Inversion Principle (depend on abstraction)");
-
-        Console.WriteLine("\n=== WHEN TO USE REPOSITORY PATTERN ===");
-        Console.WriteLine("✓ Domain-Driven Design (DDD) projects");
-        Console.WriteLine("✓ Complex business logic that needs to be tested in isolation");
-        Console.WriteLine("✓ Applications that might switch data sources");
-        Console.WriteLine("✓ When you want to abstract away ORM-specific details");
-
-        Console.WriteLine("\n=== WHEN NOT TO USE ===");
-        Console.WriteLine("✗ Simple CRUD applications (direct ORM usage is fine)");
-        Console.WriteLine("✗ When Entity Framework's DbSet already provides what you need");
-        Console.WriteLine("✗ When the abstraction doesn't provide value");
-        Console.WriteLine("✗ When you have very simple data access needs");
-    }
-
-    /// <summary>
-    /// Demonstrate retrieving data from the repository.
-    /// </summary>
-    static async Task DemoRetrieving(IRepository<Product> repository)
-    {
-        Console.WriteLine("--- Demonstration 1: Retrieving Data ---");
-
-        // Get a single product by ID
-        var product = await repository.GetByIdAsync(1);
-        if (product != null)
-        {
-            Console.WriteLine($"Found product: {product}");
-        }
-
-        // Get all products
-        var allProducts = await repository.GetAllAsync();
-        Console.WriteLine($"\nTotal products in repository: {await repository.CountAsync()}");
-
-        Console.WriteLine("\nAll products:");
-        foreach (var p in allProducts)
-        {
-            Console.WriteLine($"  {p}");
-        }
-
-        Console.WriteLine();
-    }
-
-    /// <summary>
-    /// Demonstrate adding new entities to the repository.
-    /// </summary>
-    static async Task DemoAdding(IRepository<Product> repository)
-    {
-        Console.WriteLine("--- Demonstration 2: Adding New Products ---\n");
-
-        var newProduct = new Product
-        {
-            Name = "Gaming Monitor",
-            Category = "Electronics",
-            Price = 399.99m,
-            StockQuantity = 25,
-            IsActive = true
-        };
-
-        await repository.AddAsync(newProduct);
-
-        // Verify it was added
-        var retrieved = await repository.GetByIdAsync(newProduct.Id);
-        Console.WriteLine($"Verified: {retrieved}");
-
-        Console.WriteLine();
-    }
-
-    /// <summary>
-    /// Demonstrate updating existing entities.
-    /// </summary>
-    static async Task DemoUpdating(IRepository<Product> repository)
-    {
-        Console.WriteLine("--- Demonstration 3: Updating Products ---\n");
-
-        // Get an existing product
-        var product = await repository.GetByIdAsync(1);
-
-        if (product != null)
-        {
-            Console.WriteLine($"Before update: {product}");
-
-            // Modify it
-            product.Price = 899.99m; // Price drop!
-            product.StockQuantity = 45;
-
-            // Update in repository
-            await repository.UpdateAsync(product);
-
-            // Verify the update
-            var updated = await repository.GetByIdAsync(1);
-            Console.WriteLine($"After update:  {updated}");
-        }
-
-        Console.WriteLine();
-    }
-
-    /// <summary>
-    /// Demonstrate deleting entities.
-    /// </summary>
-    static async Task DemoDeleting(IRepository<Product> repository)
-    {
-        Console.WriteLine("--- Demonstration 4: Deleting Products ---\n");
-
-        var countBefore = await repository.CountAsync();
-        Console.WriteLine($"Products before deletion: {countBefore}");
-
-        // Delete a product
-        await repository.DeleteAsync(7); // Headphones (out of stock, inactive)
-
-        var countAfter = await repository.CountAsync();
-        Console.WriteLine($"Products after deletion: {countAfter}");
-
-        // Verify it's gone
-        var exists = await repository.ExistsAsync(7);
-        Console.WriteLine($"Product #7 still exists: {exists}");
-
-        Console.WriteLine();
-    }
-
-    /// <summary>
-    /// Demonstrate querying with predicates.
-    /// </summary>
-    static async Task DemoQuerying(IRepository<Product> repository)
-    {
-        Console.WriteLine("--- Demonstration 5: Querying with Predicates ---\n");
-
-        // Find all electronics
-        var electronics = await repository.FindAsync(p => p.Category == "Electronics");
-        Console.WriteLine("Electronics:");
-        foreach (var product in electronics)
-        {
-            Console.WriteLine($"  {product}");
-        }
-
-        // Find products over $100
-        var expensive = await repository.FindAsync(p => p.Price > 100);
-        Console.WriteLine($"\nExpensive products (> $100): {expensive.Count()}");
-        foreach (var product in expensive)
-        {
-            Console.WriteLine($"  {product}");
-        }
-
-        // Find products with low stock
-        var lowStock = await repository.FindAsync(p => p.StockQuantity < 100 && p.IsActive);
-        Console.WriteLine($"\nLow stock products (< 100 units): {lowStock.Count()}");
-        foreach (var product in lowStock)
-        {
-            Console.WriteLine($"  {product}");
-        }
-
-        Console.WriteLine();
-    }
-
-    /// <summary>
-    /// Demonstrate the power of abstraction.
-    /// </summary>
-    static void DemoAbstraction()
-    {
-        Console.WriteLine("--- Demonstration 6: The Power of Abstraction ---\n");
-
-        Console.WriteLine("Because we program against IRepository<Product>, we can easily swap implementations:");
-        Console.WriteLine();
-        Console.WriteLine("  IRepository<Product> repo = new InMemoryProductRepository();    // For testing");
-        Console.WriteLine("  IRepository<Product> repo = new SqlProductRepository();         // For production");
-        Console.WriteLine("  IRepository<Product> repo = new MongoProductRepository();       // Different DB");
-        Console.WriteLine("  IRepository<Product> repo = new CachedProductRepository();      // With caching");
-        Console.WriteLine("  IRepository<Product> repo = new ApiProductRepository();         // External API");
-        Console.WriteLine();
-        Console.WriteLine("The business logic using the repository DOESN'T CHANGE!");
-        Console.WriteLine("This is Dependency Inversion Principle in action.");
-
-        Console.WriteLine();
-    }
+    Console.WriteLine("\nPress any key to continue...");
+    Console.ReadKey(intercept: true);
+    Console.WriteLine();
 }
+
+static void Header(string title)
+{
+    Console.WriteLine(new string('─', 62));
+    Console.WriteLine($"  {title}");
+    Console.WriteLine(new string('─', 62));
+}
+
+static void PrintAll(IEnumerable<Product> products)
+{
+    foreach (var p in products)
+        Console.WriteLine($"  {p}");
+}
+
+Console.WriteLine("=== Repository Pattern — Product Catalogue ===\n");
+
+// ─── THE PROBLEM ──────────────────────────────────────────────────────────────
+Header("THE PROBLEM — data access mixed into business logic");
+Console.WriteLine("""
+
+  Without Repository, data access leaks directly into service classes:
+
+    public class ProductService
+    {
+        private readonly SqlConnection _db;
+
+        public async Task<Product?> GetFeaturedProduct()
+        {
+            // Raw SQL in the middle of business logic:
+            var cmd = new SqlCommand("SELECT TOP 1 * FROM Products WHERE IsActive=1 ORDER BY Price DESC", _db);
+            var reader = await cmd.ExecuteReaderAsync();
+            return reader.Read() ? MapProduct(reader) : null;
+        }
+
+        public async Task DiscountElectronics(decimal pct)
+        {
+            // Switching to MongoDB next sprint? Every method needs rewriting.
+            await _db.ExecuteAsync("UPDATE Products SET Price = Price * @pct WHERE Category='Electronics'", new { pct });
+        }
+    }
+
+  Repository moves all data access behind an interface. Business logic
+  calls IRepository<Product> — it has no idea whether there is a SQL
+  database, a MongoDB collection, or an in-memory list behind it.
+
+""");
+Pause();
+
+// ─── SETUP ────────────────────────────────────────────────────────────────────
+// Declared as the interface, not the concrete type — this is the point.
+// Swap InMemoryProductRepository for SqlProductRepository and nothing else changes.
+IRepository<Product> repo = new InMemoryProductRepository(seedData: true);
+Console.WriteLine();
+
+// ─── DEMO 1: GetById + GetAll ─────────────────────────────────────────────────
+Header("DEMO 1 — GetByIdAsync and GetAllAsync");
+Console.WriteLine();
+
+var single = await repo.GetByIdAsync(1);
+Console.WriteLine($"  GetByIdAsync(1) → {single}");
+
+var missing = await repo.GetByIdAsync(99);
+Console.WriteLine($"  GetByIdAsync(99) → {missing?.ToString() ?? "null (not found)"}");
+
+Console.WriteLine($"\n  Total products: {await repo.CountAsync()}\n");
+Console.WriteLine("  All products:");
+PrintAll(await repo.GetAllAsync());
+Pause();
+
+// ─── DEMO 2: AddAsync ─────────────────────────────────────────────────────────
+Header("DEMO 2 — AddAsync: repository assigns the ID");
+Console.WriteLine("\n  Adding two new products:\n");
+
+var airPods = new Product { Name = "Apple AirPods Pro 2", Category = "Electronics", Price = 329.99m, StockQuantity = 75 };
+var boots   = new Product { Name = "Sorel Winter Boots",  Category = "Clothing",    Price = 199.99m, StockQuantity = 40 };
+
+await repo.AddAsync(airPods);
+await repo.AddAsync(boots);
+
+Console.WriteLine($"\n  AirPods were assigned Id = {airPods.Id}");
+Console.WriteLine($"  Boots were assigned Id   = {boots.Id}");
+Console.WriteLine($"  Total products now: {await repo.CountAsync()}");
+Pause();
+
+// ─── DEMO 3: UpdateAsync ──────────────────────────────────────────────────────
+Header("DEMO 3 — UpdateAsync: modify and persist");
+Console.WriteLine();
+
+var toUpdate = await repo.GetByIdAsync(1);
+if (toUpdate != null)
+{
+    Console.WriteLine($"  Before: {toUpdate}");
+    toUpdate.Price         = 1_549.99m;   // price drop
+    toUpdate.StockQuantity = 22;
+    await repo.UpdateAsync(toUpdate);
+
+    var after = await repo.GetByIdAsync(1);
+    Console.WriteLine($"  After:  {after}");
+}
+Pause();
+
+// ─── DEMO 4: DeleteAsync + ExistsAsync ────────────────────────────────────────
+Header("DEMO 4 — DeleteAsync and ExistsAsync");
+Console.WriteLine();
+
+Console.WriteLine($"  ExistsAsync(7) before delete → {await repo.ExistsAsync(7)}");
+await repo.DeleteAsync(7);   // Fitbit Charge 6 — inactive, no stock
+Console.WriteLine($"  ExistsAsync(7) after delete  → {await repo.ExistsAsync(7)}");
+Console.WriteLine($"  Total products now: {await repo.CountAsync()}");
+Pause();
+
+// ─── DEMO 5: FindAsync ────────────────────────────────────────────────────────
+Header("DEMO 5 — FindAsync: query with a predicate");
+Console.WriteLine();
+
+var electronics = await repo.FindAsync(p => p.Category == "Electronics" && p.IsActive);
+Console.WriteLine($"  Electronics (active): {electronics.Count()} items");
+PrintAll(electronics);
+
+Console.WriteLine();
+var pricey = await repo.FindAsync(p => p.Price > 500m);
+Console.WriteLine($"  Price > $500: {pricey.Count()} items");
+PrintAll(pricey);
+
+Console.WriteLine();
+var lowStock = await repo.FindAsync(p => p.StockQuantity < 30 && p.IsActive);
+Console.WriteLine($"  Low stock (< 30 units, active): {lowStock.Count()} items");
+PrintAll(lowStock);
+Pause();
+
+// ─── DEMO 6: Power of abstraction ────────────────────────────────────────────
+Header("DEMO 6 — The interface is the contract; the implementation is swappable");
+Console.WriteLine("""
+
+  The variable `repo` is declared as IRepository<Product>.
+  Every line of demo code above works identically regardless of which
+  implementation sits behind it:
+
+    IRepository<Product> repo = new InMemoryProductRepository();   // tests & demo
+    IRepository<Product> repo = new SqlProductRepository(conn);    // production SQL
+    IRepository<Product> repo = new MongoProductRepository(db);    // MongoDB
+    IRepository<Product> repo = new CachedProductRepository(repo); // read-through cache
+    IRepository<Product> repo = new ApiProductRepository(http);    // external REST API
+
+  None of the code that USES the repository changes.
+  This is Dependency Inversion in practice.
+
+""");
+Pause();
+
+// ─── DEMO 7: SQL repository — same interface, real SQL ────────────────────────
+Header("DEMO 7 — SqlProductRepository: same interface, real SQL (SQLite in-memory)");
+Console.WriteLine("""
+
+  SqlProductRepository uses Dapper to run real SQL statements.
+  The calling code below is IDENTICAL to Demos 1–5 — only the
+  constructor changes:
+
+    // SQL Server in production:
+    IRepository<Product> repo = new SqlProductRepository(new SqlConnection("Server=...;"));
+
+    // SQLite for this demo (no server required — in-memory database):
+    IRepository<Product> repo = new SqlProductRepository(new SqliteConnection("Data Source=:memory:"));
+
+""");
+
+using SqlProductRepository sqlImpl = new(new SqliteConnection("Data Source=:memory:"));
+IRepository<Product> sqlRepo = sqlImpl;
+
+var laptop    = new Product { Name = "Dell XPS 15",         Category = "Electronics", Price = 1_299.99m, StockQuantity = 20 };
+var backpack  = new Product { Name = "Arc'teryx Granville", Category = "Accessories", Price =   149.99m, StockQuantity = 35 };
+var headset   = new Product { Name = "Jabra Evolve2 85",    Category = "Electronics", Price =   499.99m, StockQuantity = 10 };
+
+Console.WriteLine("  Adding products via SQL INSERT:");
+await sqlRepo.AddAsync(laptop);
+await sqlRepo.AddAsync(backpack);
+await sqlRepo.AddAsync(headset);
+
+Console.WriteLine($"\n  CountAsync() → {await sqlRepo.CountAsync()}");
+
+var found = await sqlRepo.GetByIdAsync(laptop.Id);
+Console.WriteLine($"  GetByIdAsync({laptop.Id}) → {found}");
+
+Console.WriteLine();
+laptop.Price = 1_149.99m;
+await sqlRepo.UpdateAsync(laptop);
+
+Console.WriteLine();
+var sqlElectronics = await sqlRepo.FindAsync(p => p.Category == "Electronics");
+Console.WriteLine($"  FindAsync (Electronics): {sqlElectronics.Count()} item(s)");
+PrintAll(sqlElectronics);
+
+Console.WriteLine();
+await sqlRepo.DeleteAsync(backpack.Id);
+Console.WriteLine($"  After DeleteAsync({backpack.Id}) — CountAsync() → {await sqlRepo.CountAsync()}");
+
+Console.WriteLine("""
+
+  The variable is declared as IRepository<Product> — not SqlProductRepository.
+  The InMemory demos above and this SQL demo are driven by identical code paths.
+
+""");
+Pause();
+
+Console.WriteLine("  Done.");
