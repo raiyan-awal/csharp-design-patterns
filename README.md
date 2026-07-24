@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 27 / 57 patterns implemented**
+**Current status: 28 / 57 patterns implemented**
 
 ---
 
@@ -229,7 +229,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | # | Pattern | Intent | Status |
 |---|---------|--------|--------|
 | 4.01 | **Repository** | Mediate between domain and data mapping layers using a collection-like interface | ✅ Implemented |
-| 4.02 | **Unit of Work** | Maintain a list of objects affected by a transaction and coordinate changes | 🔜 Coming Soon |
+| 4.02 | **Unit of Work** | Maintain a list of objects affected by a transaction and coordinate changes | ✅ Implemented |
 | 4.03 | **CQRS** | Separate read and write operations for better scalability and optimization | 🔜 Coming Soon |
 | 4.04 | **Specification** | Encapsulate business rules that can be recombined | 🔜 Coming Soon |
 | 4.05 | **Dependency Injection** | Inject dependencies rather than creating them internally | 🔜 Coming Soon |

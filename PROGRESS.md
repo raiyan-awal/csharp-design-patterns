@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 27 (47%)  
+**Implemented:** 28 (49%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 30 (53%)
+**Remaining:** 29 (51%)
 
 ---
 
@@ -76,7 +76,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | # | Pattern | Status | Notes |
 |---|---------|--------|-------|
 | 4.01 | Repository | ✅ | Generic repository with in-memory implementation |
-| 4.02 | Unit of Work | 🔜 | |
+| 4.02 | Unit of Work | ✅ | Order placement — Products + Orders committed as one transaction; InMemory (staged writes) + SQL (real IDbTransaction) |
 | 4.03 | CQRS | 🔜 | |
 | 4.04 | Specification | 🔜 | |
 | 4.05 | Dependency Injection | 🔜 | |
@@ -107,14 +107,14 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 1/31 (3%)
+**Category Progress:** 2/31 (6%)
 
 ---
 
 ## Next Up
 
-1. **Unit of Work** (4.02 Enterprise) — coordinate database transactions
-2. **CQRS** (4.03 Enterprise) — separate reads from writes
+1. **CQRS** (4.03 Enterprise) — separate reads from writes
+2. **Specification** (4.04 Enterprise) — encapsulate recombinable business rules
 3. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
 
 ---
@@ -124,9 +124,9 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (3% — 1/31)
+- [ ] **Milestone 4:** All Enterprise Patterns (6% — 2/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-07-22*
+*Last Updated: 2026-07-24*

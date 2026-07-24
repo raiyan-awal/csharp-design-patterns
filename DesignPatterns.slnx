@@ -133,4 +133,8 @@
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern.Tests/RepositoryPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.01-Repository/RepositoryPattern/RepositoryPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.02-UnitOfWork/">
+    <Project Path="src/4-Enterprise/4.02-UnitOfWork/UnitOfWorkPattern.Tests/UnitOfWorkPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.02-UnitOfWork/UnitOfWorkPattern/UnitOfWorkPattern.csproj" />
+  </Folder>
 </Solution>
