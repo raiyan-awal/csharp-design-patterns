@@ -173,7 +173,7 @@ Email email = new EmailBuilder()
 
 | | Telescoping Constructor | Object Initializer | Builder |
 |---|---|---|---|
-| **Required fields enforced** | ✗ (silent nulls) | ✗ (silent nulls) | ✅ (Build() throws) |
+| **Required fields enforced** | ✅ (compiler-enforced params) | ✗ (silent nulls) | ✅ (Build() throws) |
 | **Readability** | ✗ (positional args) | ✅ (named) | ✅ (named methods) |
 | **Optional fields** | Messy (overloads or nulls) | ✅ | ✅ |
 | **Immutable product** | ✅ | ✗ (setters stay public) | ✅ |
