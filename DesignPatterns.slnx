@@ -137,4 +137,8 @@
     <Project Path="src/4-Enterprise/4.02-UnitOfWork/UnitOfWorkPattern.Tests/UnitOfWorkPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.02-UnitOfWork/UnitOfWorkPattern/UnitOfWorkPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.03-CQRS/">
+    <Project Path="src/4-Enterprise/4.03-CQRS/CQRSPattern.Tests/CQRSPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.03-CQRS/CQRSPattern/CQRSPattern.csproj" />
+  </Folder>
 </Solution>
