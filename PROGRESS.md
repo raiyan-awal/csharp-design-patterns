@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 28 (49%)  
+**Implemented:** 29 (51%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 29 (51%)
+**Remaining:** 28 (49%)
 
 ---
 
@@ -77,8 +77,8 @@ Track the implementation status of all 45 design patterns in this repository.
 |---|---------|--------|-------|
 | 4.01 | Repository | ✅ | Generic repository with in-memory implementation |
 | 4.02 | Unit of Work | ✅ | Order placement — Products + Orders committed as one transaction; InMemory (staged writes) + SQL (real IDbTransaction) |
-| 4.03 | CQRS | 🔜 | |
-| 4.04 | Specification | 🔜 | |
+| 4.03 | CQRS | ✅ | Banking demo — BankAccount aggregate (write), AccountView (read), AccountProjector, CommandResult; separate WriteStore/ReadStore |
+| 4.04 | Specification | ✅ | Product catalogue — named specs (Active, InStock, Category, PriceRange, MinRating, LowStock); And/Or/Not combinators; ToExpression for EF Core |
 | 4.05 | Dependency Injection | 🔜 | |
 | 4.06 | Service Layer | 🔜 | |
 | 4.07 | Data Mapper | 🔜 | |
@@ -107,15 +107,15 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 2/31 (6%)
+**Category Progress:** 4/31 (13%)
 
 ---
 
 ## Next Up
 
-1. **CQRS** (4.03 Enterprise) — separate reads from writes
-2. **Specification** (4.04 Enterprise) — encapsulate recombinable business rules
-3. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
+1. **Dependency Injection** (4.05 Enterprise) — inject dependencies rather than creating them internally
+2. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
+3. **Value Object** (4.11 Enterprise) — equality by value, not identity
 
 ---
 
@@ -124,9 +124,9 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (6% — 2/31)
+- [ ] **Milestone 4:** All Enterprise Patterns (13% — 4/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-07-24*
+*Last Updated: 2026-08-02*

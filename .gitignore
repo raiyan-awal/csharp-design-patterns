@@ -1,6 +1,7 @@
 ﻿# Local workspace files
 .claude/
 **/QA.md
+CLAUDE.md
 
 # .NET build output
 bin/

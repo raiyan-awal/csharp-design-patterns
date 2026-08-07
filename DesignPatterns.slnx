@@ -141,4 +141,8 @@
     <Project Path="src/4-Enterprise/4.03-CQRS/CQRSPattern.Tests/CQRSPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.03-CQRS/CQRSPattern/CQRSPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.04-Specification/">
+    <Project Path="src/4-Enterprise/4.04-Specification/SpecificationPattern.Tests/SpecificationPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.04-Specification/SpecificationPattern/SpecificationPattern.csproj" />
+  </Folder>
 </Solution>
