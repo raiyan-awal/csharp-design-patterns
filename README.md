@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 30 / 57 patterns implemented**
+**Current status: 31 / 57 patterns implemented**
 
 ---
 
@@ -233,7 +233,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.03 | **CQRS** | Separate read and write operations for better scalability and optimization | ✅ Implemented |
 | 4.04 | **Specification** | Encapsulate business rules that can be recombined | ✅ Implemented |
 | 4.05 | **Dependency Injection** | Inject dependencies rather than creating them internally | ✅ Implemented |
-| 4.06 | **Service Layer** | Define application's boundary with a layer of services | 🔜 Coming Soon |
+| 4.06 | **Service Layer** | Define application's boundary with a layer of services | ✅ Implemented |
 | 4.07 | **Data Mapper** | Move data between objects and database while keeping them independent | 🔜 Coming Soon |
 | 4.08 | **Active Record** | An object that wraps a row in a database table, encapsulating access | 🔜 Coming Soon |
 | 4.09 | **Identity Map** | Ensure each object gets loaded only once by keeping every loaded object in a map | 🔜 Coming Soon |

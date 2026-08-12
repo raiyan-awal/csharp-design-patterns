@@ -149,4 +149,8 @@
     <Project Path="src/4-Enterprise/4.05-DependencyInjection/DependencyInjectionPattern.Tests/DependencyInjectionPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.05-DependencyInjection/DependencyInjectionPattern/DependencyInjectionPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.06-ServiceLayer/">
+    <Project Path="src/4-Enterprise/4.06-ServiceLayer/ServiceLayerPattern.Tests/ServiceLayerPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.06-ServiceLayer/ServiceLayerPattern/ServiceLayerPattern.csproj" />
+  </Folder>
 </Solution>

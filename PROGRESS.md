@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 30 (53%)  
+**Implemented:** 31 (54%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 27 (47%)
+**Remaining:** 26 (46%)
 
 ---
 
@@ -80,7 +80,8 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.03 | CQRS | ✅ | Banking demo — BankAccount aggregate (write), AccountView (read), AccountProjector, CommandResult; separate WriteStore/ReadStore |
 | 4.04 | Specification | ✅ | Product catalogue — named specs (Active, InStock, Category, PriceRange, MinRating, LowStock); And/Or/Not combinators; ToExpression for EF Core |
 | 4.05 | Dependency Injection | ✅ | Maple Leaf Electronics checkout — Singleton (InventoryService), Scoped (ShoppingCart, CheckoutService), Transient (HstCalculator); implementation swap demo |
-| 4.06 | Service Layer | 🔜 | |
+| 4.06 | Service Layer | ✅ | Toronto Public Library — BookService, MemberService, LoanService; 4 business rules; in-memory repositories; 22 tests |
+| 4.07 | Data Mapper | 🔜 | |
 | 4.07 | Data Mapper | 🔜 | |
 | 4.08 | Active Record | 🔜 | |
 | 4.09 | Identity Map | 🔜 | |
@@ -107,13 +108,13 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 5/31 (16%)
+**Category Progress:** 6/31 (19%)
 
 ---
 
 ## Next Up
 
-1. **Service Layer** (4.06 Enterprise) — define the application's boundary with a layer of services
+1. **Data Mapper** (4.07 Enterprise) — move data between objects and database while keeping them independent
 2. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
 3. **Value Object** (4.11 Enterprise) — equality by value, not identity
 
@@ -129,4 +130,4 @@ Track the implementation status of all 45 design patterns in this repository.
 
 ---
 
-*Last Updated: 2026-08-11*
+*Last Updated: 2026-08-12*
