@@ -145,4 +145,8 @@
     <Project Path="src/4-Enterprise/4.04-Specification/SpecificationPattern.Tests/SpecificationPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.04-Specification/SpecificationPattern/SpecificationPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.05-DependencyInjection/">
+    <Project Path="src/4-Enterprise/4.05-DependencyInjection/DependencyInjectionPattern.Tests/DependencyInjectionPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.05-DependencyInjection/DependencyInjectionPattern/DependencyInjectionPattern.csproj" />
+  </Folder>
 </Solution>
