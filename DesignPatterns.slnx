@@ -153,4 +153,8 @@
     <Project Path="src/4-Enterprise/4.06-ServiceLayer/ServiceLayerPattern.Tests/ServiceLayerPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.06-ServiceLayer/ServiceLayerPattern/ServiceLayerPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.07-DataMapper/">
+    <Project Path="src/4-Enterprise/4.07-DataMapper/DataMapperPattern.Tests/DataMapperPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.07-DataMapper/DataMapperPattern/DataMapperPattern.csproj" />
+  </Folder>
 </Solution>

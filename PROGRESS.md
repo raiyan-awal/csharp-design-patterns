@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 31 (54%)  
+**Implemented:** 32 (56%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 26 (46%)
+**Remaining:** 25 (44%)
 
 ---
 
@@ -81,7 +81,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.04 | Specification | ✅ | Product catalogue — named specs (Active, InStock, Category, PriceRange, MinRating, LowStock); And/Or/Not combinators; ToExpression for EF Core |
 | 4.05 | Dependency Injection | ✅ | Maple Leaf Electronics checkout — Singleton (InventoryService), Scoped (ShoppingCart, CheckoutService), Transient (HstCalculator); implementation swap demo |
 | 4.06 | Service Layer | ✅ | Toronto Public Library — BookService, MemberService, LoanService; 4 business rules; in-memory repositories; 22 tests |
-| 4.07 | Data Mapper | 🔜 | |
+| 4.07 | Data Mapper | ✅ | Canadian Film Registry — FilmMapper + ReviewMapper; pure domain objects; private DTO bridge; SQLite; 20 tests |
 | 4.07 | Data Mapper | 🔜 | |
 | 4.08 | Active Record | 🔜 | |
 | 4.09 | Identity Map | 🔜 | |
@@ -108,13 +108,13 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 6/31 (19%)
+**Category Progress:** 7/31 (23%)
 
 ---
 
 ## Next Up
 
-1. **Data Mapper** (4.07 Enterprise) — move data between objects and database while keeping them independent
+1. **Active Record** (4.08 Enterprise) — an object that wraps a row in a database table, encapsulating its own access
 2. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
 3. **Value Object** (4.11 Enterprise) — equality by value, not identity
 
@@ -131,3 +131,4 @@ Track the implementation status of all 45 design patterns in this repository.
 ---
 
 *Last Updated: 2026-08-12*
+
