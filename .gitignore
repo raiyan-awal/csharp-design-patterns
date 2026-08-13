@@ -35,3 +35,10 @@ coverage/
 # OS
 .DS_Store
 Thumbs.db
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+graft/
+
+# Local dev-tool config — not committed
+.ignore
+.mcp.json
