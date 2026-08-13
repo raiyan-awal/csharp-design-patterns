@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 32 / 57 patterns implemented**
+**Current status: 33 / 57 patterns implemented**
 
 ---
 
@@ -235,7 +235,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.05 | **Dependency Injection** | Inject dependencies rather than creating them internally | ✅ Implemented |
 | 4.06 | **Service Layer** | Define application's boundary with a layer of services | ✅ Implemented |
 | 4.07 | **Data Mapper** | Move data between objects and database while keeping them independent | ✅ Implemented |
-| 4.08 | **Active Record** | An object that wraps a row in a database table, encapsulating access | 🔜 Coming Soon |
+| 4.08 | **Active Record** | An object that wraps a row in a database table, encapsulating access | ✅ Implemented |
 | 4.09 | **Identity Map** | Ensure each object gets loaded only once by keeping every loaded object in a map | 🔜 Coming Soon |
 | 4.10 | **Lazy Load** | Defer initialization of an object until it's needed | 🔜 Coming Soon |
 | 4.11 | **Value Object** | Objects that are equal when their attributes are equal (no unique identity) | 🔜 Coming Soon |
