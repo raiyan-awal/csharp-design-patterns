@@ -82,7 +82,6 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.05 | Dependency Injection | ✅ | Maple Leaf Electronics checkout — Singleton (InventoryService), Scoped (ShoppingCart, CheckoutService), Transient (HstCalculator); implementation swap demo |
 | 4.06 | Service Layer | ✅ | Toronto Public Library — BookService, MemberService, LoanService; 4 business rules; in-memory repositories; 22 tests |
 | 4.07 | Data Mapper | ✅ | Canadian Film Registry — FilmMapper + ReviewMapper; pure domain objects; private DTO bridge; SQLite; 20 tests |
-| 4.07 | Data Mapper | 🔜 | |
 | 4.08 | Active Record | 🔜 | |
 | 4.09 | Identity Map | 🔜 | |
 | 4.10 | Lazy Load | 🔜 | |
