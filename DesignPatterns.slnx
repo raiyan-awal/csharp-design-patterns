@@ -161,4 +161,8 @@
     <Project Path="src/4-Enterprise/4.08-ActiveRecord/ActiveRecordPattern.Tests/ActiveRecordPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.08-ActiveRecord/ActiveRecordPattern/ActiveRecordPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.09-IdentityMap/">
+    <Project Path="src/4-Enterprise/4.09-IdentityMap/IdentityMapPattern.Tests/IdentityMapPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.09-IdentityMap/IdentityMapPattern/IdentityMapPattern.csproj" />
+  </Folder>
 </Solution>
