@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 35 (61%)  
+**Implemented:** 36 (63%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 22 (39%)
+**Remaining:** 21 (37%)
 
 ---
 
@@ -85,7 +85,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.08 | Active Record | ✅ | Maple Ridge Realty — RentalUnit + Tenant active records; domain + persistence in one class; static finders; SQLite; 21 tests |
 | 4.09 | Identity Map | ✅ | Vancouver Art Gallery — ArtworkMapper + ArtistMapper; generic IdentityMap<TKey,TEntity>; LoadCount tracking; FindAll populates map; SQLite; 20 tests |
 | 4.10 | Lazy Load | ✅ | Maple Leaf Technologies — Lazy Initialization, System.Lazy<T>, Virtual Proxy variants; SQLite employee directory; 19 tests |
-| 4.11 | Value Object | 🔜 | |
+| 4.11 | Value Object | ✅ | Maple Properties — Money (CAD), Address (postal normalization), DateRange; readonly record struct + record; 33 tests |
 | 4.12 | Domain Event | 🔜 | |
 | 4.13 | Aggregate Root | 🔜 | |
 | 4.14 | Entity | 🔜 | |
@@ -107,14 +107,14 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 10/31 (32%)
+**Category Progress:** 11/31 (35%)
 
 ---
 
 ## Next Up
 
-1. **Value Object** (4.11 Enterprise) — equality by value, not identity
-2. **Domain Event** (4.12 Enterprise) — side effects decoupled from the domain operation
+1. **Domain Event** (4.12 Enterprise) — side effects decoupled from the domain operation
+2. **Aggregate Root** (4.13 Enterprise) — cluster of domain objects treated as a single unit
 3. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
 
 ---
@@ -124,10 +124,10 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (32% — 10/31)
+- [ ] **Milestone 4:** All Enterprise Patterns (35% — 11/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-08-18 — Added 4.10 Lazy Load*
+*Last Updated: 2026-08-21 — Added 4.11 Value Object*
 

@@ -169,4 +169,8 @@
     <Project Path="src/4-Enterprise/4.10-LazyLoad/LazyLoadPattern.Tests/LazyLoadPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.10-LazyLoad/LazyLoadPattern/LazyLoadPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.11-ValueObject/">
+    <Project Path="src/4-Enterprise/4.11-ValueObject/ValueObjectPattern.Tests/ValueObjectPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.11-ValueObject/ValueObjectPattern/ValueObjectPattern.csproj" />
+  </Folder>
 </Solution>

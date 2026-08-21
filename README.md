@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 35 / 57 patterns implemented**
+**Current status: 36 / 57 patterns implemented**
 
 ---
 
@@ -238,7 +238,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.08 | **Active Record** | An object that wraps a row in a database table, encapsulating access | ✅ Implemented |
 | 4.09 | **Identity Map** | Ensure each object gets loaded only once by keeping every loaded object in a map | ✅ Implemented |
 | 4.10 | **Lazy Load** | Defer initialization of an object until it's needed | ✅ Implemented |
-| 4.11 | **Value Object** | Objects that are equal when their attributes are equal (no unique identity) | 🔜 Coming Soon |
+| 4.11 | **Value Object** | Objects that are equal when their attributes are equal (no unique identity) | ✅ Implemented |
 | 4.12 | **Domain Event** | Capture domain occurrences that domain experts care about | 🔜 Coming Soon |
 | 4.13 | **Aggregate Root** | Cluster of domain objects treated as a single unit with consistency boundaries | 🔜 Coming Soon |
 | 4.14 | **Entity** | Objects with unique identity that runs through time and different states | 🔜 Coming Soon |
