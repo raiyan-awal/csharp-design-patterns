@@ -165,4 +165,8 @@
     <Project Path="src/4-Enterprise/4.09-IdentityMap/IdentityMapPattern.Tests/IdentityMapPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.09-IdentityMap/IdentityMapPattern/IdentityMapPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.10-LazyLoad/">
+    <Project Path="src/4-Enterprise/4.10-LazyLoad/LazyLoadPattern.Tests/LazyLoadPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.10-LazyLoad/LazyLoadPattern/LazyLoadPattern.csproj" />
+  </Folder>
 </Solution>
