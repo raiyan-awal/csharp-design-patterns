@@ -173,4 +173,8 @@
     <Project Path="src/4-Enterprise/4.11-ValueObject/ValueObjectPattern.Tests/ValueObjectPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.11-ValueObject/ValueObjectPattern/ValueObjectPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.12-DomainEvent/">
+    <Project Path="src/4-Enterprise/4.12-DomainEvent/DomainEventPattern.Tests/DomainEventPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.12-DomainEvent/DomainEventPattern/DomainEventPattern.csproj" />
+  </Folder>
 </Solution>
