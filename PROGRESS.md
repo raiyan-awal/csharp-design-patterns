@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 37 (65%)  
+**Implemented:** 38 (67%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 20 (35%)
+**Remaining:** 19 (33%)
 
 ---
 
@@ -87,7 +87,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.10 | Lazy Load | ✅ | Maple Leaf Technologies — Lazy Initialization, System.Lazy<T>, Virtual Proxy variants; SQLite employee directory; 19 tests |
 | 4.11 | Value Object | ✅ | Maple Properties — Money (CAD), Address (postal normalization), DateRange; readonly record struct + record; 33 tests |
 | 4.12 | Domain Event | ✅ | Maple Auctions — AuctionOpened, BidPlaced, AuctionClosed events; AuditLog, Email, FraudDetection handlers; deferred dispatch via AggregateRoot; 20 tests |
-| 4.13 | Aggregate Root | 🔜 | |
+| 4.13 | Aggregate Root | ✅ | Northern Shield Life Insurance — InsurancePolicy root with PolicyRider + Beneficiary internal entities; coverage cap, duplicate, status invariants; Version tracking; 33 tests |
 | 4.14 | Entity | 🔜 | |
 | 4.15 | Event Sourcing | 🔜 | |
 | 4.16 | Circuit Breaker | 🔜 | |
@@ -107,13 +107,13 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 12/31 (39%)
+**Category Progress:** 13/31 (42%)
 
 ---
 
 ## Next Up
 
-1. **Aggregate Root** (4.13 Enterprise) — cluster of domain objects treated as a single unit
+1. **Entity** (4.14 Enterprise) — objects with a unique identity that persists over time
 2. **Entity** (4.14 Enterprise) — objects with a unique identity that persists over time
 3. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
 
@@ -124,10 +124,10 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (39% — 12/31)
+- [ ] **Milestone 4:** All Enterprise Patterns (42% — 13/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-08-21 — Added 4.12 Domain Event*
+*Last Updated: 2026-08-23 — Added 4.13 Aggregate Root*
 

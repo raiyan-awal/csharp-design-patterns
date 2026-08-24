@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 37 / 57 patterns implemented**
+**Current status: 38 / 57 patterns implemented**
 
 ---
 
@@ -240,7 +240,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.10 | **Lazy Load** | Defer initialization of an object until it's needed | ✅ Implemented |
 | 4.11 | **Value Object** | Objects that are equal when their attributes are equal (no unique identity) | ✅ Implemented |
 | 4.12 | **Domain Event** | Capture domain occurrences that domain experts care about | ✅ Implemented |
-| 4.13 | **Aggregate Root** | Cluster of domain objects treated as a single unit with consistency boundaries | 🔜 Coming Soon |
+| 4.13 | **Aggregate Root** | Cluster of domain objects treated as a single unit with consistency boundaries | ✅ Implemented |
 | 4.14 | **Entity** | Objects with unique identity that runs through time and different states | 🔜 Coming Soon |
 | 4.15 | **Event Sourcing** | Store state as a sequence of events rather than current state | 🔜 Coming Soon |
 | 4.16 | **Circuit Breaker** | Prevent cascading failures by stopping calls to failing services | 🔜 Coming Soon |
