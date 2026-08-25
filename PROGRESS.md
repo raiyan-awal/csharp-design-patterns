@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 38 (67%)  
+**Implemented:** 39 (68%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 19 (33%)
+**Remaining:** 18 (32%)
 
 ---
 
@@ -88,7 +88,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.11 | Value Object | ✅ | Maple Properties — Money (CAD), Address (postal normalization), DateRange; readonly record struct + record; 33 tests |
 | 4.12 | Domain Event | ✅ | Maple Auctions — AuctionOpened, BidPlaced, AuctionClosed events; AuditLog, Email, FraudDetection handlers; deferred dispatch via AggregateRoot; 20 tests |
 | 4.13 | Aggregate Root | ✅ | Northern Shield Life Insurance — InsurancePolicy root with PolicyRider + Beneficiary internal entities; coverage cap, duplicate, status invariants; Version tracking; 33 tests |
-| 4.14 | Entity | 🔜 | |
+| 4.14 | Entity | ✅ | Maple Street Medical Centre — Patient, Doctor, Appointment entities; generic Entity<TId> base with identity-based Equals/GetHashCode/==/!=; reference by ID; appointment lifecycle; 37 tests |
 | 4.15 | Event Sourcing | 🔜 | |
 | 4.16 | Circuit Breaker | 🔜 | |
 | 4.17 | Retry Pattern | 🔜 | |
@@ -107,15 +107,14 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 13/31 (42%)
+**Category Progress:** 14/31 (45%)
 
 ---
 
 ## Next Up
 
-1. **Entity** (4.14 Enterprise) — objects with a unique identity that persists over time
-2. **Entity** (4.14 Enterprise) — objects with a unique identity that persists over time
-3. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
+1. **Event Sourcing** (4.15 Enterprise) — store state as a sequence of events rather than current state
+2. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
 
 ---
 
@@ -129,5 +128,5 @@ Track the implementation status of all 45 design patterns in this repository.
 
 ---
 
-*Last Updated: 2026-08-23 — Added 4.13 Aggregate Root*
+*Last Updated: 2026-08-24 — Added 4.14 Entity*
 

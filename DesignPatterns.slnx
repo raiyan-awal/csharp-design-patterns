@@ -181,4 +181,9 @@
     <Project Path="src/4-Enterprise/4.13-AggregateRoot/AggregateRootPattern.Tests/AggregateRootPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.13-AggregateRoot/AggregateRootPattern/AggregateRootPattern.csproj" />
   </Folder>
+
+  <Folder Name="/src/4-Enterprise/4.14-Entity/">
+    <Project Path="src/4-Enterprise/4.14-Entity/EntityPattern.Tests/EntityPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.14-Entity/EntityPattern/EntityPattern.csproj" />
+  </Folder>
 </Solution>
