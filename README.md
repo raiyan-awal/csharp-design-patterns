@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 39 / 57 patterns implemented**
+**Current status: 40 / 57 patterns implemented**
 
 ---
 
@@ -242,7 +242,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.12 | **Domain Event** | Capture domain occurrences that domain experts care about | ✅ Implemented |
 | 4.13 | **Aggregate Root** | Cluster of domain objects treated as a single unit with consistency boundaries | ✅ Implemented |
 | 4.14 | **Entity** | Objects with unique identity that runs through time and different states | ✅ Implemented |
-| 4.15 | **Event Sourcing** | Store state as a sequence of events rather than current state | 🔜 Coming Soon |
+| 4.15 | **Event Sourcing** | Store state as a sequence of events rather than current state | ✅ Implemented |
 | 4.16 | **Circuit Breaker** | Prevent cascading failures by stopping calls to failing services | 🔜 Coming Soon |
 | 4.17 | **Retry Pattern** | Handle transient failures by retrying failed operations | 🔜 Coming Soon |
 | 4.18 | **Bulkhead** | Isolate resources to prevent total system failure | 🔜 Coming Soon |

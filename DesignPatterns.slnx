@@ -186,4 +186,9 @@
     <Project Path="src/4-Enterprise/4.14-Entity/EntityPattern.Tests/EntityPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.14-Entity/EntityPattern/EntityPattern.csproj" />
   </Folder>
+
+  <Folder Name="/src/4-Enterprise/4.15-EventSourcing/">
+    <Project Path="src/4-Enterprise/4.15-EventSourcing/EventSourcingPattern.Tests/EventSourcingPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.15-EventSourcing/EventSourcingPattern/EventSourcingPattern.csproj" />
+  </Folder>
 </Solution>

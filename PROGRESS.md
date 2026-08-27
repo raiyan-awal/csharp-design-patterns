@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 39 (68%)  
+**Implemented:** 40 (70%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 18 (32%)
+**Remaining:** 17 (30%)
 
 ---
 
@@ -89,7 +89,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.12 | Domain Event | ✅ | Maple Auctions — AuctionOpened, BidPlaced, AuctionClosed events; AuditLog, Email, FraudDetection handlers; deferred dispatch via AggregateRoot; 20 tests |
 | 4.13 | Aggregate Root | ✅ | Northern Shield Life Insurance — InsurancePolicy root with PolicyRider + Beneficiary internal entities; coverage cap, duplicate, status invariants; Version tracking; 33 tests |
 | 4.14 | Entity | ✅ | Maple Street Medical Centre — Patient, Doctor, Appointment entities; generic Entity<TId> base with identity-based Equals/GetHashCode/==/!=; reference by ID; appointment lifecycle; 37 tests |
-| 4.15 | Event Sourcing | 🔜 | |
+| 4.15 | Event Sourcing | ✅ | Maple Rewards Club — MemberAccount aggregate; 6 event types; Raise/When/Reconstitute pattern; InMemoryEventStore (append-only, LoadFrom); MemberSnapshot + ReconstituteFromSnapshot; MemberSummaryProjection; 33 tests |
 | 4.16 | Circuit Breaker | 🔜 | |
 | 4.17 | Retry Pattern | 🔜 | |
 | 4.18 | Bulkhead | 🔜 | |
@@ -107,13 +107,13 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 14/31 (45%)
+**Category Progress:** 15/31 (48%)
 
 ---
 
 ## Next Up
 
-1. **Event Sourcing** (4.15 Enterprise) — store state as a sequence of events rather than current state
+1. **Circuit Breaker** (4.16 Enterprise) — prevent cascading failures by stopping calls to failing services
 2. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
 
 ---
@@ -128,5 +128,5 @@ Track the implementation status of all 45 design patterns in this repository.
 
 ---
 
-*Last Updated: 2026-08-24 — Added 4.14 Entity*
+*Last Updated: 2026-08-25 — Added 4.15 Event Sourcing*
 
