@@ -201,4 +201,9 @@
     <Project Path="src/4-Enterprise/4.17-RetryPattern/RetryPattern.Tests/RetryPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.17-RetryPattern/RetryPattern/RetryPattern.csproj" />
   </Folder>
+
+  <Folder Name="/src/4-Enterprise/4.18-Bulkhead/">
+    <Project Path="src/4-Enterprise/4.18-Bulkhead/BulkheadPattern.Tests/BulkheadPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.18-Bulkhead/BulkheadPattern/BulkheadPattern.csproj" />
+  </Folder>
 </Solution>
