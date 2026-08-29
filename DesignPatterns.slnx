@@ -196,4 +196,9 @@
     <Project Path="src/4-Enterprise/4.16-CircuitBreaker/CircuitBreakerPattern.Tests/CircuitBreakerPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.16-CircuitBreaker/CircuitBreakerPattern/CircuitBreakerPattern.csproj" />
   </Folder>
+
+  <Folder Name="/src/4-Enterprise/4.17-RetryPattern/">
+    <Project Path="src/4-Enterprise/4.17-RetryPattern/RetryPattern.Tests/RetryPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.17-RetryPattern/RetryPattern/RetryPattern.csproj" />
+  </Folder>
 </Solution>

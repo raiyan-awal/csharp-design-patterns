@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 41 (72%)  
+**Implemented:** 43 (75%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 16 (28%)
+**Remaining:** 14 (25%)
 
 ---
 
@@ -91,7 +91,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.14 | Entity | ✅ | Maple Street Medical Centre — Patient, Doctor, Appointment entities; generic Entity<TId> base with identity-based Equals/GetHashCode/==/!=; reference by ID; appointment lifecycle; 37 tests |
 | 4.15 | Event Sourcing | ✅ | Maple Rewards Club — MemberAccount aggregate; 6 event types; Raise/When/Reconstitute pattern; InMemoryEventStore (append-only, LoadFrom); MemberSnapshot + ReconstituteFromSnapshot; MemberSummaryProjection; 33 tests |
 | 4.16 | Circuit Breaker | ✅ | Maple Commerce / Canada Post Rate API — Closed/Open/HalfOpen state machine; injectable clock; FailureThreshold, SuccessThreshold, ResetTimeout; 18 tests |
-| 4.17 | Retry Pattern | 🔜 | |
+| 4.17 | Retry Pattern | ✅ | Maple Pay payment gateway — Fixed/Exponential/ExponentialWithJitter delays; ShouldRetry predicate; OnRetry callback; injectable sleep for tests; 20 tests |
 | 4.18 | Bulkhead | 🔜 | |
 | 4.19 | Saga Pattern | 🔜 | |
 | 4.20 | Outbox Pattern | 🔜 | |
@@ -107,13 +107,13 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 16/31 (52%)
+**Category Progress:** 17/31 (55%)
 
 ---
 
 ## Next Up
 
-1. **Retry Pattern** (4.17 Enterprise) — handle transient failures by retrying with back-off
+1. **Bulkhead** (4.18 Enterprise) — isolate resources per dependency to prevent total failure
 2. **Result Pattern** (4.21 Enterprise) — explicit success/failure without exceptions
 
 ---
@@ -123,10 +123,10 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (52% — 16/31)
+- [ ] **Milestone 4:** All Enterprise Patterns (55% — 17/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-08-27 — Added 4.16 Circuit Breaker*
+*Last Updated: 2026-08-28 — Added 4.17 Retry Pattern*
 

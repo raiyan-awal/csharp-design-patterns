@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 41 / 57 patterns implemented**
+**Current status: 43 / 57 patterns implemented**
 
 ---
 
@@ -244,7 +244,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.14 | **Entity** | Objects with unique identity that runs through time and different states | ✅ Implemented |
 | 4.15 | **Event Sourcing** | Store state as a sequence of events rather than current state | ✅ Implemented |
 | 4.16 | **Circuit Breaker** | Prevent cascading failures by stopping calls to failing services | ✅ Implemented |
-| 4.17 | **Retry Pattern** | Handle transient failures by retrying failed operations | 🔜 Coming Soon |
+| 4.17 | **Retry Pattern** | Handle transient failures by retrying failed operations | ✅ Implemented |
 | 4.18 | **Bulkhead** | Isolate resources to prevent total system failure | 🔜 Coming Soon |
 | 4.19 | **Saga Pattern** | Manage distributed transactions across microservices | 🔜 Coming Soon |
 | 4.20 | **Outbox Pattern** | Ensure reliable message/event publishing with database transactions | 🔜 Coming Soon |
