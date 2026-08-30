@@ -216,4 +216,9 @@
     <Project Path="src/4-Enterprise/4.20-OutboxPattern/OutboxPattern.Tests/OutboxPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.20-OutboxPattern/OutboxPattern/OutboxPattern.csproj" />
   </Folder>
+
+  <Folder Name="/src/4-Enterprise/4.21-ResultPattern/">
+    <Project Path="src/4-Enterprise/4.21-ResultPattern/ResultPattern.Tests/ResultPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.21-ResultPattern/ResultPattern/ResultPattern.csproj" />
+  </Folder>
 </Solution>
