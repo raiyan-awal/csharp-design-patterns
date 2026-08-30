@@ -211,4 +211,9 @@
     <Project Path="src/4-Enterprise/4.19-SagaPattern/SagaPattern.Tests/SagaPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.19-SagaPattern/SagaPattern/SagaPattern.csproj" />
   </Folder>
+
+  <Folder Name="/src/4-Enterprise/4.20-OutboxPattern/">
+    <Project Path="src/4-Enterprise/4.20-OutboxPattern/OutboxPattern.Tests/OutboxPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.20-OutboxPattern/OutboxPattern/OutboxPattern.csproj" />
+  </Folder>
 </Solution>
