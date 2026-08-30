@@ -206,4 +206,9 @@
     <Project Path="src/4-Enterprise/4.18-Bulkhead/BulkheadPattern.Tests/BulkheadPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.18-Bulkhead/BulkheadPattern/BulkheadPattern.csproj" />
   </Folder>
+
+  <Folder Name="/src/4-Enterprise/4.19-SagaPattern/">
+    <Project Path="src/4-Enterprise/4.19-SagaPattern/SagaPattern.Tests/SagaPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.19-SagaPattern/SagaPattern/SagaPattern.csproj" />
+  </Folder>
 </Solution>
