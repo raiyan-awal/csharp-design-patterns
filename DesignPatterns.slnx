@@ -221,4 +221,9 @@
     <Project Path="src/4-Enterprise/4.21-ResultPattern/ResultPattern.Tests/ResultPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.21-ResultPattern/ResultPattern/ResultPattern.csproj" />
   </Folder>
+
+  <Folder Name="/src/4-Enterprise/4.22-OptionsPattern/">
+    <Project Path="src/4-Enterprise/4.22-OptionsPattern/OptionsPattern.Tests/OptionsPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.22-OptionsPattern/OptionsPattern/OptionsPattern.csproj" />
+  </Folder>
 </Solution>

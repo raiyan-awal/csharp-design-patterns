@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 47 (82%)  
+**Implemented:** 48 (84%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 10 (18%)
+**Remaining:** 9 (16%)
 
 ---
 
@@ -96,7 +96,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.19 | Saga Pattern | ✅ | Maple Travel vacation booking — FlightReservationStep, HotelBookingStep, CarRentalStep, PaymentStep; SagaOrchestrator compensates in reverse on failure; onExecuted/onCompensated callbacks; 18 tests |
 | 4.20 | Outbox Pattern | ✅ | Maple Shop orders — OutboxMessage, InMemoryOutboxStore, OutboxRelay (retry on failure), OrderService atomic double-write, SimulatedEmailHandler + SimulatedInventoryHandler; 20 tests |
 | 4.21 | Result Pattern | ✅ | Maple Bank loan evaluation — Result<T> with Map/Bind/Match/OnSuccess/OnFailure; railway-oriented pipeline; income, credit, DTI validations; 24 tests |
-| 4.22 | Options Pattern | 🔜 | |
+| 4.22 | Options Pattern | ✅ | Maple Notify email service — SmtpOptions + RetryOptions with DataAnnotations; IOptions<T>, named options via IOptionsMonitor<T>.Get(), OnChange subscription, ValidateDataAnnotations; 30 tests |
 | 4.23 | DTO | 🔜 | |
 | 4.24 | Publish-Subscribe | 🔜 | |
 | 4.25 | Cache-Aside | 🔜 | |
@@ -107,13 +107,13 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 21/31 (68%)
+**Category Progress:** 22/31 (71%)
 
 ---
 
 ## Next Up
 
-1. **Options Pattern** (4.22 Enterprise) — strongly-typed configuration with IOptions<T>
+1. **DTO** (4.23 Enterprise) — objects that carry data between layers without exposing domain internals
 
 ---
 
@@ -122,10 +122,10 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (68% — 21/31)
+- [ ] **Milestone 4:** All Enterprise Patterns (71% — 22/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-08-30 — Added 4.21 Result Pattern*
+*Last Updated: 2026-08-30 — Added 4.22 Options Pattern*
 
