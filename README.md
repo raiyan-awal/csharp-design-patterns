@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 48 / 57 patterns implemented**
+**Current status: 49 / 57 patterns implemented**
 
 ---
 
@@ -250,7 +250,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.20 | **Outbox Pattern** | Ensure reliable message/event publishing with database transactions | ✅ Implemented |
 | 4.21 | **Result Pattern** | Explicit success/failure handling without exceptions | ✅ Implemented |
 | 4.22 | **Options Pattern** | Strongly-typed access to groups of related settings (.NET specific) | ✅ Implemented |
-| 4.23 | **DTO** | Objects that carry data between processes to reduce method calls | 🔜 Coming Soon |
+| 4.23 | **DTO** | Objects that carry data between processes to reduce method calls | ✅ Implemented |
 | 4.24 | **Publish-Subscribe** | Decouple publishers and subscribers through an event channel | 🔜 Coming Soon |
 | 4.25 | **Cache-Aside** | Load data into cache on demand from the backing store; fall back on cache miss | 🔜 Coming Soon |
 | 4.26 | **Inbox Pattern** | Idempotently consume incoming messages by recording them before processing | 🔜 Coming Soon |

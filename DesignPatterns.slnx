@@ -226,4 +226,9 @@
     <Project Path="src/4-Enterprise/4.22-OptionsPattern/OptionsPattern.Tests/OptionsPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.22-OptionsPattern/OptionsPattern/OptionsPattern.csproj" />
   </Folder>
+
+  <Folder Name="/src/4-Enterprise/4.23-DTO/">
+    <Project Path="src/4-Enterprise/4.23-DTO/DTOPattern.Tests/DTOPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.23-DTO/DTOPattern/DTOPattern.csproj" />
+  </Folder>
 </Solution>
