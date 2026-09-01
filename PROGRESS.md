@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 50 (88%)  
+**Implemented:** 51 (89%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 7 (12%)
+**Remaining:** 6 (11%)
 
 ---
 
@@ -99,7 +99,7 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.22 | Options Pattern | ✅ | Maple Notify email service — SmtpOptions + RetryOptions with DataAnnotations; IOptions<T>, named options via IOptionsMonitor<T>.Get(), OnChange subscription, ValidateDataAnnotations; 30 tests |
 | 4.23 | DTO | ✅ | Maple Talent job board — Candidate + JobPosting domain objects with sensitive fields; CandidateDto, CandidateSummaryDto, JobPostingDto; request/response DTOs; CandidateMapper + JobPostingMapper; 32 tests |
 | 4.24 | Publish-Subscribe | ✅ | Maple News newsroom — InMemoryEventBus (ConcurrentDictionary + Lock, snapshot dispatch); ArticlePublished, ArticleUpdated, BreakingNewsAlert events; EditorialService publisher; EmailDigest, BreakingNewsAlert, Analytics, ContentArchive subscribers; 24 tests |
-| 4.25 | Cache-Aside | 🔜 | |
+| 4.25 | Cache-Aside | ✅ | Maple Reads book catalogue — ICache<TKey,TValue> (TryGet with MaybeNullWhen, Set with optional TTL, Hits/Misses); InMemoryCache (injectable clock, per-entry CacheEntry record, lock + snapshot); BookCatalogueService read-through + write-invalidate; FakeClock for deterministic TTL tests; 26 tests |
 | 4.26 | Inbox Pattern | 🔜 | |
 | 4.27 | Anti-Corruption Layer | 🔜 | |
 | 4.28 | Read Model / Projection | 🔜 | |
@@ -107,13 +107,13 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 24/31 (77%)
+**Category Progress:** 25/31 (81%)
 
 ---
 
 ## Next Up
 
-1. **Cache-Aside** (4.25 Enterprise) — load data into cache on demand from the backing store; fall back on cache miss
+1. **Inbox Pattern** (4.26 Enterprise) — idempotently consume incoming messages by recording them before processing
 
 ---
 
@@ -122,10 +122,10 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (77% — 24/31)
+- [ ] **Milestone 4:** All Enterprise Patterns (81% — 25/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-08-31 — Added 4.24 Publish-Subscribe*
+*Last Updated: 2026-09-01 — Added 4.25 Cache-Aside*
 
