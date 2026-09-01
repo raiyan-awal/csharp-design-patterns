@@ -231,4 +231,8 @@
     <Project Path="src/4-Enterprise/4.23-DTO/DTOPattern.Tests/DTOPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.23-DTO/DTOPattern/DTOPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.24-PublishSubscribe/">
+    <Project Path="src/4-Enterprise/4.24-PublishSubscribe/PublishSubscribePattern.Tests/PublishSubscribePattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.24-PublishSubscribe/PublishSubscribePattern/PublishSubscribePattern.csproj" />
+  </Folder>
 </Solution>

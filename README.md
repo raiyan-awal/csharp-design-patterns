@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 49 / 57 patterns implemented**
+**Current status: 50 / 57 patterns implemented**
 
 ---
 
@@ -251,7 +251,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.21 | **Result Pattern** | Explicit success/failure handling without exceptions | ✅ Implemented |
 | 4.22 | **Options Pattern** | Strongly-typed access to groups of related settings (.NET specific) | ✅ Implemented |
 | 4.23 | **DTO** | Objects that carry data between processes to reduce method calls | ✅ Implemented |
-| 4.24 | **Publish-Subscribe** | Decouple publishers and subscribers through an event channel | 🔜 Coming Soon |
+| 4.24 | **Publish-Subscribe** | Decouple publishers and subscribers through an event channel | ✅ Implemented |
 | 4.25 | **Cache-Aside** | Load data into cache on demand from the backing store; fall back on cache miss | 🔜 Coming Soon |
 | 4.26 | **Inbox Pattern** | Idempotently consume incoming messages by recording them before processing | 🔜 Coming Soon |
 | 4.27 | **Anti-Corruption Layer** | Translate between your domain model and an external or legacy system's model | 🔜 Coming Soon |
@@ -306,4 +306,4 @@ MIT License — feel free to use this for learning purposes.
 
 **Happy Learning! 🚀**
 
-*Last Updated: 2026-07-13*
+*Last Updated: 2026-08-31*
