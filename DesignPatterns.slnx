@@ -247,4 +247,8 @@
     <Project Path="src/4-Enterprise/4.27-AntiCorruptionLayer/AntiCorruptionLayerPattern.Tests/AntiCorruptionLayerPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.27-AntiCorruptionLayer/AntiCorruptionLayerPattern/AntiCorruptionLayerPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.28-ReadModel/">
+    <Project Path="src/4-Enterprise/4.28-ReadModel/ReadModelPattern.Tests/ReadModelPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.28-ReadModel/ReadModelPattern/ReadModelPattern.csproj" />
+  </Folder>
 </Solution>
