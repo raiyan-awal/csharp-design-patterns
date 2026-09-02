@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 52 / 57 patterns implemented**
+**Current status: 53 / 57 patterns implemented**
 
 ---
 
@@ -254,7 +254,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.24 | **Publish-Subscribe** | Decouple publishers and subscribers through an event channel | ✅ Implemented |
 | 4.25 | **Cache-Aside** | Load data into cache on demand from the backing store; fall back on cache miss | ✅ Implemented |
 | 4.26 | **Inbox Pattern** | Idempotently consume incoming messages by recording them before processing | ✅ Implemented |
-| 4.27 | **Anti-Corruption Layer** | Translate between your domain model and an external or legacy system's model | 🔜 Coming Soon |
+| 4.27 | **Anti-Corruption Layer** | Translate between your domain model and an external or legacy system's model | ✅ Implemented |
 | 4.28 | **Read Model / Projection** | Maintain a denormalized, query-optimized view built from events or writes | 🔜 Coming Soon |
 | 4.29 | **Rate Limiting / Throttle** | Constrain the rate of requests to protect services from overload | 🔜 Coming Soon |
 | 4.30 | **Health Endpoint Monitoring** | Expose a health check endpoint for readiness and liveness probes | 🔜 Coming Soon |
@@ -306,4 +306,4 @@ MIT License — feel free to use this for learning purposes.
 
 **Happy Learning! 🚀**
 
-*Last Updated: 2026-08-31*
+*Last Updated: 2026-09-02*

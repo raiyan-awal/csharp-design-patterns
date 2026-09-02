@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 52 (91%)  
+**Implemented:** 53 (93%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 5 (9%)
+**Remaining:** 4 (7%)
 
 ---
 
@@ -101,19 +101,19 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.24 | Publish-Subscribe | ✅ | Maple News newsroom — InMemoryEventBus (ConcurrentDictionary + Lock, snapshot dispatch); ArticlePublished, ArticleUpdated, BreakingNewsAlert events; EditorialService publisher; EmailDigest, BreakingNewsAlert, Analytics, ContentArchive subscribers; 24 tests |
 | 4.25 | Cache-Aside | ✅ | Maple Reads book catalogue — ICache<TKey,TValue> (TryGet with MaybeNullWhen, Set with optional TTL, Hits/Misses); InMemoryCache (injectable clock, per-entry CacheEntry record, lock + snapshot); BookCatalogueService read-through + write-invalidate; FakeClock for deterministic TTL tests; 26 tests |
 | 4.26 | Inbox Pattern | ✅ | Maple Events ticketing — IInboxStore (TryRecord atomic check-and-insert, MarkProcessed); InMemoryInboxStore (Dictionary + Lock); WebhookReceiver (check→record→handle→mark); PaymentConfirmedHandler + BookingCancelledHandler; InboxMessage with Pending/Processed status; 25 tests |
-| 4.27 | Anti-Corruption Layer | 🔜 | |
+| 4.27 | Anti-Corruption Layer | ✅ | Maple Cargo Co. / FREIGHTMASTER — ShipmentTranslator (imperial↔metric, status codes, date strings); LegacyShipmentGateway ACL adapter; FreightService with no Legacy imports; 36 tests |
 | 4.28 | Read Model / Projection | 🔜 | |
 | 4.29 | Rate Limiting / Throttle | 🔜 | |
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 26/31 (84%)
+**Category Progress:** 27/31 (87%)
 
 ---
 
 ## Next Up
 
-1. **Anti-Corruption Layer** (4.27 Enterprise) — translate between your domain model and an external or legacy system's model
+1. **Read Model / Projection** (4.28 Enterprise) — maintain a denormalized, query-optimized view built from events or writes
 
 ---
 
@@ -122,10 +122,10 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (84% — 26/31)
+- [ ] **Milestone 4:** All Enterprise Patterns (87% — 27/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-09-01 — Added 4.26 Inbox Pattern*
+*Last Updated: 2026-09-02 — Added 4.27 Anti-Corruption Layer*
 

@@ -243,4 +243,8 @@
     <Project Path="src/4-Enterprise/4.26-InboxPattern/InboxPattern.Tests/InboxPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.26-InboxPattern/InboxPattern/InboxPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.27-AntiCorruptionLayer/">
+    <Project Path="src/4-Enterprise/4.27-AntiCorruptionLayer/AntiCorruptionLayerPattern.Tests/AntiCorruptionLayerPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.27-AntiCorruptionLayer/AntiCorruptionLayerPattern/AntiCorruptionLayerPattern.csproj" />
+  </Folder>
 </Solution>
