@@ -239,4 +239,8 @@
     <Project Path="src/4-Enterprise/4.25-CacheAside/CacheAsidePattern.Tests/CacheAsidePattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.25-CacheAside/CacheAsidePattern/CacheAsidePattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.26-InboxPattern/">
+    <Project Path="src/4-Enterprise/4.26-InboxPattern/InboxPattern.Tests/InboxPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.26-InboxPattern/InboxPattern/InboxPattern.csproj" />
+  </Folder>
 </Solution>
