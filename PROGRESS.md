@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 54 (95%)  
+**Implemented:** 55 (96%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 3 (5%)
+**Remaining:** 2 (4%)
 
 ---
 
@@ -103,17 +103,17 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.26 | Inbox Pattern | ✅ | Maple Events ticketing — IInboxStore (TryRecord atomic check-and-insert, MarkProcessed); InMemoryInboxStore (Dictionary + Lock); WebhookReceiver (check→record→handle→mark); PaymentConfirmedHandler + BookingCancelledHandler; InboxMessage with Pending/Processed status; 25 tests |
 | 4.27 | Anti-Corruption Layer | ✅ | Maple Cargo Co. / FREIGHTMASTER — ShipmentTranslator (imperial↔metric, status codes, date strings); LegacyShipmentGateway ACL adapter; FreightService with no Legacy imports; 36 tests |
 | 4.28 | Read Model / Projection | ✅ | Maple Market — ProductCatalogueProjection + SellerSummaryProjection from shared events; ProjectionEngine (Append + Rebuild); RatingSum/ReviewCount for exact AverageRating; late-projection catch-up demo; 27 tests |
-| 4.29 | Rate Limiting / Throttle | 🔜 | |
+| 4.29 | Rate Limiting / Throttle | ✅ | Maple API Gateway — FixedWindowRateLimiter (counter + window reset) + TokenBucketRateLimiter (capacity + elapsed refill); IRateLimiter interface; ApiGateway (HandleRequest + RequestsHandled/Rejected); injectable clock; 27 tests |
 | 4.30 | Health Endpoint Monitoring | 🔜 | |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 28/31 (90%)
+**Category Progress:** 29/31 (94%)
 
 ---
 
 ## Next Up
 
-1. **Rate Limiting / Throttle** (4.29 Enterprise) — constrain the rate of requests to protect services from overload
+1. **Health Endpoint Monitoring** (4.30 Enterprise) — expose a health check endpoint for readiness and liveness probes
 
 ---
 
@@ -122,10 +122,10 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (90% — 28/31)
+- [ ] **Milestone 4:** All Enterprise Patterns (94% — 29/31)
 - [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
 
 ---
 
-*Last Updated: 2026-09-02 — Added 4.28 Read Model / Projection*
+*Last Updated: 2026-09-02 — Added 4.29 Rate Limiting / Throttle*
 
