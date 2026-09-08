@@ -259,4 +259,8 @@
     <Project Path="src/4-Enterprise/4.30-HealthEndpointMonitoring/HealthEndpointPattern.Tests/HealthEndpointPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.30-HealthEndpointMonitoring/HealthEndpointPattern/HealthEndpointPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.31-HostedService/">
+    <Project Path="src/4-Enterprise/4.31-HostedService/HostedServicePattern.Tests/HostedServicePattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.31-HostedService/HostedServicePattern/HostedServicePattern.csproj" />
+  </Folder>
 </Solution>

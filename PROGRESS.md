@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 56 (98%)  
+**Implemented:** 57 (100%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 1 (2%)
+**Remaining:** 0 (0%)
 
 ---
 
@@ -105,15 +105,15 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.28 | Read Model / Projection | ✅ | Maple Market — ProductCatalogueProjection + SellerSummaryProjection from shared events; ProjectionEngine (Append + Rebuild); RatingSum/ReviewCount for exact AverageRating; late-projection catch-up demo; 27 tests |
 | 4.29 | Rate Limiting / Throttle | ✅ | Maple API Gateway — FixedWindowRateLimiter + TokenBucketRateLimiter + SlidingWindowRateLimiter; IRateLimiter interface; ApiGateway; injectable clock; 35 tests |
 | 4.30 | Health Endpoint Monitoring | ✅ | Maple Host — IHealthCheck; 5 checks (DB, storage, disk, memory, external API); HealthCheckService (Task.WhenAll, tag filtering, exception safety); HealthEndpoint (/health /live /ready); 503 on Unhealthy; 42 tests |
-| 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
+| 4.31 | Hosted Service / Background Worker | ✅ | Maple Commerce — BackgroundService base (CTS, OCE swallow); HeartbeatService; OrderProcessorService (Channel drain); MetricsCollectorService (injectable clock); ServiceHost (reverse-order stop); 28 tests |
 
-**Category Progress:** 30/31 (97%)
+**Category Progress:** 31/31 (100%)
 
 ---
 
 ## Next Up
 
-1. **Hosted Service / Background Worker** (4.31 Enterprise) — .NET-specific IHostedService pattern
+**All 57 patterns complete!** 🎉
 
 ---
 
@@ -122,10 +122,10 @@ Track the implementation status of all 45 design patterns in this repository.
 - [x] **Milestone 1:** All Creational Patterns (100%) 🎉
 - [x] **Milestone 2:** All Structural Patterns (100%) 🎉
 - [x] **Milestone 3:** All Behavioral Patterns (100%) 🎉
-- [ ] **Milestone 4:** All Enterprise Patterns (94% — 29/31)
-- [ ] **Final Milestone:** Complete repository with all 57 patterns ✨
+- [x] **Milestone 4:** All Enterprise Patterns (100%) 🎉
+- [x] **Final Milestone:** Complete repository with all 57 patterns 🎉
 
 ---
 
-*Last Updated: 2026-09-03 — Added 4.30 Health Endpoint Monitoring*
+*Last Updated: 2026-09-03 — Added 4.31 Hosted Service / Background Worker — all 57 patterns complete*
 
