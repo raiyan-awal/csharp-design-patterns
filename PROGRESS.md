@@ -12,9 +12,9 @@ Track the implementation status of all 45 design patterns in this repository.
 ## Overall Progress
 
 **Total Patterns:** 57  
-**Implemented:** 55 (96%)  
+**Implemented:** 56 (98%)  
 **In Progress:** 0 (0%)  
-**Remaining:** 2 (4%)
+**Remaining:** 1 (2%)
 
 ---
 
@@ -103,17 +103,17 @@ Track the implementation status of all 45 design patterns in this repository.
 | 4.26 | Inbox Pattern | ✅ | Maple Events ticketing — IInboxStore (TryRecord atomic check-and-insert, MarkProcessed); InMemoryInboxStore (Dictionary + Lock); WebhookReceiver (check→record→handle→mark); PaymentConfirmedHandler + BookingCancelledHandler; InboxMessage with Pending/Processed status; 25 tests |
 | 4.27 | Anti-Corruption Layer | ✅ | Maple Cargo Co. / FREIGHTMASTER — ShipmentTranslator (imperial↔metric, status codes, date strings); LegacyShipmentGateway ACL adapter; FreightService with no Legacy imports; 36 tests |
 | 4.28 | Read Model / Projection | ✅ | Maple Market — ProductCatalogueProjection + SellerSummaryProjection from shared events; ProjectionEngine (Append + Rebuild); RatingSum/ReviewCount for exact AverageRating; late-projection catch-up demo; 27 tests |
-| 4.29 | Rate Limiting / Throttle | ✅ | Maple API Gateway — FixedWindowRateLimiter (counter + window reset) + TokenBucketRateLimiter (capacity + elapsed refill); IRateLimiter interface; ApiGateway (HandleRequest + RequestsHandled/Rejected); injectable clock; 27 tests |
-| 4.30 | Health Endpoint Monitoring | 🔜 | |
+| 4.29 | Rate Limiting / Throttle | ✅ | Maple API Gateway — FixedWindowRateLimiter + TokenBucketRateLimiter + SlidingWindowRateLimiter; IRateLimiter interface; ApiGateway; injectable clock; 35 tests |
+| 4.30 | Health Endpoint Monitoring | ✅ | Maple Host — IHealthCheck; 5 checks (DB, storage, disk, memory, external API); HealthCheckService (Task.WhenAll, tag filtering, exception safety); HealthEndpoint (/health /live /ready); 503 on Unhealthy; 42 tests |
 | 4.31 | Hosted Service / Background Worker | 🔜 | .NET-specific (IHostedService) |
 
-**Category Progress:** 29/31 (94%)
+**Category Progress:** 30/31 (97%)
 
 ---
 
 ## Next Up
 
-1. **Health Endpoint Monitoring** (4.30 Enterprise) — expose a health check endpoint for readiness and liveness probes
+1. **Hosted Service / Background Worker** (4.31 Enterprise) — .NET-specific IHostedService pattern
 
 ---
 
@@ -127,5 +127,5 @@ Track the implementation status of all 45 design patterns in this repository.
 
 ---
 
-*Last Updated: 2026-09-02 — Added 4.29 Rate Limiting / Throttle*
+*Last Updated: 2026-09-03 — Added 4.30 Health Endpoint Monitoring*
 

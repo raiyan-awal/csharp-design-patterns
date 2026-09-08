@@ -177,7 +177,7 @@ dotnet build DesignPatterns.slnx
 
 See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patterns.
 
-**Current status: 55 / 57 patterns implemented**
+**Current status: 56 / 57 patterns implemented**
 
 ---
 
@@ -257,7 +257,7 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 | 4.27 | **Anti-Corruption Layer** | Translate between your domain model and an external or legacy system's model | ✅ Implemented |
 | 4.28 | **Read Model / Projection** | Maintain a denormalized, query-optimized view built from events or writes | ✅ Implemented |
 | 4.29 | **Rate Limiting / Throttle** | Constrain the rate of requests to protect services from overload | ✅ Implemented |
-| 4.30 | **Health Endpoint Monitoring** | Expose a health check endpoint for readiness and liveness probes | 🔜 Coming Soon |
+| 4.30 | **Health Endpoint Monitoring** | Expose a health check endpoint for readiness and liveness probes | ✅ Implemented |
 | 4.31 | **Hosted Service / Background Worker** | Run long-lived background work within the .NET host lifecycle via IHostedService | 🔜 Coming Soon |
 
 ---

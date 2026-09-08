@@ -255,4 +255,8 @@
     <Project Path="src/4-Enterprise/4.29-RateLimiting/RateLimitingPattern.Tests/RateLimitingPattern.Tests.csproj" />
     <Project Path="src/4-Enterprise/4.29-RateLimiting/RateLimitingPattern/RateLimitingPattern.csproj" />
   </Folder>
+  <Folder Name="/src/4-Enterprise/4.30-HealthEndpointMonitoring/">
+    <Project Path="src/4-Enterprise/4.30-HealthEndpointMonitoring/HealthEndpointPattern.Tests/HealthEndpointPattern.Tests.csproj" />
+    <Project Path="src/4-Enterprise/4.30-HealthEndpointMonitoring/HealthEndpointPattern/HealthEndpointPattern.csproj" />
+  </Folder>
 </Solution>
