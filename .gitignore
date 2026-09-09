@@ -42,3 +42,6 @@ graft/
 # Local dev-tool config — not committed
 .ignore
 .mcp.json
+
+# Local audit / review reports — not committed
+AUDIT.md

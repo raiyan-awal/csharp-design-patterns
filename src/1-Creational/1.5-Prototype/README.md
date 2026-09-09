@@ -1,213 +1,197 @@
-# Prototype Pattern
+# 1.5 — Prototype
 
-## 📖 Pattern Category
-**Creational Pattern**
+## Intent
 
-## 🎯 Intent
-Specify the kinds of objects to create using a **prototypical instance**, and create new objects by **cloning** that prototype rather than constructing from scratch.
+Create new objects by cloning an existing object (the prototype) rather than constructing them from scratch, so that spawn cost is paid once at prototype creation and then amortized across all clones.
 
-## 🤔 Problem
-A game level needs to spawn 1,000 goblins. Each goblin has the same base stats, the same starting equipment, and the same faction — but after spawning they diverge (one gets a sword, another loses health, etc.).
+## The Problem It Solves
 
-With `new`, you repeat the full construction config in every spawn call. Change the base damage? You hunt down every call site. And construction may be expensive if it involves database lookups, deep object graphs, or heavy computation.
-
-## ✅ Solution
-Define one **template** (the prototype) with the desired starting state. New instances are created by **cloning** the template:
-
-1. The prototype implements a `Clone()` method (or two: `ShallowClone` and `DeepClone`)
-2. Cloning copies the template's state into the new object in one cheap operation
-3. The new object is then customised if needed — the template is never touched
-4. A **Registry** stores named templates and hands out fresh clones on demand
-
-## 🏗️ Structure
-
-```
-    «interface»
-    IPrototype<T>
-┌────────────────────┐
-│ ShallowClone() → T │
-│ DeepClone()    → T │
-└────────────────────┘
-         ▲
-         │ implements
-      Enemy                           EnemyRegistry
-┌─────────────────────┐          ┌──────────────────────────────┐
-│ Name: string        │          │ - _templates: Dict<string,   │
-│ Faction: string     │◄─────────│              Enemy>          │
-│ Health: int         │          │ Register(key, Enemy)         │
-│ Damage: int         │          │ Spawn(key) → Enemy           │
-│ Equipment: List<T>  │          │ IsRegistered(key): bool      │
-│ Stats: CombatStats  │          └──────────────────────────────┘
-│                     │               stores deep clones,
-│ ShallowClone()      │               returns deep clones
-│ DeepClone()         │
-└─────────────────────┘
-         │
-         │ contains
-         ▼
-    CombatStats
-┌─────────────────┐
-│ Armor: int      │
-│ Speed: int      │
-│ XpReward: int   │
-│ Clone()         │
-└─────────────────┘
-```
-
-## 💻 Implementation in This Example
-
-### Files:
-- **IPrototype.cs** — Generic prototype interface with explicit `ShallowClone()` and `DeepClone()`
-- **Enemy.cs** — Concrete prototype (`Enemy`) + nested value object (`CombatStats`)
-- **EnemyRegistry.cs** — Prototype registry; stores and spawns named enemy templates
-- **Program.cs** — Demo with 5 demonstrations + Pause() between each
-
-### Key Implementation Points:
-
-**1. Why a custom interface instead of `ICloneable`?**
-
-`ICloneable` has two well-known problems:
-- Returns `object` — every caller must cast
-- Doesn't say whether the clone is shallow or deep — the contract is ambiguous
+Without Prototype, every spawn site must duplicate the full construction setup:
 
 ```csharp
-// Our explicit interface — no ambiguity, no casting
+// Without Prototype: every spawn call repeats the full config
+var goblin1 = new Enemy("Goblin", "Horde", health: 50, damage: 8, armor: 2, speed: 4, xp: 10);
+goblin1.Equipment.Add("Rusty Dagger");
+goblin1.Equipment.Add("Leather Scraps");
+
+var goblin2 = new Enemy("Goblin", "Horde", health: 50, damage: 8, armor: 2, speed: 4, xp: 10);
+goblin2.Equipment.Add("Rusty Dagger");      // same config duplicated
+goblin2.Equipment.Add("Leather Scraps");    // one typo and goblins are inconsistent
+
+// Change base damage to 9? Hunt and update every spawn call in the codebase.
+```
+
+Problems with direct construction at every site:
+- Configuration is duplicated across every call site; a single field change requires hunting every occurrence.
+- List and nested-object fields are reference-shared by default — changing one clone's list changes all of them.
+- Expensive setup (asset loading, network calls, complex graph initialization) is repeated per spawn.
+- No single place to manage canonical base configurations for each enemy type.
+
+## Solution: Clone-based spawning with a Registry
+
+Implement `IPrototype<T>` on each enemy with `ShallowClone()` and `DeepClone()`, then store canonical prototypes in `EnemyRegistry` keyed by type name. Spawning becomes a single `DeepClone()` call from the registry.
+
+```csharp
+// Set up prototypes once:
+var registry = new EnemyRegistry();
+// registry already registers Goblin, Orc, Dragon, Boss with full equipment lists
+
+// Spawn anywhere with one call — full deep copy, no config duplication:
+var goblin = registry.Spawn("Goblin");
+goblin.Health = 40;   // weaken this specific spawn — prototype is untouched
+```
+
+## Participants
+
+| Role | Class | Responsibility |
+|------|-------|----------------|
+| Prototype interface | `IPrototype<T>` | Declares `ShallowClone()` and `DeepClone()` |
+| Concrete prototype | `Enemy` | Implements both clone methods; has `Name`, `Faction`, `Health`, `Damage` (value types) plus `Equipment` (list) and `Stats` (reference type) |
+| Nested value | `CombatStats` | Holds `Armor`, `Speed`, `XpReward`; exposes `Clone()` which returns a new independent copy |
+| Registry | `EnemyRegistry` | Stores a deep clone of each registered template; `Spawn(key)` returns a fresh `DeepClone()` every time — the registry's own copy is never exposed |
+
+## Structure
+
+```
+1.5-Prototype/
+├── PrototypePattern/
+│   ├── IPrototype.cs      ← generic IPrototype<T> with ShallowClone + DeepClone
+│   ├── Enemy.cs           ← concrete prototype; CombatStats nested class
+│   ├── EnemyRegistry.cs   ← registry of named prototypes
+│   └── Program.cs
+└── PrototypePattern.Tests/
+    └── PrototypePatternTests.cs
+```
+
+## Key Code
+
+### Prototype interface
+
+```csharp
 public interface IPrototype<T>
 {
-    T ShallowClone();
-    T DeepClone();
+    T ShallowClone();   // new wrapper, shared references inside
+    T DeepClone();      // new wrapper, new copies of all nested objects
 }
 ```
 
-**2. ShallowClone via `MemberwiseClone()`**
+Two methods are provided so the demo can contrast their behaviors side by side.
+
+### Shallow clone — MemberwiseClone pitfall
 
 ```csharp
 public Enemy ShallowClone() => (Enemy)MemberwiseClone();
-// Copies value types → safe
-// Copies reference addresses → List<string> and CombatStats are SHARED
 ```
 
-**3. DeepClone — replace every reference-type field**
+`MemberwiseClone` copies every field by value at the bit level — safe for `int`, `string`, and other value/immutable types, but dangerous for `List<string> Equipment` and `CombatStats Stats`, which become shared references. The demo shows that `clone.Equipment.Add("sword")` also adds "sword" to the original's list.
+
+### Deep clone — MemberwiseClone + replace reference fields
 
 ```csharp
 public Enemy DeepClone()
 {
-    var clone = (Enemy)MemberwiseClone();    // Step 1: copy value types cheaply
-    clone.Equipment = new List<string>(Equipment);  // Step 2: new list
-    clone.Stats     = Stats.Clone();                // Step 2: new CombatStats
+    // Step 1 — copy all value-type fields cheaply (Name, Faction, Health, Damage)
+    var clone = (Enemy)MemberwiseClone();
+
+    // Step 2 — replace each shared reference with an independent copy
+    clone.Equipment = new List<string>(Equipment); // new list, same immutable strings
+    clone.Stats     = Stats.Clone();               // new CombatStats object
     return clone;
 }
 ```
 
-**4. Registry — one template, many independent spawns**
+`CombatStats.Clone()` returns `new CombatStats { Armor = Armor, Speed = Speed, XpReward = XpReward }`. The clone is fully independent: mutating its `Stats.Armor` or `Equipment` does not affect the prototype.
+
+### Registry — stores a clone, spawns a clone
 
 ```csharp
 public sealed class EnemyRegistry
 {
-    private readonly Dictionary<string, Enemy> _templates = new();
+    private readonly Dictionary<string, Enemy> _templates =
+        new(StringComparer.OrdinalIgnoreCase);
 
+    // Register stores a deep clone — the caller's original is never held
     public void Register(string key, Enemy template)
-        => _templates[key] = template.DeepClone();  // stores a clone, not the original
+        => _templates[key] = template.DeepClone();
 
-    public Enemy Spawn(string key)
-        => _templates[key].DeepClone();             // every spawn is independent
+    // Spawn always returns a fresh deep clone — the registry's copy is never exposed
+    public Enemy Spawn(string key) =>
+        _templates.TryGetValue(key, out var t)
+            ? t.DeepClone()
+            : throw new KeyNotFoundException($"No template registered for '{key}'");
 }
 ```
 
-## 🔍 Shallow Copy vs Deep Copy
+Storing a clone on `Register` ensures external code cannot mutate the template after it has been registered, which would silently corrupt every future spawn.
 
-This is the most important concept in the Prototype pattern:
+## Demo Scenarios
 
-| | Shallow Clone | Deep Clone |
-|---|---|---|
-| **Value types** (`int`, `bool`, `struct`) | ✅ Independent copy | ✅ Independent copy |
-| **Immutable refs** (`string`) | ✅ Safe — mutations create new string | ✅ Safe |
-| **Mutable refs** (`List<T>`, custom class) | ❌ Shared — mutation affects original | ✅ New object — fully independent |
-| **Speed** | Fast (one `MemberwiseClone` call) | Slower (allocates new nested objects) |
-| **Use when** | Nested objects are read-only or you want sharing | Nested objects are mutable and must be independent |
+```
+1. Basic cloning             — DeepClone from a manually constructed goblin
+2. Shallow copy trap         — ShallowClone shares the Equipment list; adding to the
+                               clone mutates the original's equipment
+3. Deep clone independence   — DeepClone produces a fully independent copy; modifying
+                               health or equipment on the clone leaves the prototype unchanged
+4. Prototype Registry        — EnemyRegistry.Spawn("Dragon") returns a deep clone of the
+                               registered dragon prototype
+5. Prototype vs new          — side-by-side comparison: direct construction vs registry spawn;
+                               same result, registry is the single source of truth
+```
 
-## 🚀 How to Run
+## When to Use
+
+- Object construction is expensive (I/O, network, complex graph) and identical or near-identical objects are needed in large numbers.
+- You need many variations of a base configuration: spawn a prototype, then adjust a few fields per instance.
+- The exact class of an object is unknown at the creation site but you have access to an existing instance to clone.
+- You want a registry of canonical configurations that callers can clone and customize without knowing the full setup.
+
+## When NOT to Use
+
+- When object construction is cheap — cloning adds complexity with no performance benefit.
+- When the object graph is circular or contains resources (file handles, network connections) that cannot be meaningfully cloned.
+- When the number of prototype variants is small and all fields are required — a factory or constructor is simpler.
+
+## Benefits
+
+| Benefit | Explanation |
+|---------|-------------|
+| Amortized construction cost | Expensive setup runs once (prototype creation); spawns pay only clone cost |
+| Single source of truth | Canonical configurations live in the registry; every spawn is consistent by default |
+| Runtime configurability | Prototypes can be registered and modified at runtime without recompiling |
+| Flexible customization | Clone first, then adjust a few fields — no need to know the full constructor signature |
+
+## Drawbacks
+
+| Drawback | Explanation |
+|----------|-------------|
+| Deep clone complexity | Nested objects, circular references, and non-cloneable resources require careful `DeepClone` implementations |
+| Shallow clone bugs | Forgetting to deep-copy a nested collection is a silent correctness bug that is hard to detect |
+| Clone vs constructor clarity | It is sometimes unclear whether a clone should inherit all state or only some — the semantics must be documented |
+
+## Related Patterns
+
+| Clone vs. reference | Shallow | Deep |
+|---------------------|---------|------|
+| New wrapper | Yes | Yes |
+| Shared nested objects | Yes | No |
+| Independent after clone | No | Yes |
+| Safe to mutate clone | Only primitives/strings | Fully safe |
+
+- **Factory Method (1.2)** — an alternative creation strategy; Factory Method constructs fresh objects, Prototype copies existing ones.
+- **Singleton (1.1)** — `EnemyRegistry` is a candidate for Singleton; a single registry per application serves all spawn sites.
+- **Flyweight (2.6)** — Flyweight shares immutable data between many instances; Prototype creates independent copies where callers need to mutate their own instance freely.
+- **Memento (3.06)** — Memento captures and restores object state; Prototype clones it — both copy state, but Memento focuses on history / undo while Prototype focuses on spawning.
+
+## Running the Demo
 
 ```bash
 cd src/1-Creational/1.5-Prototype/PrototypePattern
 dotnet run
 ```
 
-## 🧪 Running Tests
+## Running the Tests
 
 ```bash
 cd src/1-Creational/1.5-Prototype/PrototypePattern.Tests
 dotnet test
 ```
-
-## 🧪 What the Demo Shows
-
-1. **Basic cloning** — clone a template, modify each spawn independently, template stays unchanged
-2. **The shallow copy trap** — mutating a shallow clone's equipment also mutates the original (shared list)
-3. **Deep clone** — fully independent copies; `ReferenceEquals` confirms separate objects
-4. **Prototype Registry** — register named templates, spawn waves of enemies, customise spawns without corrupting the registry
-5. **Prototype vs `new`** — when cloning beats constructing from scratch
-
-## ✅ Benefits
-
-| Benefit | Description |
-|---------|-------------|
-| **Avoids expensive construction** | Clone is cheaper than re-running complex initialisation logic |
-| **Single source of truth** | Change the template → all future spawns inherit the change |
-| **Unknown concrete types** | You can clone an object without knowing its exact class (polymorphic clone) |
-| **Fine-grained control** | ShallowClone for cheap copies, DeepClone when independence is required |
-
-## ❌ Drawbacks
-
-| Drawback | Description |
-|----------|-------------|
-| **Cloning complex graphs is hard** | Circular references, lazy-loaded properties, and external resources make DeepClone tricky |
-| **Hidden coupling** | Callers don't see the construction details — bugs in the template silently propagate to all clones |
-| **`MemberwiseClone` is protected** | You must implement the clone method inside the class — no external cloning |
-
-## 🎓 When to Use
-
-✅ **Good Candidates:**
-- Spawning many similar objects (game entities, report instances, test fixtures)
-- Construction involves expensive operations (DB queries, network calls, heavy computation)
-- You need to copy an object without knowing its concrete type at compile time
-- You want a "default configuration" that can be tweaked per-instance
-
-❌ **Bad Candidates:**
-- Objects with circular references (require careful cycle detection in DeepClone)
-- Objects that hold unmanaged resources (file handles, sockets) — cloning them is dangerous
-- Simple objects where `new` with named parameters is clearer
-
-## 🔀 Alternatives
-
-| Alternative | When to Use Instead |
-|-------------|---------------------|
-| **Builder (1.4)** | Object has many optional fields and you want named, step-by-step construction |
-| **Factory Method (1.2)** | You need to vary the *type* of object, not just its starting state |
-| **Abstract Factory (1.3)** | You need families of related objects, not copies of one template |
-| **JSON round-trip** | Quick deep clone when the object is JSON-serialisable: `JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(obj))` |
-
-## 📚 Related Patterns
-
-- **Builder (1.4)** — Prototype starts from an existing instance; Builder assembles from nothing
-- **Abstract Factory (1.3)** — Abstract Factory can use Prototype to store and return product prototypes
-- **Composite (2.3)** — Prototypes are often used to clone Composite trees
-- **Memento (3.06)** — Both capture state; Memento stores it for undo, Prototype copies it for new instances
-
-## 🔑 Key Takeaways
-
-1. **`MemberwiseClone()` is shallow** — it copies reference addresses, not the objects behind them
-2. **Deep clone = shallow clone + replace every mutable reference field**
-3. **The Registry stores its own clone** — external mutation of the original after `Register()` has no effect
-4. **Every `Spawn()` returns a fresh clone** — callers can mutate freely without corrupting the registry
-5. **In .NET, `ICloneable` is legacy** — prefer an explicit interface with named shallow/deep methods
-
-## 📖 Further Reading
-
-- "Design Patterns: Elements of Reusable Object-Oriented Software" (Gang of Four) — Chapter 3
-- "Head First Design Patterns" — Chapter 4
-
----
-
-← **Previous Pattern:** [1.4 - Builder](../1.4-Builder/)
-→ **Next Pattern:** [1.6 - Object Pool](../1.6-ObjectPool/)

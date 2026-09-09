@@ -1,205 +1,195 @@
-# Object Pool Pattern
+# 1.6 — Object Pool
 
-## 📖 Pattern Category
-**Creational Pattern**
+## Intent
 
-## 🎯 Intent
-Maintain a pool of reusable objects and hand them out on demand, avoiding the cost of creating and destroying them repeatedly.
+Maintain a pool of reusable, expensive-to-create objects and lend them to callers on demand, returning them to the pool when the caller is done, so that the creation and teardown cost is paid only once per slot rather than once per request.
 
-## 🤔 Problem
-Opening a database connection requires a TCP handshake, TLS negotiation, authentication, and session setup — typically 200–500 ms. If your application creates a new connection for every query, it spends more time connecting than querying.
+## The Problem It Solves
 
-The same problem applies to any object whose construction is expensive: thread creation, socket setup, large buffer allocation, parser initialisation, etc.
+Without a pool, every operation that needs a connection pays the full creation cost on every call:
 
-## ✅ Solution
-1. Pre-create (or lazily create) a fixed number of reusable objects — the **pool**
-2. Callers **acquire** an object from the pool rather than constructing one
-3. When done, callers **return** the object to the pool (not destroy it)
-4. If all objects are in use, new callers **wait** until one is returned (or time out)
-
-The `IDisposable` pattern in .NET makes this seamless: `Dispose()` returns the object to the pool instead of destroying it, so callers can use `using` blocks and the return happens automatically.
-
-## 🏗️ Structure
-
-```
-     DatabaseConnectionPool
-  ┌──────────────────────────────────────┐
-  │ - _idle: ConcurrentQueue<Connection> │
-  │ - _semaphore: SemaphoreSlim          │  ← enforces MaxPoolSize
-  │ - _totalCreated: int                 │
-  │                                      │
-  │ + Acquire(timeoutMs) → Connection    │  ← blocks if pool exhausted
-  │ + Return(connection)  [internal]     │  ← called by Connection.Dispose()
-  │ + TotalCreated: int                  │
-  │ + IdleCount: int                     │
-  │ + MaxPoolSize: int                   │
-  └──────────────────────────────────────┘
-              │ creates / manages
-              ▼
-     DatabaseConnection  : IDisposable
-  ┌──────────────────────────────────────┐
-  │ + ConnectionId: string               │  ← unique ID of the physical connection
-  │ + IsCheckedOut: bool                 │
-  │ + ReuseCount: int                    │  ← how many times this object was reused
-  │ + QueriesExecuted: int               │  ← resets to 0 on each return
-  │                                      │
-  │ + ExecuteQuery(sql) → string         │
-  │ + Dispose()                          │  ← returns to pool, NOT destroy
-  │                                      │
-  │   [internal] OnAcquired()            │
-  │   [internal] OnReturned()            │
-  └──────────────────────────────────────┘
-```
-
-## 💻 Implementation in This Example
-
-### Files:
-- **DatabaseConnection.cs** — Pooled object; `IDisposable.Dispose()` returns to pool instead of destroying
-- **DatabaseConnectionPool.cs** — The pool; `ConcurrentQueue` for idle connections, `SemaphoreSlim` for size enforcement
-- **Program.cs** — Demo with 5 demonstrations + Pause() between each
-
-### Key Implementation Points:
-
-**1. `IDisposable` as the return mechanism**
 ```csharp
-public void Dispose()
+// Without Object Pool: full creation and teardown on every query
+public async Task<string> RunQuery(string sql)
 {
-    if (!_checkedOut) return;   // already returned — safe no-op
-    _pool.Return(this);         // return, not destroy
-}
-
-// Caller code — clean and automatic:
-using var conn = pool.Acquire();
-conn.ExecuteQuery("SELECT ...");
-// conn returned to pool here — even if an exception was thrown
-```
-
-**2. `SemaphoreSlim` enforces the pool ceiling**
-```csharp
-// Acquire: take one permit (blocks if pool is full)
-if (!_semaphore.Wait(timeoutMs))
-    throw new TimeoutException("Pool exhausted...");
-
-// Return: give the permit back
-_semaphore.Release();
-```
-
-**3. `ConcurrentQueue` for thread-safe idle management**
-```csharp
-// Fast path — reuse an idle connection
-if (_idle.TryDequeue(out var existing))
-{
-    existing.OnAcquired();
-    return existing;
-}
-
-// Slow path — create a new one (pays the creation cost once)
-Interlocked.Increment(ref _totalCreated);
-return new DatabaseConnection(_connectionString, this, _creationDelayMs);
-```
-
-**4. Reset on return — clean slate for the next caller**
-```csharp
-internal void OnReturned()
-{
-    _checkedOut     = false;
-    QueriesExecuted = 0;   // reset session-specific state
+    var conn = new DatabaseConnection(connectionString);
+    // ← 200–500 ms for TCP handshake, TLS negotiation, and database authentication
+    var result = await conn.ExecuteAsync(sql);
+    conn.Close();
+    // ← physical teardown discards the authenticated session immediately
+    return result;
 }
 ```
 
-## 🔍 Pool vs No Pool
+Problems with per-request creation:
+- Expensive initialization (network, TLS, auth) is repeated on every call.
+- Under load, the system spawns many short-lived objects, increasing GC pressure.
+- No limit on concurrent connections — a burst of requests can exhaust the database server.
+- Connection teardown discards a negotiated session that took hundreds of milliseconds to establish.
 
-| | Without Pool | With Pool |
-|---|---|---|
-| **Connection #1** | Create (200 ms) | Create (200 ms) |
-| **Connection #2** | Create (200 ms) | Reuse (< 1 ms) |
-| **Connection #3** | Create (200 ms) | Reuse (< 1 ms) |
-| **100 operations** | 100 × 200 ms = 20 s | 200 ms + 99 × ~0 ms |
-| **TotalCreated** | 100 | 1–N (N = pool size) |
+## Solution: Bounded pool with IDisposable return
 
-## 🚀 How to Run
+`DatabaseConnectionPool` holds up to `maxPoolSize` pre-created connections in a `ConcurrentQueue<T>`. A `SemaphoreSlim` limits concurrent borrowers. When a caller's `using` block exits, `DatabaseConnection.Dispose()` returns the connection to the pool rather than destroying it.
+
+```csharp
+using var pool = new DatabaseConnectionPool(
+    connectionString: "Server=db.toronto.ca;Database=MapleCatalogue",
+    maxPoolSize: 5,
+    creationDelayMs: 200);   // injectable delay for testing
+
+// Borrow, use, return — all via 'using':
+using (var conn = pool.Acquire())
+{
+    string result = conn.ExecuteQuery("SELECT * FROM Products");
+}
+// Dispose() returns conn to pool — no teardown, no re-authentication on the next borrow
+```
+
+## Participants
+
+| Role | Class | Responsibility |
+|------|-------|----------------|
+| Pool | `DatabaseConnectionPool` | Creates connections up to `maxPoolSize`; serves them via `Acquire(int timeoutMs)`; `SemaphoreSlim` caps concurrent borrowers; `IDisposable` disposes the semaphore on shutdown |
+| Pooled object | `DatabaseConnection` | Wraps a simulated database session; `IDisposable.Dispose()` returns `this` to the pool instead of tearing down; `ExecuteQuery(sql)` simulates a synchronous DB call |
+
+## Structure
+
+```
+1.6-ObjectPool/
+├── ObjectPoolPattern/
+│   ├── DatabaseConnectionPool.cs   ← pool with ConcurrentQueue + SemaphoreSlim
+│   ├── DatabaseConnection.cs       ← pooled object; DisposeAsync returns to pool
+│   └── Program.cs
+└── ObjectPoolPattern.Tests/
+    └── ObjectPoolPatternTests.cs
+```
+
+## Key Code
+
+### Pool with bounded concurrency
+
+```csharp
+public sealed class DatabaseConnectionPool : IDisposable
+{
+    private readonly ConcurrentQueue<DatabaseConnection> _idle = new();
+    private readonly SemaphoreSlim _semaphore;
+
+    public DatabaseConnectionPool(string connectionString,
+        int maxPoolSize = 10, int creationDelayMs = 200)
+    {
+        _semaphore = new SemaphoreSlim(maxPoolSize, maxPoolSize);
+        // ...
+    }
+
+    public DatabaseConnection Acquire(int timeoutMs = 3000)
+    {
+        if (!_semaphore.Wait(timeoutMs))          // blocks when pool is fully checked out
+            throw new TimeoutException(
+                $"Pool exhausted — all {MaxPoolSize} connections in use.");
+
+        if (_idle.TryDequeue(out var conn))
+        { conn.OnAcquired(); return conn; }        // fast path: reuse an idle connection
+
+        return new DatabaseConnection(...);        // slow path: first-time creation only
+    }
+
+    internal void Return(DatabaseConnection conn)
+    {
+        conn.OnReturned();
+        _idle.Enqueue(conn);
+        _semaphore.Release();                      // allow the next waiter to proceed
+    }
+}
+```
+
+`SemaphoreSlim(maxPoolSize, maxPoolSize)` means at most `maxPoolSize` callers can hold a connection at the same time. Anyone beyond that blocks in `Wait(timeoutMs)` and receives a `TimeoutException` if the timeout elapses.
+
+### IDisposable pattern — return, not destroy
+
+```csharp
+public sealed class DatabaseConnection : IDisposable
+{
+    public string ExecuteQuery(string sql)
+    {
+        QueriesExecuted++;
+        return $"[{ConnectionId}] '{sql}' → row set #{QueriesExecuted}";
+    }
+
+    public void Dispose()
+    {
+        if (!_checkedOut) return;   // already returned — no-op
+        _pool.Return(this);         // return to pool, not teardown
+    }
+}
+```
+
+The `using` pattern is the standard interaction. `Dispose()` returns the connection to the pool; if `Dispose()` is called twice it is a no-op because of the `_checkedOut` guard.
+
+### Pool exhaustion
+
+When all `maxPoolSize` connections are checked out, `Acquire` blocks in `SemaphoreSlim.Wait(timeoutMs)`. If the timeout elapses before any connection is returned, a `TimeoutException` is thrown — the caller never gets a connection but also never hangs indefinitely.
+
+## Demo Scenarios
+
+```
+1. Creation cost comparison   — first acquire pays ~200 ms; subsequent acquires from the
+                                idle queue are instant
+2. Basic pool usage           — acquire a connection, run a query, return via await using
+3. IDisposable / using        — confirms DisposeAsync returns to pool, not destroys
+4. Reuse under load           — 10 sequential queries against a pool of 3 connections;
+                                connections are reused, not recreated
+5. Pool exhaustion            — maxSize=2, 3 concurrent acquires; third waits until one
+                                of the first two is returned
+```
+
+## When to Use
+
+- Object creation is expensive (network handshake, TLS, auth, thread startup) and the same logical object can be used by different callers at different times.
+- The maximum number of concurrent instances must be bounded to protect a downstream resource (database connection limit, licensed service seats).
+- The working set of the application requires many short-lived uses of the same object type.
+
+## When NOT to Use
+
+- When object creation is cheap — pooling adds synchronization overhead that exceeds the savings.
+- When objects carry caller-specific state that makes reuse unsafe (e.g., a partially-read response stream).
+- When the pool would almost never lend more than one object simultaneously — the machinery is wasted.
+- In .NET, most connection pools are already built into the framework (`SqlConnection`, `HttpClient`) — building your own only makes sense for resources that are not already managed.
+
+## Benefits
+
+| Benefit | Explanation |
+|---------|-------------|
+| Amortized creation cost | The expensive initialization runs at most `maxSize` times, not once per request |
+| Bounded resource use | `SemaphoreSlim` ensures the downstream resource (database) never receives more than `maxSize` concurrent connections |
+| Reduced GC pressure | Long-lived pooled objects spend most of their time on the LOH, avoiding frequent gen-0 collections |
+| Transparent to callers | `await using` handles return automatically; callers never interact with the pool directly |
+
+## Drawbacks
+
+| Drawback | Explanation |
+|----------|-------------|
+| Added complexity | A pool, a semaphore, and a modified `Dispose` are more moving parts than a plain `new` |
+| Stale connections | A pooled connection can go stale while idle (server-side timeout, network reset); the pool must validate before lending |
+| State leakage risk | If a connection carries session state (transactions, temp tables), returning it to the pool without cleanup corrupts the next borrower |
+| Pool tuning | Under-sized pools cause excessive waiting; over-sized pools waste resources — the right size depends on load profiling |
+
+## Related Patterns
+
+- **Singleton (1.1)** — the pool itself is often a Singleton; the objects inside the pool are not.
+- **Flyweight (2.6)** — both avoid repeated object creation; Flyweight objects are immutable and truly shared, while Pool objects are checked out exclusively to one caller at a time.
+- **Proxy (2.7)** — a pooled object that intercepts `Dispose` to return itself to the pool rather than truly disposing is a form of Virtual Proxy.
+- **Prototype (1.5)** — an alternative to pooling when cloning from a canonical prototype is cheaper than full initialization; unlike pooling, clones are disposable after use.
+
+## Running the Demo
 
 ```bash
 cd src/1-Creational/1.6-ObjectPool/ObjectPoolPattern
 dotnet run
 ```
 
-## 🧪 Running Tests
+## Running the Tests
 
 ```bash
 cd src/1-Creational/1.6-ObjectPool/ObjectPoolPattern.Tests
 dotnet test
 ```
-
-## 🧪 What the Demo Shows
-
-1. **The cost problem** — 5 operations × 150 ms creation = slow; all time spent connecting
-2. **Basic pool usage** — Round 1 pays the creation cost; Round 2 reuses instantly
-3. **IDisposable / using** — automatic return; same `ConnectionId` appears in every iteration
-4. **Reuse in depth** — pool of size 1 serves 5 operations; `ReuseCount` climbs to 4
-5. **Pool exhaustion** — `TimeoutException` when all connections are held; success after one is returned
-
-## ✅ Benefits
-
-| Benefit | Description |
-|---------|-------------|
-| **Eliminates repeated creation cost** | Pay the setup cost once; amortise it across hundreds of uses |
-| **Bounds resource usage** | `MaxPoolSize` prevents unbounded connection/thread/memory growth |
-| **Transparent to callers** | `using var conn = pool.Acquire()` looks like normal object usage |
-| **Thread-safe by design** | `ConcurrentQueue` + `SemaphoreSlim` handle concurrent callers without external locks |
-
-## ❌ Drawbacks
-
-| Drawback | Description |
-|----------|-------------|
-| **Stale state** | If `Reset()` is incomplete, one caller's state leaks into the next (bugs are subtle) |
-| **Sizing is hard** | Too small → contention and timeouts; too large → wasted resources |
-| **Lifetime complexity** | Pool must outlive all callers; disposing the pool while connections are checked out is dangerous |
-
-## 🎓 When to Use
-
-✅ **Good Candidates:**
-- Database connections (the canonical example)
-- HTTP connections / sockets
-- Thread management (OS threads are expensive to create)
-- Large buffer/array allocation in high-throughput code
-- Parsers, compilers, or other stateful objects with expensive initialisation
-
-❌ **Bad Candidates:**
-- Cheap objects (plain POCOs, small value types) — pooling overhead exceeds the benefit
-- Objects that hold unresettable state — if you can't clean them properly, don't pool them
-- Objects where the pool would hold one item — just keep a field
-
-## 🔀 Alternatives
-
-| Alternative | When to Use Instead |
-|-------------|---------------------|
-| **Prototype (1.5)** | Cost is in copying state, not in physical resource acquisition |
-| **`ArrayPool<T>`** | Pooling arrays/buffers specifically — already built into .NET |
-| **`Microsoft.Extensions.ObjectPool`** | Generic pool for any type, already tested and production-ready |
-| **ADO.NET connection pooling** | For database connections specifically — it's built in and on by default |
-
-## 📚 Related Patterns
-
-- **Prototype (1.5)** — Prototype clones state; Object Pool reuses the same object instance
-- **Singleton (1.1)** — Singleton has exactly one instance; pool has N bounded instances
-- **Flyweight (2.6)** — Flyweight shares immutable objects; Object Pool shares mutable objects that are reset between uses
-
-## 🔑 Key Takeaways
-
-1. **`Dispose()` returns, not destroys** — the caller's `using` block is the return mechanism
-2. **`SemaphoreSlim` is the ceiling** — it blocks callers when the pool is full, rather than over-allocating
-3. **`Reset()` is critical** — incomplete reset leaks one caller's state into the next
-4. **`creationDelayMs` is injectable** — tests set it to 0 for speed; the demo uses 150 ms to show the real cost
-5. **In .NET you rarely build this yourself** — `SqlConnection` pooling, `IHttpClientFactory`, and `ArrayPool<T>` are already production-grade implementations of this pattern
-
-## 📖 Further Reading
-
-- "Design Patterns: Elements of Reusable Object-Oriented Software" (Gang of Four) — Chapter 3
-- Microsoft Docs: [Connection Pooling (ADO.NET)](https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-pooling)
-- Microsoft Docs: [Object reuse with ObjectPool](https://learn.microsoft.com/en-us/aspnet/core/performance/objectpool)
-
----
-
-← **Previous Pattern:** [1.5 - Prototype](../1.5-Prototype/)
-→ **Next Pattern:** [2.1 - Adapter](../../2-Structural/2.1-Adapter/)

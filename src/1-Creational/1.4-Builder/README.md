@@ -1,273 +1,224 @@
-# Builder Pattern
+# 1.4 — Builder
 
-## 📖 Pattern Category
-**Creational Pattern**
+## Intent
 
-## 🎯 Intent
-Separate the **construction** of a complex object from its **representation**, so the same construction process can create different representations — and so you never end up with a partially-built object in the wild.
+Separate the construction of a complex object from its representation so that the same construction process can produce different representations, and so that optional parts can be omitted cleanly without combinatorial constructor overloads.
 
-## 🤔 Problem
-You're building an `Email` class. A fully-featured email has two required fields (recipient, subject, body) and six optional ones (CC list, BCC list, attachments, HTML flag, priority, reply-to).
+## The Problem It Solves
 
-The obvious approach — a constructor — falls apart:
+As an object accumulates optional fields, constructors multiply into the "telescoping constructor" anti-pattern:
 
 ```csharp
-// Which is CC and which is BCC? What if you don't need BCC?
-var email = new Email(
-    "to@example.com", "Subject", "Body",
-    new[] { "cc@example.com" }, Array.Empty<string>(),
-    new[] { "file.pdf" }, true, EmailPriority.High, null);
+// Without Builder: one constructor per combination of optional fields
+public Email(string to, string subject, string body) { ... }
+public Email(string to, string from, string subject, string body) { ... }
+public Email(string to, string from, string subject, string body, bool isHtml) { ... }
+public Email(string to, string from, string subject, string body, bool isHtml,
+             string replyTo, List<string> cc, List<string> bcc, int priority) { ... }
+// 9 fields, dozens of meaningful combinations — constructor count explodes
 ```
 
-This is called the **Telescoping Constructor anti-pattern**: as optional fields multiply, you get constructor overloads or a single massive constructor where positional arguments lose all meaning, and nothing stops you passing a BCC address as the CC argument.
+Problems with this approach:
+- Callers must pass `null` or default values for fields they do not need.
+- Adding a new optional field requires adding another overload or changing all existing ones.
+- At the call site, positional arguments like `new Email(to, null, subject, body, false, null, null, null, 1)` are impossible to read.
+- Validation that spans multiple fields (e.g., HTML body requires content-type header) is scattered or duplicated.
 
-## ✅ Solution
+## Solution: Step-by-step construction with Build() validation
 
-The Builder pattern fixes this by:
+`EmailBuilder` exposes one method per field, all returning `this` for fluent chaining. `Build()` runs cross-field validation once and produces an immutable `Email`. `EmailDirector` packages common multi-step sequences into named templates.
 
-1. **Removing the public constructor** from the product — only the builder can create it
-2. **Giving each field its own named method** — `.Cc("addr")` cannot be confused with `.Bcc("addr")`
-3. **Accumulating state** in the builder until you explicitly call `Build()`
-4. **Validating in `Build()`** — required fields are checked before the product object is created
-5. **Providing a Director** (optional) that encodes named construction recipes for common shapes
-
-## 🏗️ Structure
-
-```
-         «interface»
-         IEmailBuilder
-    ┌──────────────────────────┐
-    │ To(recipient)            │
-    │ WithSubject(subject)     │
-    │ WithBody(body)           │
-    │ Cc(recipient)            │  ← each method returns IEmailBuilder
-    │ Bcc(recipient)           │    (enables method chaining)
-    │ Attach(filePath)         │
-    │ AsHtml()                 │
-    │ WithPriority(priority)   │
-    │ WithReplyTo(replyTo)     │
-    │ Build() → Email          │  ← terminal step; validates + constructs
-    │ Reset() → IEmailBuilder  │  ← clears state for reuse
-    └──────────────────────────┘
-              ▲
-              │ implements
-         EmailBuilder                     EmailDirector
-    ┌──────────────────┐             ┌──────────────────────────────┐
-    │ _to              │             │ - _builder: IEmailBuilder    │
-    │ _subject         │◄────────────│ BuildWelcomeEmail(...)       │
-    │ _body            │             │ BuildPasswordResetEmail(...) │
-    │ _cc: List<string>│             │ BuildNewsletterEmail(...)    │
-    │ _bcc             │             │ BuildInvoiceEmail(...)       │
-    │ _attachments     │             └──────────────────────────────┘
-    │ Build() → Email  │                   (uses IEmailBuilder only)
-    └──────────────────┘
-              │ creates
-              ▼
-           Email  (the PRODUCT — immutable, internal constructor)
-    ┌───────────────────────┐
-    │ To: string            │
-    │ Subject: string       │
-    │ Body: string          │
-    │ CcRecipients          │
-    │ BccRecipients         │
-    │ Attachments           │
-    │ IsHtml: bool          │
-    │ Priority              │
-    │ ReplyTo: string?      │
-    └───────────────────────┘
-```
-
-## 💻 Implementation in This Example
-
-### Files:
-- **Email.cs** — Product (`Email` + `EmailPriority` enum); `internal` constructor keeps it builder-only
-- **IEmailBuilder.cs** — Abstract Builder interface; all methods return `IEmailBuilder` for chaining
-- **EmailBuilder.cs** — Concrete Builder; accumulates state, validates in `Build()`, supports `Reset()`
-- **EmailDirector.cs** — Director; four template methods (Welcome, PasswordReset, Newsletter, Invoice)
-- **Program.cs** — Demo with 5 demonstrations + Pause() between each
-
-### Key Implementation Points:
-
-**1. Abstract Builder interface** — each step returns the interface for chaining:
 ```csharp
-public interface IEmailBuilder
-{
-    IEmailBuilder To(string recipient);
-    IEmailBuilder WithSubject(string subject);
-    IEmailBuilder WithBody(string body);
-    IEmailBuilder Cc(string recipient);        // additive — call multiple times
-    IEmailBuilder Attach(string filePath);     // additive — call multiple times
-    IEmailBuilder AsHtml();
-    IEmailBuilder WithPriority(EmailPriority priority);
-    Email Build();    // validates + constructs
-    IEmailBuilder Reset();
-}
+// Fluent builder — only set what you need, readable at a glance:
+var email = new EmailBuilder()
+    .To("client@example.ca")
+    .WithSubject("Your order has shipped")
+    .WithBody("<p>Your package is on its way!</p>")
+    .AsHtml()
+    .WithPriority(EmailPriority.High)
+    .Build();
+
+// Director pre-packages a full welcome-email template in one call:
+var welcome = director.BuildWelcomeEmail("new.member@example.ca", "Alice");
 ```
 
-**2. Concrete Builder** — accumulates state, validates required fields at Build():
-```csharp
-public sealed class EmailBuilder : IEmailBuilder
-{
-    private string? _to, _subject, _body;
-    private readonly List<string> _cc = [], _bcc = [], _attachments = [];
-    private bool _isHtml = false;
-    private EmailPriority _priority = EmailPriority.Normal;
+## Participants
 
-    public IEmailBuilder To(string recipient) { _to = recipient; return this; }
+| Role | Class | Responsibility |
+|------|-------|----------------|
+| Product | `Email` | Immutable sealed class with `internal` constructor; fields include required (`To`, `Subject`, `Body`) and optional (`CcRecipients`, `BccRecipients`, `Attachments`, `IsHtml`, `Priority`, `ReplyTo`) |
+| Builder interface | `IEmailBuilder` | Contract declaring all step methods and `Build()`; `Reset()` returns `IEmailBuilder` for chaining |
+| Concrete builder | `EmailBuilder` | Accumulates field values in mutable state; `Build()` validates required fields and returns `Email`; state persists after `Build()` — call `Reset()` explicitly to reuse |
+| Priority enum | `EmailPriority` | `Low`, `Normal`, `High` — passed to `WithPriority(EmailPriority)` |
+| Director | `EmailDirector` | Encapsulates four named templates (`BuildWelcomeEmail`, `BuildPasswordResetEmail`, `BuildNewsletterEmail`, `BuildInvoiceEmail`); calls `Reset()` at the start of each template |
 
-    public Email Build()
-    {
-        if (string.IsNullOrWhiteSpace(_to))
-            throw new InvalidOperationException("To is required.");
-        // ... other guards ...
-        return new Email(_to, _subject!, _body!, _cc.AsReadOnly(), ...);
-    }
-}
+## Structure
+
+```
+1.4-Builder/
+├── BuilderPattern/
+│   ├── Email.cs           ← immutable product with internal constructor
+│   ├── IEmailBuilder.cs   ← builder interface
+│   ├── EmailBuilder.cs    ← concrete builder with fluent API and Build() validation
+│   ├── EmailDirector.cs   ← four pre-packaged email templates
+│   └── Program.cs
+└── BuilderPattern.Tests/
+    └── BuilderPatternTests.cs
 ```
 
-**3. Product** — immutable, internal constructor:
+## Key Code
+
+### Immutable product with internal constructor
+
 ```csharp
 public sealed class Email
 {
-    public string To      { get; }
-    public string Subject { get; }
-    // ...
+    public string   To       { get; }
+    public string   Subject  { get; }
+    public string   Body     { get; }
+    public bool     IsHtml   { get; }
+    public string?  From     { get; }
+    public string?  ReplyTo  { get; }
+    public IReadOnlyList<string> Cc  { get; }
+    public IReadOnlyList<string> Bcc { get; }
+    public int Priority { get; }
 
-    internal Email(string to, string subject, ...)  // only EmailBuilder can call this
+    // internal — only EmailBuilder can call this
+    internal Email(string to, string subject, string body, ...) { ... }
+}
+```
+
+The `internal` constructor means `new Email(...)` is unavailable outside the assembly. The only way to obtain an `Email` is through `EmailBuilder.Build()`.
+
+### Builder with validation in Build()
+
+```csharp
+public sealed class EmailBuilder : IEmailBuilder
+{
+    private string?        _to, _subject, _body, _replyTo;
+    private bool           _isHtml   = false;
+    private EmailPriority  _priority = EmailPriority.Normal;
+    private readonly List<string> _cc = [], _bcc = [], _attachments = [];
+
+    public IEmailBuilder To(string recipient)       { _to = recipient;   return this; }
+    public IEmailBuilder WithSubject(string subject){ _subject = subject; return this; }
+    public IEmailBuilder WithBody(string body)      { _body = body;       return this; }
+    public IEmailBuilder AsHtml()                   { _isHtml = true;     return this; }
+    public IEmailBuilder WithPriority(EmailPriority p) { _priority = p;  return this; }
+    public IEmailBuilder Cc(string r)    { _cc.Add(r);          return this; }
+    public IEmailBuilder Attach(string f){ _attachments.Add(f); return this; }
+
+    public Email Build()
     {
-        To = to; Subject = subject; // ...
+        if (string.IsNullOrWhiteSpace(_to))      throw new InvalidOperationException("To is required.");
+        if (string.IsNullOrWhiteSpace(_subject)) throw new InvalidOperationException("Subject is required.");
+        if (_body is null)                        throw new InvalidOperationException("Body is required.");
+
+        // State is NOT reset here — call Reset() explicitly to reuse the builder
+        return new Email(_to!, _subject!, _body!, _cc.AsReadOnly(), _bcc.AsReadOnly(),
+                         _attachments.AsReadOnly(), _isHtml, _priority, _replyTo);
+    }
+
+    public IEmailBuilder Reset()
+    {
+        _to = _subject = _body = _replyTo = null;
+        _isHtml = false; _priority = EmailPriority.Normal;
+        _cc.Clear(); _bcc.Clear(); _attachments.Clear();
+        return this;
     }
 }
 ```
 
-**4. Director** — recipes for common templates (optional layer):
+`Build()` does not reset state automatically. The `EmailDirector` calls `Reset()` at the start of each template recipe rather than relying on the previous call having cleaned up.
+
+### Director — reusable named templates
+
 ```csharp
 public sealed class EmailDirector(IEmailBuilder builder)
 {
+    // Reset() is called first so the director's use is idempotent
+    public Email BuildWelcomeEmail(string to, string firstName) =>
+        builder.Reset()
+            .To(to)
+            .WithSubject($"Welcome to our platform, {firstName}!")
+            .WithBody($"Hi {firstName}, your account is ready.")
+            .WithPriority(EmailPriority.Normal)
+            .Build();
+
     public Email BuildPasswordResetEmail(string to, string resetLink) =>
-        builder
-            .Reset()
+        builder.Reset()
             .To(to)
             .WithSubject("Password reset request")
-            .WithBody($"Click: {resetLink}")
+            .WithBody($"Click to reset: {resetLink}")
             .WithPriority(EmailPriority.High)
             .WithReplyTo("no-reply@example.com")
             .Build();
+
+    // BuildNewsletterEmail(to, htmlContent) — Low priority, HTML, Bcc unsubscribe
+    // BuildInvoiceEmail(to, customerName, pdfPath) — HTML, Attach PDF, Cc accounting
 }
 ```
 
-**5. Fluent usage** — caller only touches the builder interface:
-```csharp
-Email email = new EmailBuilder()
-    .To("bob@example.com")
-    .WithSubject("Q3 Report — Confidential")
-    .WithBody("<h1>Q3 Report</h1><p>See attachment.</p>")
-    .AsHtml()
-    .WithPriority(EmailPriority.High)
-    .Cc("cfo@example.com")
-    .Attach("/reports/Q3.pdf")
-    .Build();
+The director is optional — callers can drive the builder directly when no standard template fits.
+
+## Demo Scenarios
+
+```
+1. Basic fluent construction  — build a minimal email with only the required fields
+2. Complex email              — chain all optional fields (CC, BCC, attachments, reply-to, priority)
+3. Director templates         — BuildWelcomeEmail, BuildPasswordResetEmail, BuildNewsletterEmail,
+                                BuildInvoiceEmail called with one method each
+4. Validation demo            — Build() throws when required fields are missing
+5. Builder reuse after Reset  — same builder instance produces two different emails sequentially
 ```
 
-## 🔍 Builder vs Competing Approaches
+## When to Use
 
-| | Telescoping Constructor | Object Initializer | Builder |
-|---|---|---|---|
-| **Required fields enforced** | ✅ (compiler-enforced params) | ✗ (silent nulls) | ✅ (Build() throws) |
-| **Readability** | ✗ (positional args) | ✅ (named) | ✅ (named methods) |
-| **Optional fields** | Messy (overloads or nulls) | ✅ | ✅ |
-| **Immutable product** | ✅ | ✗ (setters stay public) | ✅ |
-| **Director / recipes** | ✗ | ✗ | ✅ |
-| **Validation before creation** | ✗ | ✗ | ✅ |
+- Objects have many optional parameters and you want to avoid positional `null` arguments.
+- Construction involves validation that spans multiple fields and should run once, at `Build()`.
+- You want to provide named "presets" or templates for common configurations (via a Director).
+- The object should be immutable once created, but its construction process is inherently mutable.
 
-> **Object initialisers** (`new Email { To = "...", Subject = "..." }`) look similar but they require public setters on the product — meaning anyone can mutate it after construction. A Builder can keep the product constructor `internal` and the properties get-only.
+## When NOT to Use
 
-## 🚀 How to Run
+- When the object has only two or three fields — a simple constructor is clearer.
+- When all fields are required — every Builder method must be called anyway, adding boilerplate with no benefit.
+- When construction is trivial and no validation is needed — the pattern adds a builder class for nothing.
+
+## Benefits
+
+| Benefit | Explanation |
+|---------|-------------|
+| Readable call sites | `builder.To(...).Subject(...).HtmlBody(...).Build()` names every field at the call site |
+| Centralized validation | All cross-field checks live in `Build()`; no duplicated guards at each call site |
+| Immutable product | `Email` is sealed and read-only once constructed; no risk of post-construction mutation |
+| Reusable builder | `Reset()` clears state so the same builder instance constructs multiple objects |
+
+## Drawbacks
+
+| Drawback | Explanation |
+|----------|-------------|
+| Extra classes | Builder + optional Director add two classes per product type |
+| Runtime not compile-time errors | A missing required field is caught at `Build()`, not by the compiler |
+| Verbosity for simple objects | If an object has two fields, a constructor is always clearer |
+
+## Related Patterns
+
+- **Abstract Factory (1.3)** — Abstract Factory creates an object in one call; Builder constructs it step by step, which is better when construction requires many optional decisions.
+- **Template Method (3.10)** — Directors often use a Template Method to define a fixed construction sequence with overridable steps.
+- **Fluent Interface** — Builder is the canonical example of a fluent API; each method returns `this` to enable chaining.
+- **Value Object (4.11)** — Builder is the natural construction path for complex Value Objects that need validation before becoming immutable.
+
+## Running the Demo
 
 ```bash
 cd src/1-Creational/1.4-Builder/BuilderPattern
 dotnet run
 ```
 
-## 🧪 Running Tests
+## Running the Tests
 
 ```bash
 cd src/1-Creational/1.4-Builder/BuilderPattern.Tests
 dotnet test
 ```
-
-## 🧪 What the Demo Shows
-
-1. **Basic fluent builder** — three required fields, all optional fields at defaults
-2. **Complex email** — CC, BCC, multiple attachments, HTML, High priority, ReplyTo
-3. **Director** — four named templates (Welcome, PasswordReset, Newsletter, Invoice)
-4. **Why Builder?** — side-by-side comparison with the constructor approach
-5. **Validation + reuse** — Build() guards against missing required fields; Reset() reuses the builder
-
-## ✅ Benefits
-
-| Benefit | Description |
-|---------|-------------|
-| **Prevents invalid objects** | Required fields are enforced in `Build()` — a half-built object can never escape |
-| **Self-documenting code** | `.Cc("addr")` is impossible to confuse with `.Bcc("addr")` |
-| **Handles optional fields cleanly** | Skip what you don't need — no null-passing ceremony |
-| **Immutable product** | Once built, the Email cannot change |
-| **Director enables reuse** | Common shapes have names and are tested in one place |
-| **Single Responsibility** | Construction logic lives in the builder, not the product |
-
-## ❌ Drawbacks
-
-| Drawback | Description |
-|----------|-------------|
-| **More classes** | You add a builder (and optionally a director) per product |
-| **Overkill for simple objects** | A two-field object doesn't need a builder |
-| **Mutable builder state** | The builder itself is mutable — not safe for concurrent use from multiple goroutines/threads |
-
-## 🎓 When to Use
-
-✅ **Good Candidates:**
-- Objects with many fields, especially many optional ones
-- Immutability is required on the finished product
-- You want meaningful error messages when required fields are missing
-- You have multiple "flavours" of the same object (Director templates)
-- Constructing the object in one go is impossible (e.g. multi-step initialisation)
-
-❌ **Bad Candidates:**
-- Simple objects with one or two fields
-- When the product is inherently mutable (use fluent setters instead)
-- When all fields are always required (a constructor is cleaner)
-
-## 🔀 Alternatives
-
-| Alternative | When to Use Instead |
-|-------------|---------------------|
-| **Object initialisers** | Product can be mutable; you don't need enforced construction order |
-| **Factory Method (1.2)** | Creating one of several product *types*, not a single complex product |
-| **Abstract Factory (1.3)** | Creating *families* of related products, not building one product step-by-step |
-| **Prototype (1.5)** | Starting from a known-good instance and cloning, rather than building from scratch |
-
-## 📚 Related Patterns
-
-- **Factory Method (1.2)** — a factory creates entire objects in one call; a builder assembles them step by step
-- **Abstract Factory (1.3)** — creates families of objects; builder creates one complex object
-- **Prototype (1.5)** — clones an existing object; often used together when the clone needs post-clone customisation
-- **Composite (2.3)** — builders are often used to assemble Composite trees (e.g. `HtmlBuilder`)
-- **Template Method (3.10)** — Director's template methods parallel Template Method; the steps are delegated to the builder interface
-
-## 🔑 Key Takeaways
-
-1. **`Build()` is the gatekeeping step** — no partial object can be returned before that
-2. **The internal constructor is the lock** — only same-assembly code (the builder) can create the product
-3. **The Director is optional** — it adds value when you have recurring construction shapes
-4. **Reset() unlocks reuse** — one builder instance can produce many independent products
-5. **In .NET you already use this daily** — `WebApplicationBuilder`, `DbContextOptionsBuilder`, `SqlConnectionStringBuilder`, and `StringBuilder` all follow this pattern
-
-## 📖 Further Reading
-
-- "Design Patterns: Elements of Reusable Object-Oriented Software" (Gang of Four) — Chapter 3
-- "Head First Design Patterns" — Chapter 4
-
----
-
-← **Previous Pattern:** [1.3 - Abstract Factory](../1.3-AbstractFactory/)
-→ **Next Pattern:** [1.5 - Prototype](../1.5-Prototype/)

@@ -6,7 +6,7 @@ This repository contains **57 design patterns** with practical examples, detaile
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 
 - [Pattern Categories](#pattern-categories)
 - [Repository Structure](#repository-structure)
@@ -21,16 +21,16 @@ This repository contains **57 design patterns** with practical examples, detaile
 
 This repository covers four major categories of design patterns:
 
-### 1️⃣ Creational Patterns (6)
+### 1. Creational Patterns (6)
 Patterns that deal with object creation mechanisms, trying to create objects in a manner suitable to the situation.
 
-### 2️⃣ Structural Patterns (7)
+### 2. Structural Patterns (7)
 Patterns that deal with object composition, creating relationships between objects to form larger structures.
 
-### 3️⃣ Behavioral Patterns (13)
+### 3. Behavioral Patterns (13)
 Patterns that deal with communication between objects, how objects interact and distribute responsibility.
 
-### 4️⃣ Enterprise / Architectural Patterns (31)
+### 4. Enterprise / Architectural Patterns (31)
 Patterns commonly used in enterprise applications, focusing on scalability, maintainability, and clean architecture.
 
 ---
@@ -123,7 +123,7 @@ csharp-design-patterns/
         ├── 4.27-AntiCorruptionLayer/
         ├── 4.28-ReadModel/
         ├── 4.29-RateLimiting/
-        ├── 4.30-HealthEndpoint/
+        ├── 4.30-HealthEndpointMonitoring/
         └── 4.31-HostedService/
 ```
 
@@ -131,7 +131,7 @@ csharp-design-patterns/
 
 ## How to Use This Repository
 
-### 🎯 For Learning a New Pattern:
+### For Learning a New Pattern:
 
 1. Navigate to the pattern's folder (e.g., `src/1-Creational/1.1-Singleton/`)
 2. Read the pattern's `README.md` for:
@@ -143,14 +143,14 @@ csharp-design-patterns/
 4. Run the console demo to see it in action
 5. Review the unit tests to understand expected behaviour
 
-### 🔄 For Revisiting a Pattern:
+### For Revisiting a Pattern:
 
 1. Check `PROGRESS.md` to see implementation status
 2. Jump directly to the pattern folder
 3. Run the tests to see expected behaviour
 4. Review code comments for a quick refresher
 
-### 🏃 Running Examples:
+### Running Examples:
 
 ```bash
 # Run a specific pattern's demo
@@ -165,7 +165,7 @@ dotnet test
 dotnet test DesignPatterns.slnx
 ```
 
-### 🛠️ Building the Solution:
+### Building the Solution:
 
 ```bash
 dotnet build DesignPatterns.slnx
@@ -183,98 +183,98 @@ See [PROGRESS.md](PROGRESS.md) for detailed implementation status of all 57 patt
 
 ## Pattern Reference
 
-### 1️⃣ Creational Patterns
+### Creational Patterns
 
 | # | Pattern | Intent | Status |
 |---|---------|--------|--------|
-| 1.1 | **Singleton** | Ensure a class has only one instance and provide global access | ✅ Implemented |
-| 1.2 | **Factory Method** | Define an interface for creating objects, but let subclasses decide which class to instantiate | ✅ Implemented |
-| 1.3 | **Abstract Factory** | Provide an interface for creating families of related objects without specifying concrete classes | ✅ Implemented |
-| 1.4 | **Builder** | Separate construction of a complex object from its representation | ✅ Implemented |
-| 1.5 | **Prototype** | Create new objects by cloning an existing object (prototype) | ✅ Implemented |
-| 1.6 | **Object Pool** | Reuse a fixed set of expensive objects instead of creating and destroying them on demand | ✅ Implemented |
+| 1.1 | **Singleton** | Ensure a class has only one instance and provide global access | Implemented |
+| 1.2 | **Factory Method** | Define an interface for creating objects, but let subclasses decide which class to instantiate | Implemented |
+| 1.3 | **Abstract Factory** | Provide an interface for creating families of related objects without specifying concrete classes | Implemented |
+| 1.4 | **Builder** | Separate construction of a complex object from its representation | Implemented |
+| 1.5 | **Prototype** | Create new objects by cloning an existing object (prototype) | Implemented |
+| 1.6 | **Object Pool** | Reuse a fixed set of expensive objects instead of creating and destroying them on demand | Implemented |
 
-### 2️⃣ Structural Patterns
-
-| # | Pattern | Intent | Status |
-|---|---------|--------|--------|
-| 2.1 | **Adapter** | Convert the interface of a class into another interface clients expect | ✅ Implemented |
-| 2.2 | **Bridge** | Decouple abstraction from implementation so both can vary independently | ✅ Implemented |
-| 2.3 | **Composite** | Compose objects into tree structures to represent part-whole hierarchies | ✅ Implemented |
-| 2.4 | **Decorator** | Attach additional responsibilities to an object dynamically | ✅ Implemented |
-| 2.5 | **Facade** | Provide a unified interface to a set of interfaces in a subsystem | ✅ Implemented |
-| 2.6 | **Flyweight** | Use sharing to support large numbers of fine-grained objects efficiently | ✅ Implemented |
-| 2.7 | **Proxy** | Provide a surrogate or placeholder for another object to control access | ✅ Implemented |
-
-### 3️⃣ Behavioral Patterns
+### Structural Patterns
 
 | # | Pattern | Intent | Status |
 |---|---------|--------|--------|
-| 3.01 | **Chain of Responsibility** | Pass requests along a chain of handlers until one handles it | ✅ Implemented |
-| 3.02 | **Command** | Encapsulate a request as an object, allowing parameterization and queuing | ✅ Implemented |
-| 3.03 | **Interpreter** | Define a grammatical representation for a language and an interpreter | ✅ Implemented |
-| 3.04 | **Iterator** | Provide a way to access elements of a collection sequentially | ✅ Implemented |
-| 3.05 | **Mediator** | Define an object that encapsulates how a set of objects interact | ✅ Implemented |
-| 3.06 | **Memento** | Capture and restore an object's internal state without violating encapsulation | ✅ Implemented |
-| 3.07 | **Observer** | Define a one-to-many dependency so when one object changes, dependents are notified | ✅ Implemented |
-| 3.08 | **State** | Allow an object to alter its behavior when its internal state changes | ✅ Implemented |
-| 3.09 | **Strategy** | Define a family of algorithms and make them interchangeable | ✅ Implemented |
-| 3.10 | **Template Method** | Define the skeleton of an algorithm, deferring some steps to subclasses | ✅ Implemented |
-| 3.11 | **Visitor** | Represent an operation to be performed on elements of an object structure | ✅ Implemented |
-| 3.12 | **Null Object** | Provide a do-nothing default implementation to eliminate null checks | ✅ Implemented |
-| 3.13 | **Pipeline** | Pass data through a sequence of processing steps, each transforming and forwarding it | ✅ Implemented |
+| 2.1 | **Adapter** | Convert the interface of a class into another interface clients expect | Implemented |
+| 2.2 | **Bridge** | Decouple abstraction from implementation so both can vary independently | Implemented |
+| 2.3 | **Composite** | Compose objects into tree structures to represent part-whole hierarchies | Implemented |
+| 2.4 | **Decorator** | Attach additional responsibilities to an object dynamically | Implemented |
+| 2.5 | **Facade** | Provide a unified interface to a set of interfaces in a subsystem | Implemented |
+| 2.6 | **Flyweight** | Use sharing to support large numbers of fine-grained objects efficiently | Implemented |
+| 2.7 | **Proxy** | Provide a surrogate or placeholder for another object to control access | Implemented |
 
-### 4️⃣ Enterprise / Architectural Patterns
+### Behavioral Patterns
 
 | # | Pattern | Intent | Status |
 |---|---------|--------|--------|
-| 4.01 | **Repository** | Mediate between domain and data mapping layers using a collection-like interface | ✅ Implemented |
-| 4.02 | **Unit of Work** | Maintain a list of objects affected by a transaction and coordinate changes | ✅ Implemented |
-| 4.03 | **CQRS** | Separate read and write operations for better scalability and optimization | ✅ Implemented |
-| 4.04 | **Specification** | Encapsulate business rules that can be recombined | ✅ Implemented |
-| 4.05 | **Dependency Injection** | Inject dependencies rather than creating them internally | ✅ Implemented |
-| 4.06 | **Service Layer** | Define application's boundary with a layer of services | ✅ Implemented |
-| 4.07 | **Data Mapper** | Move data between objects and database while keeping them independent | ✅ Implemented |
-| 4.08 | **Active Record** | An object that wraps a row in a database table, encapsulating access | ✅ Implemented |
-| 4.09 | **Identity Map** | Ensure each object gets loaded only once by keeping every loaded object in a map | ✅ Implemented |
-| 4.10 | **Lazy Load** | Defer initialization of an object until it's needed | ✅ Implemented |
-| 4.11 | **Value Object** | Objects that are equal when their attributes are equal (no unique identity) | ✅ Implemented |
-| 4.12 | **Domain Event** | Capture domain occurrences that domain experts care about | ✅ Implemented |
-| 4.13 | **Aggregate Root** | Cluster of domain objects treated as a single unit with consistency boundaries | ✅ Implemented |
-| 4.14 | **Entity** | Objects with unique identity that runs through time and different states | ✅ Implemented |
-| 4.15 | **Event Sourcing** | Store state as a sequence of events rather than current state | ✅ Implemented |
-| 4.16 | **Circuit Breaker** | Prevent cascading failures by stopping calls to failing services | ✅ Implemented |
-| 4.17 | **Retry Pattern** | Handle transient failures by retrying failed operations | ✅ Implemented |
-| 4.18 | **Bulkhead** | Isolate resources to prevent total system failure | ✅ Implemented |
-| 4.19 | **Saga Pattern** | Manage distributed transactions across microservices | ✅ Implemented |
-| 4.20 | **Outbox Pattern** | Ensure reliable message/event publishing with database transactions | ✅ Implemented |
-| 4.21 | **Result Pattern** | Explicit success/failure handling without exceptions | ✅ Implemented |
-| 4.22 | **Options Pattern** | Strongly-typed access to groups of related settings (.NET specific) | ✅ Implemented |
-| 4.23 | **DTO** | Objects that carry data between processes to reduce method calls | ✅ Implemented |
-| 4.24 | **Publish-Subscribe** | Decouple publishers and subscribers through an event channel | ✅ Implemented |
-| 4.25 | **Cache-Aside** | Load data into cache on demand from the backing store; fall back on cache miss | ✅ Implemented |
-| 4.26 | **Inbox Pattern** | Idempotently consume incoming messages by recording them before processing | ✅ Implemented |
-| 4.27 | **Anti-Corruption Layer** | Translate between your domain model and an external or legacy system's model | ✅ Implemented |
-| 4.28 | **Read Model / Projection** | Maintain a denormalized, query-optimized view built from events or writes | ✅ Implemented |
-| 4.29 | **Rate Limiting / Throttle** | Constrain the rate of requests to protect services from overload | ✅ Implemented |
-| 4.30 | **Health Endpoint Monitoring** | Expose a health check endpoint for readiness and liveness probes | ✅ Implemented |
-| 4.31 | **Hosted Service / Background Worker** | Run long-lived background work within the .NET host lifecycle via IHostedService | ✅ Implemented |
+| 3.01 | **Chain of Responsibility** | Pass requests along a chain of handlers until one handles it | Implemented |
+| 3.02 | **Command** | Encapsulate a request as an object, allowing parameterization and queuing | Implemented |
+| 3.03 | **Interpreter** | Define a grammatical representation for a language and an interpreter | Implemented |
+| 3.04 | **Iterator** | Provide a way to access elements of a collection sequentially | Implemented |
+| 3.05 | **Mediator** | Define an object that encapsulates how a set of objects interact | Implemented |
+| 3.06 | **Memento** | Capture and restore an object's internal state without violating encapsulation | Implemented |
+| 3.07 | **Observer** | Define a one-to-many dependency so when one object changes, dependents are notified | Implemented |
+| 3.08 | **State** | Allow an object to alter its behavior when its internal state changes | Implemented |
+| 3.09 | **Strategy** | Define a family of algorithms and make them interchangeable | Implemented |
+| 3.10 | **Template Method** | Define the skeleton of an algorithm, deferring some steps to subclasses | Implemented |
+| 3.11 | **Visitor** | Represent an operation to be performed on elements of an object structure | Implemented |
+| 3.12 | **Null Object** | Provide a do-nothing default implementation to eliminate null checks | Implemented |
+| 3.13 | **Pipeline** | Pass data through a sequence of processing steps, each transforming and forwarding it | Implemented |
+
+### Enterprise / Architectural Patterns
+
+| # | Pattern | Intent | Status |
+|---|---------|--------|--------|
+| 4.01 | **Repository** | Mediate between domain and data mapping layers using a collection-like interface | Implemented |
+| 4.02 | **Unit of Work** | Maintain a list of objects affected by a transaction and coordinate changes | Implemented |
+| 4.03 | **CQRS** | Separate read and write operations for better scalability and optimization | Implemented |
+| 4.04 | **Specification** | Encapsulate business rules that can be recombined | Implemented |
+| 4.05 | **Dependency Injection** | Inject dependencies rather than creating them internally | Implemented |
+| 4.06 | **Service Layer** | Define application's boundary with a layer of services | Implemented |
+| 4.07 | **Data Mapper** | Move data between objects and database while keeping them independent | Implemented |
+| 4.08 | **Active Record** | An object that wraps a row in a database table, encapsulating access | Implemented |
+| 4.09 | **Identity Map** | Ensure each object gets loaded only once by keeping every loaded object in a map | Implemented |
+| 4.10 | **Lazy Load** | Defer initialization of an object until it's needed | Implemented |
+| 4.11 | **Value Object** | Objects that are equal when their attributes are equal (no unique identity) | Implemented |
+| 4.12 | **Domain Event** | Capture domain occurrences that domain experts care about | Implemented |
+| 4.13 | **Aggregate Root** | Cluster of domain objects treated as a single unit with consistency boundaries | Implemented |
+| 4.14 | **Entity** | Objects with unique identity that runs through time and different states | Implemented |
+| 4.15 | **Event Sourcing** | Store state as a sequence of events rather than current state | Implemented |
+| 4.16 | **Circuit Breaker** | Prevent cascading failures by stopping calls to failing services | Implemented |
+| 4.17 | **Retry Pattern** | Handle transient failures by retrying failed operations | Implemented |
+| 4.18 | **Bulkhead** | Isolate resources to prevent total system failure | Implemented |
+| 4.19 | **Saga Pattern** | Manage distributed transactions across microservices | Implemented |
+| 4.20 | **Outbox Pattern** | Ensure reliable message/event publishing with database transactions | Implemented |
+| 4.21 | **Result Pattern** | Explicit success/failure handling without exceptions | Implemented |
+| 4.22 | **Options Pattern** | Strongly-typed access to groups of related settings (.NET specific) | Implemented |
+| 4.23 | **DTO** | Objects that carry data between processes to reduce method calls | Implemented |
+| 4.24 | **Publish-Subscribe** | Decouple publishers and subscribers through an event channel | Implemented |
+| 4.25 | **Cache-Aside** | Load data into cache on demand from the backing store; fall back on cache miss | Implemented |
+| 4.26 | **Inbox Pattern** | Idempotently consume incoming messages by recording them before processing | Implemented |
+| 4.27 | **Anti-Corruption Layer** | Translate between your domain model and an external or legacy system's model | Implemented |
+| 4.28 | **Read Model / Projection** | Maintain a denormalized, query-optimized view built from events or writes | Implemented |
+| 4.29 | **Rate Limiting / Throttle** | Constrain the rate of requests to protect services from overload | Implemented |
+| 4.30 | **Health Endpoint Monitoring** | Expose a health check endpoint for readiness and liveness probes | Implemented |
+| 4.31 | **Hosted Service / Background Worker** | Run long-lived background work within the .NET host lifecycle via IHostedService | Implemented |
 
 ---
 
 ## Learning Path Recommendations
 
-### 🌱 Beginner Path (Start here):
+### Beginner Path (Start here):
 Singleton → Factory Method → Strategy → Repository → Result Pattern
 
 These are foundational and you'll encounter them in almost every real-world codebase.
 
-### 🌿 Intermediate Path:
+### Intermediate Path:
 Builder → Decorator → Observer → Unit of Work → CQRS
 
 Common in modern .NET applications and API design.
 
-### 🌳 Advanced Path:
+### Advanced Path:
 Abstract Factory → Composite → Mediator → Event Sourcing → Saga Pattern
 
 For complex enterprise systems and distributed architecture.
@@ -304,6 +304,6 @@ MIT License — feel free to use this for learning purposes.
 
 ---
 
-**Happy Learning! 🚀**
+**Happy Learning!**
 
-*Last Updated: 2026-09-02*
+*Last Updated: 2026-09-03*

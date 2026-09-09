@@ -1,161 +1,171 @@
-# Singleton Pattern
+# 1.1 — Singleton
 
-## 📖 Pattern Category
-**Creational Pattern**
+## Intent
 
-## 🎯 Intent
-Ensure a class has only **one instance** and provide a **global point of access** to that instance.
+Ensure a class has only one instance and provide a global access point to it — useful for resources that must be shared across the entire application (configuration, logging, caching) and where multiple instances would cause inconsistency or waste.
 
-## 🤔 Problem
-Sometimes you need to ensure that a class has exactly one instance. For example:
-- You want only one configuration manager for your application
-- You need a single logger instance to avoid file conflicts
-- You want to control access to a shared resource (database connection pool, cache, etc.)
+## The Problem It Solves
 
-Creating multiple instances of these classes would:
-- Waste memory
-- Cause inconsistent state
-- Lead to conflicts (e.g., multiple loggers writing to the same file)
+Without the Singleton pattern each caller creates its own instance, so state changes made through one reference are invisible to the others:
 
-## ✅ Solution
-The Singleton pattern solves this by:
-1. Making the constructor **private** (prevents external instantiation with `new`)
-2. Providing a **static property** that returns the single instance
-3. Creating the instance **lazily** (only when first accessed) or **eagerly** (at class load time)
-4. Ensuring **thread-safety** (multiple threads can't create multiple instances)
+```csharp
+// Without Singleton: every 'new' produces a separate object with independent state
+var config1 = new ConfigurationManager();
+var config2 = new ConfigurationManager();
 
-## 🏗️ Structure
-
-```
-┌─────────────────────────┐
-│    Singleton            │
-├─────────────────────────┤
-│ - instance: Singleton   │  ← Private static field
-│ - Singleton()           │  ← Private constructor
-├─────────────────────────┤
-│ + Instance: Singleton   │  ← Public static property
-│ + SomeMethod()          │  ← Business methods
-└─────────────────────────┘
+config1.SetSetting("Environment", "Production");
+// config2.GetSetting("Environment") still returns "Development" — wrong!
 ```
 
-## 💻 Implementation in This Example
+Problems with uncontrolled instantiation:
+- Multiple instances hold different copies of what should be shared state.
+- Each construction pays the full creation cost every time (I/O, network, allocation).
+- No single point of control to ensure the resource is initialised exactly once.
+- Race conditions when two threads both call `new` at the same moment.
 
-### Files:
-- **ConfigurationManager.cs** - Main singleton implementation (lazy, thread-safe using `Lazy<T>`)
-- **EagerSingleton.cs** - Alternative implementation (eager initialization)
-- **UnsafeSingleton.cs** - Anti-pattern example (NOT thread-safe - for educational purposes only)
-- **Program.cs** - Demonstrations and usage examples
+## Solution: Private constructor + static Lazy\<T\> instance
 
-### Key Implementation Points:
+Make the constructor `private` to block direct instantiation, and expose the single instance through a `static` property backed by `Lazy<T>`, which handles both lazy initialization and thread-safety without explicit locks.
 
-1. **Private Constructor:**
-   ```csharp
-   private ConfigurationManager() { ... }
-   ```
-   Prevents `new ConfigurationManager()` from being called outside the class.
+```csharp
+// The only way to get an instance:
+var config = ConfigurationManager.Instance;
+config.SetSetting("Environment", "Production");
 
-2. **Lazy Initialization with Thread-Safety:**
-   ```csharp
-   private static readonly Lazy<ConfigurationManager> _instance =
-       new Lazy<ConfigurationManager>(() => new ConfigurationManager());
-   ```
-   - `Lazy<T>` ensures the instance is created only when first accessed
-   - Thread-safe by default (no locks needed)
-   - Best practice for .NET applications
+// Any other reference to Instance returns the exact same object:
+var sameConfig = ConfigurationManager.Instance;
+Console.WriteLine(ReferenceEquals(config, sameConfig)); // True
+```
 
-3. **Public Static Property:**
-   ```csharp
-   public static ConfigurationManager Instance => _instance.Value;
-   ```
-   - Global access point
-   - Returns the single instance
+## Participants
 
-## 🚀 How to Run
+| Role | Class | Responsibility |
+|------|-------|----------------|
+| Lazy Singleton | `ConfigurationManager` | Production-ready singleton; `Lazy<T>` ensures thread-safe lazy init with a private constructor |
+| Eager Singleton | `EagerSingleton` | Instance created at class load time via a `static readonly` field — simpler but always pays the creation cost |
+| Unsafe Singleton (anti-pattern) | `UnsafeSingleton` | Demonstrates the null-check race condition that appears without any synchronization |
+
+## Structure
+
+```
+1.1-Singleton/
+├── SingletonPattern/
+│   ├── ConfigurationManager.cs   ← all three singleton variants (one file)
+│   └── Program.cs
+└── SingletonPattern.Tests/
+    └── SingletonPatternTests.cs
+```
+
+## Key Code
+
+### Lazy\<T\> — thread-safe initialization without locks
+
+```csharp
+public sealed class ConfigurationManager
+{
+    private static readonly Lazy<ConfigurationManager> _instance =
+        new Lazy<ConfigurationManager>(() => new ConfigurationManager());
+
+    private ConfigurationManager() { /* private — no external new */ }
+
+    public static ConfigurationManager Instance => _instance.Value;
+}
+```
+
+`Lazy<T>` uses `LazyThreadSafetyMode.ExecutionAndPublication` by default: only one thread runs the factory lambda, and every other concurrent caller blocks until the value is ready. The instance is created on the first call to `.Value`, not when the class is loaded.
+
+### Eager initialization — static readonly field
+
+```csharp
+public sealed class EagerSingleton
+{
+    private static readonly EagerSingleton _instance = new EagerSingleton();
+    private EagerSingleton() { }
+    public static EagerSingleton Instance => _instance;
+}
+```
+
+The CLR guarantees that static field initializers run once, in a thread-safe manner, before any code accesses the field. This is simpler than `Lazy<T>` but pays the construction cost even if the instance is never used.
+
+### The unsafe double-check anti-pattern
+
+```csharp
+// ANTI-PATTERN — do not use in production
+public static UnsafeSingleton Instance
+{
+    get
+    {
+        if (_instance == null)              // Thread A and Thread B can both pass here
+            _instance = new UnsafeSingleton(); // simultaneously — two instances created
+        return _instance;
+    }
+}
+```
+
+Two threads can both see `_instance == null` before either finishes construction, creating two separate objects. `Lazy<T>` or `static readonly` eliminates this entirely.
+
+## Demo Scenarios
+
+```
+1. Single instance creation   — "created" message prints exactly once, no matter how many
+                                times Instance is accessed
+2. Shared state               — change a setting through one reference; the same change is
+                                visible through every other reference
+3. Thread safety              — 20 concurrent threads all access Instance; only one creation
+                                event fires
+4. Eager vs lazy comparison   — EagerSingleton prints at class-load time; ConfigurationManager
+                                only on first .Instance access
+5. UnsafeSingleton demo       — illustrates the null-check race condition
+```
+
+## When to Use
+
+- The resource must be shared and must have exactly one instance (configuration, audit log, shared cache).
+- Creation is expensive and should happen at most once (database connection pool, service locator).
+- You need a well-known global access point that cannot accidentally be constructed more than once.
+
+## When NOT to Use
+
+- When you need different instances with different configurations — use a factory instead.
+- In unit tests where isolated state per test is required — a Singleton carries state across test cases; prefer dependency injection so tests can swap implementations.
+- When the "global" nature would create tight coupling between modules that should remain independent.
+- When state must be reset between requests (e.g., per-request scoping in a web app).
+
+## Benefits
+
+| Benefit | Explanation |
+|---------|-------------|
+| Controlled instantiation | Private constructor guarantees at most one instance exists |
+| Thread-safe by default | `Lazy<T>` handles concurrent access without manual locking |
+| Lazy initialization | Instance is created only when first needed, not at application startup |
+| Global access | `ConfigurationManager.Instance` is reachable from anywhere without passing a reference |
+
+## Drawbacks
+
+| Drawback | Explanation |
+|----------|-------------|
+| Hard to unit test | Tests share state across runs; mocking requires dependency injection wrappers |
+| Hidden dependency | Callers don't declare the dependency in their signature — it's invisible to consumers |
+| SRP violation | The class both manages its own instantiation and performs its business logic |
+| Global mutable state | Any code can call `SetSetting` and affect every other consumer silently |
+
+## Related Patterns
+
+- **Object Pool (1.6)** — often implemented as a Singleton; the pool itself has one instance managing many reusable objects.
+- **Factory Method (1.2)** — can be used alongside Singleton so the factory itself is the single instance responsible for creating other objects.
+- **Dependency Injection (4.05)** — the preferred alternative in testable code; DI containers enforce single-instance lifetime (`AddSingleton<T>`) without requiring the class itself to be a Singleton.
+- **Service Layer (4.06)** — service-layer classes are often registered as singletons in a DI container, which achieves the same "one instance" guarantee without hard-coding it into the class.
+
+## Running the Demo
 
 ```bash
 cd src/1-Creational/1.1-Singleton/SingletonPattern
 dotnet run
 ```
 
-## 🧪 Running Tests
+## Running the Tests
 
 ```bash
 cd src/1-Creational/1.1-Singleton/SingletonPattern.Tests
 dotnet test
 ```
-
-## 🧪 What the Demo Shows
-
-1. **Single Instance Creation** - Only one instance is created no matter how many times you access it
-2. **Same Instance Reference** - All variables point to the exact same object in memory
-3. **Shared State** - Changes made through one reference are visible through all references
-4. **Thread-Safety** - Multiple threads can safely access the singleton simultaneously
-5. **Eager vs Lazy** - Comparison of different initialization strategies
-
-## ✅ Benefits
-
-| Benefit | Description |
-|---------|-------------|
-| **Controlled Access** | Strict control over how and when the instance is created |
-| **Memory Efficiency** | Only one instance exists in memory |
-| **Global Access** | Easy access from anywhere in the application |
-| **Lazy Initialization** | Instance created only when needed (saves resources) |
-| **Thread-Safe** | Safe to use in multi-threaded environments |
-
-## ❌ Drawbacks
-
-| Drawback | Description |
-|----------|-------------|
-| **Testing Difficulty** | Hard to mock in unit tests (prefer dependency injection) |
-| **Hidden Dependencies** | Not obvious from constructor what the class depends on |
-| **Violates SRP** | Class manages both its own creation AND business logic |
-| **Global State** | Can lead to tight coupling across the application |
-| **Not Suitable for DI** | Conflicts with dependency injection principles |
-
-## 🎓 When to Use
-
-✅ **Good Candidates:**
-- Configuration managers
-- Logger instances
-- Caching mechanisms
-- Database connection pools
-- Thread pools
-- Hardware interface access (printer spooler, file system manager)
-
-❌ **Bad Candidates:**
-- Classes that need multiple instances with different configurations
-- Classes with mutable state that varies based on input
-- Anything that needs to be unit tested in isolation
-- When dependency injection is already in use
-
-## 🔀 Alternatives
-
-| Alternative | When to Use Instead |
-|-------------|---------------------|
-| **Dependency Injection** | When you need testability, flexibility, and loose coupling |
-| **Static Class** | When you only need utility methods with no state |
-| **Factory Pattern** | When you need to control object creation but allow multiple instances |
-
-## 📚 Related Patterns
-
-- **Factory Method** - Can use Singleton to ensure factory has only one instance
-- **Abstract Factory** - Factories are often implemented as Singletons
-- **Facade** - Facade objects are often Singletons
-
-## 🔑 Key Takeaways
-
-1. **Only use Singleton when you truly need exactly ONE instance**
-2. **Prefer Dependency Injection for most scenarios** (better testability)
-3. **Use `Lazy<T>` in .NET for thread-safe lazy initialization**
-4. **Make the constructor private** (this is the core mechanism)
-5. **Be aware of the drawbacks** (testing, global state, coupling)
-
-## 📖 Further Reading
-
-- "Design Patterns: Elements of Reusable Object-Oriented Software" (Gang of Four)
-- [Microsoft Docs: Singleton Pattern](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/singleton)
-- [Dependency Injection vs Singleton](https://stackoverflow.com/questions/11371816/ioc-di-why-do-i-have-to-reference-all-layers-assemblies-in-application-s)
-
----
-
-**Next Pattern:** [1.2 - Factory Method](../1.2-FactoryMethod/) →

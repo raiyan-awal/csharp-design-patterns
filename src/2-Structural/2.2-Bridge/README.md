@@ -137,6 +137,13 @@ These look similar (both use a reference to another object) but their purposes a
 
 ---
 
+## Related Patterns
+
+- **Adapter (2.1)** — Adapter makes two incompatible interfaces work together after the fact; Bridge designs the abstraction/implementation split intentionally from the start.
+- **Strategy (3.09)** — Strategy also uses composition to vary behavior, but varies only the algorithm inside a fixed abstraction; Bridge varies both the abstraction hierarchy and the implementation hierarchy independently.
+- **Abstract Factory (1.3)** — an Abstract Factory can be used to create and configure a Bridge (e.g., a factory that pairs a specific report type with a specific renderer at the composition root).
+- **Decorator (2.4)** — Decorator wraps an object to add behavior, sharing the same interface; Bridge uses composition to separate two orthogonal dimensions rather than to layer new responsibilities.
+
 ## Running the Demo
 
 ```bash
@@ -144,7 +151,7 @@ cd src/2-Structural/2.2-Bridge/BridgePattern
 dotnet run
 ```
 
-## Running Tests
+## Running the Tests
 
 ```bash
 cd src/2-Structural/2.2-Bridge/BridgePattern.Tests

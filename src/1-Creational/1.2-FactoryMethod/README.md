@@ -1,187 +1,186 @@
-# Factory Method Pattern
+# 1.2 — Factory Method
 
-## 📖 Pattern Category
-**Creational Pattern**
+## Intent
 
-## 🎯 Intent
-Define an interface for creating an object, but let **subclasses decide which class to instantiate**. Factory Method lets a class defer instantiation to subclasses.
+Define an interface for creating an object but let subclasses decide which class to instantiate, so object creation is decoupled from object use and new product types can be added without modifying existing code.
 
-## 🤔 Problem
-Imagine you're building a payment system that needs to support multiple payment methods — credit card, PayPal, and cryptocurrency. Each processor:
-- Has different configuration data (card number vs email vs wallet address)
-- Has different validation logic
-- Has different processing steps
+## The Problem It Solves
 
-If you write a single class that handles all three, it quickly becomes a mess of `if/switch` statements. Worse, adding a fourth payment method means modifying existing code and risking regressions.
+Without a factory, every creation site must switch on the payment type and reference every concrete class directly:
 
-## ✅ Solution
-The Factory Method pattern solves this by:
-1. Defining a **common interface** (`IPaymentProcessor`) that all products implement
-2. Creating an **abstract creator** (`PaymentProcessorFactory`) with the factory method (`CreateProcessor()`)
-3. Having each **concrete creator** subclass override the factory method to return its own product
-4. Letting client code work only with the interface — never the concrete types
-
-## 🏗️ Structure
-
-```
-┌──────────────────────────────┐          ┌──────────────────────┐
-│   PaymentProcessorFactory    │          │   IPaymentProcessor  │
-│  (Abstract Creator)          │          │   (Product)          │
-├──────────────────────────────┤          ├──────────────────────┤
-│ # CreateProcessor() *        │─creates─▶│ + ProcessPayment()   │
-│ + ProcessTransaction()       │          │ + ValidatePayment()  │
-└──────────────────────────────┘          │ + GetProcessorName() │
-              ▲                           └──────────────────────┘
-              │                                      ▲
-   ┌──────────┼──────────┐                           │
-   │          │          │              ┌─────────────┼──────────────┐
-   │          │          │              │             │              │
-CreditCard  PayPal    Crypto      CreditCard      PayPal        Crypto
-Factory     Factory   Factory     Processor       Processor     Processor
-```
-
-## 💻 Implementation in This Example
-
-### Files:
-- **IPaymentProcessor.cs** — Product interface all processors must implement
-- **PaymentProcessors.cs** — Concrete products: `CreditCardProcessor`, `PayPalProcessor`, `CryptoProcessor`
-- **PaymentProcessorFactory.cs** — Abstract creator + three concrete creator factories + `SimplePaymentProcessorFactory` (comparison)
-- **Program.cs** — Demo showing both approaches in action
-
-### Key Implementation Points:
-
-**1. Product Interface** — the contract all concrete products fulfill:
 ```csharp
-public interface IPaymentProcessor
+// Without Factory Method: a switch in every creation site
+IPaymentProcessor CreateProcessor(string type, Dictionary<string, string> cfg) => type switch
 {
-    string ProcessPayment(decimal amount);
-    bool ValidatePaymentMethod();
-    string GetProcessorName();
-}
+    "creditcard" => new CreditCardProcessor(cfg["cardNumber"], cfg["cardHolderName"], cfg["expiryDate"]),
+    "paypal"     => new PayPalProcessor(cfg["email"], cfg["apiKey"]),
+    "crypto"     => new CryptoProcessor(cfg["walletAddress"], cfg["cryptoCurrency"]),
+    _            => throw new ArgumentException($"Unknown type: {type}")
+};
 ```
 
-**2. Abstract Creator** — defines the factory method and the standard workflow:
+Problems this creates:
+- Adding a new payment type requires modifying this switch — and every other switch like it scattered across the codebase.
+- The calling code is coupled to all concrete processor classes at compile time.
+- Validation and per-type workflow differences bleed out of the creation site into general application code.
+- Unit tests must mock or instantiate concrete processors they should not know about.
+
+## Solution: Abstract creator + factory method hook
+
+Each concrete factory subclass implements one method (`CreateProcessor`) that returns the right product type. The abstract base class defines the standard payment workflow using whichever processor the subclass produces — callers interact only with the abstract factory and the product interface.
+
+```csharp
+// Client only knows about the abstract factory — no concrete types in sight:
+PaymentProcessorFactory factory = new CreditCardProcessorFactory(
+    cardNumber: "4111-1111-1111-1111",
+    cardHolderName: "Jane Doe",
+    expiryDate: "12/28");
+
+string transactionId = factory.ProcessTransaction(149.99m);
+```
+
+To add a new payment method, write a new `PaymentProcessorFactory` subclass — nothing else changes.
+
+## Participants
+
+| Role | Class | Responsibility |
+|------|-------|----------------|
+| Product interface | `IPaymentProcessor` | Contract all payment processors must fulfil (validate, process, get name) |
+| Concrete product | `CreditCardProcessor` | Luhn validation, masked card display, PAN-based transaction ID |
+| Concrete product | `PayPalProcessor` | Email-format validation, PayPal-style transaction ID |
+| Concrete product | `CryptoProcessor` | Wallet-address validation, blockchain-style transaction ID |
+| Abstract creator | `PaymentProcessorFactory` | Declares `CreateProcessor()` hook; implements the standard `ProcessTransaction` workflow |
+| Concrete creator | `CreditCardProcessorFactory` | Returns a `CreditCardProcessor`; receives card credentials in its constructor |
+| Concrete creator | `PayPalProcessorFactory` | Returns a `PayPalProcessor`; receives email and API key |
+| Concrete creator | `CryptoProcessorFactory` | Returns a `CryptoProcessor`; receives wallet address and currency |
+| Simple Factory (comparison) | `SimplePaymentProcessorFactory` | Switch-based alternative shown to contrast with the pattern — violates Open/Closed |
+
+## Structure
+
+```
+1.2-FactoryMethod/
+├── FactoryMethodPattern/
+│   ├── IPaymentProcessor.cs        ← product interface
+│   ├── PaymentProcessors.cs        ← CreditCardProcessor, PayPalProcessor, CryptoProcessor
+│   ├── PaymentProcessorFactory.cs  ← abstract creator + 3 concrete creators + SimplePaymentProcessorFactory
+│   └── Program.cs
+└── FactoryMethodPattern.Tests/
+    └── FactoryMethodPatternTests.cs
+```
+
+## Key Code
+
+### Abstract creator with factory method hook
+
 ```csharp
 public abstract class PaymentProcessorFactory
 {
-    protected abstract IPaymentProcessor CreateProcessor(); // factory method
+    // Factory method — subclasses decide what to return
+    protected abstract IPaymentProcessor CreateProcessor();
 
+    // Template method — standard workflow, agnostic of which processor is used
     public string ProcessTransaction(decimal amount)
     {
-        var processor = CreateProcessor(); // subclass decides the concrete type
+        var processor = CreateProcessor();    // polymorphic dispatch
         processor.ValidatePaymentMethod();
-        return processor.ProcessPayment(amount);
+        var txId = processor.ProcessPayment(amount);
+        LogTransaction(processor.GetProcessorName(), amount, txId);
+        return txId;
     }
 }
 ```
 
-**3. Concrete Creator** — each subclass overrides only the factory method:
+### Minimal concrete creator
+
 ```csharp
 public class CreditCardProcessorFactory : PaymentProcessorFactory
 {
+    private readonly string _cardNumber, _cardHolderName, _expiryDate;
+
+    public CreditCardProcessorFactory(string cardNumber, string cardHolderName, string expiryDate)
+        => (_cardNumber, _cardHolderName, _expiryDate) = (cardNumber, cardHolderName, expiryDate);
+
     protected override IPaymentProcessor CreateProcessor()
         => new CreditCardProcessor(_cardNumber, _cardHolderName, _expiryDate);
 }
 ```
 
-**4. Client code never references concrete types:**
+The concrete creator exists solely to implement `CreateProcessor()` — all workflow logic stays in the base class.
+
+### Simple Factory contrast
+
 ```csharp
-PaymentProcessorFactory factory = new CreditCardProcessorFactory("1234...", "John", "12/26");
-factory.ProcessTransaction(99.99m); // works the same regardless of which factory
+// SimplePaymentProcessorFactory — NOT the Factory Method pattern
+public static IPaymentProcessor CreateProcessor(string type, Dictionary<string, string> cfg)
+    => type.ToLower() switch
+    {
+        "creditcard" => new CreditCardProcessor(cfg["cardNumber"], ...),
+        "paypal"     => new PayPalProcessor(cfg["email"], ...),
+        "crypto"     => new CryptoProcessor(cfg["walletAddress"], ...),
+        _            => throw new ArgumentException($"Unknown: {type}")
+    };
 ```
 
-## 🔍 Factory Method vs Simple Factory
+This is simpler, but every new payment type requires opening and modifying the switch. Factory Method avoids that by pushing creation into subclasses.
 
-This example also includes `SimplePaymentProcessorFactory` to show the contrast:
+## Demo Scenarios
 
-| | Factory Method | Simple Factory |
-|---|---|---|
-| **Open/Closed** | Add new type = new subclass only | Add new type = modify the switch |
-| **Flexibility** | Each factory can override more behavior | Creation logic is centralized but rigid |
-| **Coupling** | Client depends only on the interface | Factory class knows all concrete types |
-| **Pattern status** | GoF design pattern | Common idiom (not a formal pattern) |
+```
+1. Credit card processing     — CreditCardProcessorFactory validates and processes a CAD charge
+2. PayPal processing          — PayPalProcessorFactory validates email and produces a PayPal TX ID
+3. Cryptocurrency processing  — CryptoProcessorFactory validates wallet address and produces a TX hash
+4. Invalid card demo          — factory catches validation failure; no payment is attempted
+5. Simple Factory comparison  — same workflow via switch-based factory; shows the OCP trade-off
+6. Extensibility demo         — adding a hypothetical new type requires no changes to existing factories
+```
 
-Use Simple Factory when creation logic is trivial and unlikely to grow. Use Factory Method when you expect new types to be added or when different creators need different behavior.
+## When to Use
 
-## 🚀 How to Run
+- You need to create objects but the exact type must be determined by a subclass or configuration, not by the calling code.
+- You want to give library or framework users a hook to extend which objects get created without forking the library.
+- A class cannot anticipate all the types it will need to create (plugin systems, payment gateways, notification channels).
+- Each product type requires non-trivial construction logic that should not live at the call site.
+
+## When NOT to Use
+
+- When there is only one product type and the simplicity of `new` is sufficient.
+- When the factory hierarchy would create as much complexity as the problem it is solving — a Simple Factory or a DI container may be cleaner.
+- When creation logic is trivial and unlikely to change — over-engineering with a pattern here adds indirection for no gain.
+
+## Benefits
+
+| Benefit | Explanation |
+|---------|-------------|
+| Open/Closed Principle | New payment types are added by writing a new subclass — existing code is untouched |
+| Single Responsibility | Each factory class is responsible for creating exactly one product type |
+| Decoupled client code | Callers depend only on `PaymentProcessorFactory` and `IPaymentProcessor` — no concrete types |
+| Testable | Factories can be swapped in tests; the workflow in the abstract creator is tested independently |
+
+## Drawbacks
+
+| Drawback | Explanation |
+|----------|-------------|
+| Class proliferation | Each product type requires a matching factory class, growing the type count quickly |
+| Indirection | Two levels of abstraction (factory → processor) can obscure straightforward creation logic |
+| Subclassing required | Adding a new product means a new subclass even when a lambda or delegate would suffice |
+
+## Related Patterns
+
+- **Abstract Factory (1.3)** — a step up: where Factory Method creates one product, Abstract Factory creates families of related products through a single interface.
+- **Template Method (3.10)** — `ProcessTransaction` in the abstract creator is itself a Template Method; Factory Method and Template Method frequently appear together in this way.
+- **Prototype (1.5)** — an alternative creation mechanism: instead of a factory returning a new object, Prototype returns a clone of an existing one.
+- **Dependency Injection (4.05)** — in modern .NET the DI container resolves implementations by type, replacing most hand-written factories with registration (`services.AddTransient<IPaymentProcessor, CreditCardProcessor>()`).
+
+## Running the Demo
 
 ```bash
 cd src/1-Creational/1.2-FactoryMethod/FactoryMethodPattern
 dotnet run
 ```
 
-## 🧪 Running Tests
+## Running the Tests
 
 ```bash
 cd src/1-Creational/1.2-FactoryMethod/FactoryMethodPattern.Tests
 dotnet test
 ```
-
-## 🧪 What the Demo Shows
-
-1. **Same interface, different behavior** — all three factories call `ProcessTransaction()` identically; each produces a different processor underneath
-2. **Validation per type** — each processor validates its own fields (card number format, email format, wallet address)
-3. **Extensibility** — adding a new payment method (e.g., Apple Pay) requires only a new processor class + a new factory class; nothing else changes
-4. **Simple Factory comparison** — the `SimplePaymentProcessorFactory` demo shows why the switch-based approach breaks down
-
-## ✅ Benefits
-
-| Benefit | Description |
-|---------|-------------|
-| **Open/Closed Principle** | Add new products by adding new subclasses — no existing code changes |
-| **Single Responsibility** | Each factory is responsible for creating exactly one type of product |
-| **Decoupling** | Client code depends on the interface, not on concrete implementations |
-| **Encapsulation** | Construction details (which params, which class) are hidden inside the factory |
-
-## ❌ Drawbacks
-
-| Drawback | Description |
-|----------|-------------|
-| **More classes** | Each new product needs both a product class and a creator subclass |
-| **Indirection** | The extra layer of abstraction can make simple cases harder to follow |
-| **Inheritance required** | Forces a class hierarchy; composition-based alternatives (like delegates) can be simpler |
-
-## 🎓 When to Use
-
-✅ **Good Candidates:**
-- When you don't know ahead of time what class you need to instantiate
-- When you want subclasses to control which objects get created
-- When construction logic is complex or varies per type
-- Payment processors, notification senders, report generators, serializers, loggers
-
-❌ **Bad Candidates:**
-- When there's only ever one product type (no need for the abstraction)
-- When construction is trivial (just `new Foo()`) — a Simple Factory is sufficient
-- When you need runtime switching between types based on config (Abstract Factory or DI is better)
-
-## 🔀 Alternatives
-
-| Alternative | When to Use Instead |
-|-------------|---------------------|
-| **Simple Factory** | Construction is simple and the type list is stable |
-| **Abstract Factory** | You need to create *families* of related objects together |
-| **Dependency Injection** | You want a container to manage object lifetimes and wiring |
-| **Strategy Pattern** | The variation is in *behavior*, not in *construction* |
-
-## 📚 Related Patterns
-
-- **Abstract Factory (1.3)** — uses Factory Methods internally; creates families of objects
-- **Template Method (3.10)** — `ProcessTransaction()` in this example is also a Template Method
-- **Singleton (1.1)** — factories are often Singletons when stateless
-
-## 🔑 Key Takeaways
-
-1. **The factory method is the hook** — subclasses override it to swap out the product
-2. **The abstract creator still does real work** — `ProcessTransaction()` defines the standard workflow; only creation is delegated
-3. **Client code stays stable** — adding a new payment method never touches existing classes
-4. **Simple Factory is not the same thing** — it's a useful idiom but not the GoF Factory Method pattern
-
-## 📖 Further Reading
-
-- "Design Patterns: Elements of Reusable Object-Oriented Software" (Gang of Four) — Chapter 3
-- "Head First Design Patterns" — Chapter 4 (excellent visual walkthrough)
-
----
-
-← **Previous Pattern:** [1.1 - Singleton](../1.1-Singleton/)  
-→ **Next Pattern:** [1.3 - Abstract Factory](../1.3-AbstractFactory/)
